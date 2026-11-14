@@ -27,18 +27,18 @@ class MediaAssetController extends Controller
     public function store(Request $request, CmsAuditLogger $audit): RedirectResponse
     {
         $data = $request->validate(['files' => ['required', 'array', 'max:20'], 'files.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:10240', 'dimensions:max_width=4000,max_height=4000'], 'alt_text' => ['nullable', 'string', 'max:500']]);
-        $disk = Storage::disk('public');
+        $diskName = (string) config('filesystems.cms_media_disk', 'public');
 
         foreach ($data['files'] as $file) {
             $name = Str::uuid().'.'.$file->extension();
-            $path = $file->storeAs('cms-media', $name, 'public');
+            $path = $file->storeAs('cms-media', $name, $diskName);
             $dimensions = @getimagesize($file->getRealPath()) ?: [null, null];
             $asset = MediaAsset::query()->create([
-                'disk' => 'public', 'path' => $path, 'original_name' => $file->getClientOriginalName(),
+                'disk' => $diskName, 'path' => $path, 'original_name' => $file->getClientOriginalName(),
                 'mime_type' => $file->getMimeType(), 'file_size' => $file->getSize(), 'width' => $dimensions[0],
                 'height' => $dimensions[1], 'alt_text' => $data['alt_text'] ?? '', 'uploaded_by' => $request->user()->id,
             ]);
-            $thumbnail = $this->makeThumbnail($file->getRealPath(), $asset->id);
+            $thumbnail = $this->makeThumbnail($file->getRealPath(), $asset->id, $diskName);
 
             if ($thumbnail !== null) {
                 $asset->update(['thumbnail_path' => $thumbnail]);
@@ -76,7 +76,7 @@ class MediaAssetController extends Controller
         return back()->with('success', 'Media deleted.');
     }
 
-    private function makeThumbnail(string $source, int $id): ?string
+    private function makeThumbnail(string $source, int $id, string $diskName): ?string
     {
         if (! function_exists('imagecreatefromstring')) {
             return null;
@@ -109,7 +109,7 @@ class MediaAssetController extends Controller
             imagejpeg($background, $temporaryFile, 84);
             imagedestroy($background);
         }
-        Storage::disk('public')->put($path, file_get_contents($temporaryFile));
+        Storage::disk($diskName)->put($path, file_get_contents($temporaryFile));
         unlink($temporaryFile);
         imagedestroy($thumbnail);
         imagedestroy($image);

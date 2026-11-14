@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ContentEntryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MediaAssetController;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\PasswordController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserController;
@@ -124,6 +125,8 @@ Route::prefix('admin')->as('admin.')->group(function (): void {
     Route::post('/login', [CmsAuthController::class, 'store'])->middleware('throttle:5,1')->name('login.store');
 
     Route::middleware('cms.admin')->group(function (): void {
+        Route::get('/password/change', [PasswordController::class, 'edit'])->name('password.edit');
+        Route::put('/password/change', [PasswordController::class, 'update'])->name('password.update');
         Route::post('/logout', [CmsAuthController::class, 'destroy'])->name('logout');
         Route::get('/', DashboardController::class)->middleware('cms.permission:dashboard')->name('dashboard');
         Route::get('/search', SearchController::class)->name('search');

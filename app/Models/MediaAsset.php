@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 class MediaAsset extends Model
 {
@@ -56,7 +57,7 @@ class MediaAsset extends Model
             return '/assets/'.ltrim($this->path, '/');
         }
 
-        return '/storage/'.ltrim($this->path, '/');
+        return Storage::disk($this->disk)->url(ltrim($this->path, '/'));
     }
 
     public function getThumbnailUrlAttribute(): string
@@ -65,8 +66,6 @@ class MediaAsset extends Model
             return '/assets/'.ltrim($this->thumbnail_path ?: $this->path, '/');
         }
 
-        return $this->disk === 'assets'
-            ? '/assets/'.ltrim($this->thumbnail_path ?: $this->path, '/')
-            : '/storage/'.ltrim($this->thumbnail_path ?: $this->path, '/');
+        return Storage::disk($this->disk)->url(ltrim($this->thumbnail_path ?: $this->path, '/'));
     }
 }

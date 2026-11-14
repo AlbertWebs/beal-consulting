@@ -98,6 +98,30 @@ class RichTextSanitizer
 
     private function isSafeImage(string $url): bool
     {
-        return (str_starts_with($url, '/storage/') || str_starts_with($url, '/assets/')) && ! str_starts_with($url, '//');
+        if ((str_starts_with($url, '/storage/') || str_starts_with($url, '/assets/')) && ! str_starts_with($url, '//')) {
+            return true;
+        }
+
+        $disk = (string) config('filesystems.cms_media_disk', 'public');
+        $mediaUrl = rtrim((string) config('filesystems.disks.'.$disk.'.url', ''), '/');
+        $allowedUrl = parse_url($mediaUrl);
+        $imageUrl = parse_url($url);
+
+        if ($allowedUrl === false || $imageUrl === false || ! isset($allowedUrl['host'], $imageUrl['host'])) {
+            return false;
+        }
+
+        $allowedPath = rtrim($allowedUrl['path'] ?? '', '/');
+        $imagePath = $imageUrl['path'] ?? '';
+
+        if (config('filesystems.disks.'.$disk.'.driver') === 's3') {
+            $root = trim((string) config('filesystems.disks.'.$disk.'.root', ''), '/');
+            $allowedPath = rtrim($allowedPath.'/'.$root.'/cms-media', '/');
+        }
+
+        return ($imageUrl['scheme'] ?? null) === 'https'
+            && strcasecmp($allowedUrl['host'], $imageUrl['host']) === 0
+            && $allowedPath !== ''
+            && str_starts_with($imagePath, $allowedPath.'/');
     }
 }

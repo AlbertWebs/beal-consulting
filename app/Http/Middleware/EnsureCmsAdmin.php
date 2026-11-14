@@ -20,6 +20,10 @@ class EnsureCmsAdmin
         $user = $request->user();
 
         if ($user instanceof User && $user->hasCmsAccess()) {
+            if ($user->must_change_password && ! $request->routeIs('admin.password.*', 'admin.logout')) {
+                return redirect()->route('admin.password.edit');
+            }
+
             return $next($request);
         }
 

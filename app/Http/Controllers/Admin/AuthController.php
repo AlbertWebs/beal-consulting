@@ -13,6 +13,10 @@ class AuthController extends Controller
     public function create(): View|RedirectResponse
     {
         if (Auth::check() && Auth::user()->hasCmsAccess()) {
+            if (Auth::user()->must_change_password) {
+                return to_route('admin.password.edit');
+            }
+
             return to_route('admin.dashboard');
         }
 
@@ -41,7 +45,9 @@ class AuthController extends Controller
         $request->session()->regenerate();
         $user->forceFill(['last_login_at' => now()])->save();
 
-        return to_route('admin.dashboard');
+        return $user->must_change_password
+            ? to_route('admin.password.edit')
+            : to_route('admin.dashboard');
     }
 
     public function destroy(Request $request): RedirectResponse

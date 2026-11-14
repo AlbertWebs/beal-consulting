@@ -20,10 +20,10 @@ class UserController extends Controller
     public function store(Request $request, CmsAuditLogger $audit): RedirectResponse
     {
         $data = $request->validate(['name' => ['required', 'string', 'max:160'], 'email' => ['required', 'email', 'max:254', 'unique:users,email'], 'password' => ['required', 'string', 'min:12', 'max:255'], 'role' => ['required', 'in:administrator,editor,content_manager,super_admin']]);
-        $user = User::query()->create([...$data, 'password' => Hash::make($data['password']), 'is_active' => true]);
+        $user = User::query()->create([...$data, 'password' => Hash::make($data['password']), 'is_active' => true, 'must_change_password' => true]);
         $audit->record('user.created', 'Created CMS user: '.$user->email, $user, ['role' => $user->role]);
 
-        return back()->with('success', 'CMS user created. Share the initial password securely.');
+        return back()->with('success', 'CMS user created. They must change their initial password at first sign-in.');
     }
 
     public function update(Request $request, User $user, CmsAuditLogger $audit): RedirectResponse

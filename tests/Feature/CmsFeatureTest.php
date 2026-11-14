@@ -8,7 +8,9 @@ use App\Models\PageSection;
 use App\Models\User;
 use App\Models\WebsitePage;
 use App\Models\WebsiteService;
+use App\Services\RichTextSanitizer;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -98,6 +100,77 @@ class CmsFeatureTest extends TestCase
         $asset = MediaAsset::query()->where('original_name', 'building.png')->firstOrFail();
         PageSection::query()->firstOrFail()->update(['draft_media_asset_id' => $asset->id]);
         $this->actingAs($admin)->delete(route('admin.media.destroy', $asset))->assertUnprocessable();
+    }
+
+    public function test_cms_uploads_use_the_configured_s3_disk(): void
+    {
+        Storage::fake('s3');
+        config(['filesystems.cms_media_disk' => 's3']);
+        $admin = User::factory()->create(['role' => 'super_admin', 'is_active' => true]);
+
+        $this->actingAs($admin)->post(route('admin.media.store'), [
+            'alt_text' => 'An infrastructure project',
+            'files' => [UploadedFile::fake()->image('infrastructure.png', 120, 80)],
+        ])->assertRedirect();
+
+        $asset = MediaAsset::query()->where('original_name', 'infrastructure.png')->firstOrFail();
+        $this->assertSame('s3', $asset->disk);
+        Storage::disk('s3')->assertExists($asset->path);
+        Storage::disk('s3')->assertExists($asset->thumbnail_path);
+    }
+
+    public function test_rich_text_allows_configured_media_urls_and_rejects_other_hosts(): void
+    {
+        config([
+            'filesystems.cms_media_disk' => 's3',
+            'filesystems.disks.s3.url' => 'https://media.beal.example',
+            'filesystems.disks.s3.driver' => 's3',
+            'filesystems.disks.s3.root' => 'beal',
+        ]);
+
+        $clean = app(RichTextSanitizer::class)->clean('<p><img src="https://media.beal.example/beal/cms-media/hero.webp"><img src="https://media.beal.example/blog/unrelated.webp"><img src="https://untrusted.example/track.jpg"></p>');
+
+        $this->assertStringContainsString('src="https://media.beal.example/beal/cms-media/hero.webp"', $clean);
+        $this->assertStringNotContainsString('/blog/', $clean);
+        $this->assertStringNotContainsString('untrusted.example', $clean);
+    }
+
+    public function test_initial_cms_password_must_be_changed_before_access(): void
+    {
+        $administrator = User::factory()->create(['role' => 'super_admin', 'is_active' => true]);
+        $temporaryPassword = 'Temporary-Password-123!';
+
+        $this->actingAs($administrator)->post(route('admin.users.store'), [
+            'name' => 'BEAL CMS Admin',
+            'email' => 'admin-flow@example.test',
+            'password' => $temporaryPassword,
+            'role' => 'super_admin',
+        ])->assertRedirect();
+
+        $newUser = User::query()->where('email', 'admin-flow@example.test')->firstOrFail();
+        $this->assertTrue($newUser->must_change_password);
+        auth()->logout();
+
+        $this->post(route('admin.login.store'), ['email' => $newUser->email, 'password' => $temporaryPassword])
+            ->assertRedirect(route('admin.password.edit'));
+        $this->get(route('admin.dashboard'))->assertRedirect(route('admin.password.edit'));
+        $newPassword = 'BEAL-Account-Password-912!';
+
+        $this->put(route('admin.password.update'), [
+            'current_password' => 'incorrect-temporary-password',
+            'password' => $newPassword,
+            'password_confirmation' => $newPassword,
+        ])->assertSessionHasErrors('current_password');
+
+        $this->put(route('admin.password.update'), [
+            'current_password' => $temporaryPassword,
+            'password' => $newPassword,
+            'password_confirmation' => $newPassword,
+        ])->assertRedirect(route('admin.dashboard'));
+
+        $this->assertDatabaseHas('users', ['id' => $newUser->id, 'must_change_password' => false]);
+        $this->assertTrue(Hash::check($newPassword, $newUser->fresh()->password));
+        $this->get(route('admin.dashboard'))->assertOk();
     }
 
     public function test_new_services_start_as_drafts_and_can_only_be_seen_after_publishing(): void
