@@ -48,9 +48,9 @@ class User extends Authenticatable
     {
         $permissions = match ($this->role) {
             'super_admin' => ['*'],
-            'administrator' => ['dashboard', 'pages', 'services', 'media', 'submissions', 'settings', 'activity'],
-            'editor' => ['dashboard', 'pages', 'services', 'media'],
-            'content_manager' => ['dashboard', 'pages', 'services', 'media'],
+            'administrator' => ['dashboard', 'pages', 'services', 'content', 'media', 'submissions', 'settings', 'activity'],
+            'editor' => ['dashboard', 'pages', 'services', 'content', 'media'],
+            'content_manager' => ['dashboard', 'pages', 'services', 'content', 'media'],
             default => [],
         };
 

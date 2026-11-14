@@ -22,7 +22,7 @@
     <script type="application/ld+json">{!! $organizationJson !!}</script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="image-home">
+<body class="image-home parallax-home">
     @if($isPreview ?? false)<div role="status" style="position:fixed;z-index:100;right:14px;top:14px;background:#c8a15d;color:#0b1b31;padding:8px 12px;font-size:13px">Authenticated draft preview · not published</div>@endif
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="topline">
@@ -48,7 +48,7 @@
     </header>
 
     <main id="main">
-        @if($visible['hero'] ?? true)<section class="image-hero" id="top" aria-labelledby="hero-title">
+        @if($visible['hero'] ?? true)<section class="image-hero" id="top" style="order:{{ $sectionOrders['hero'] ?? 10 }}" aria-labelledby="hero-title">
             <img class="image-hero-photo" src="{{ $sectionImages['hero'] }}" alt="{{ $content['hero']['image_alt'] ?? '' }}" width="2200" height="1237" fetchpriority="high" decoding="async">
             <div class="image-hero-shade" aria-hidden="true"></div>
             <div class="image-hero-grid" aria-hidden="true"></div>
@@ -67,7 +67,7 @@
             <div class="image-hero-caption"><span>{{ $content['hero']['location'] ?? 'NAIROBI, KENYA' }}</span><span>{{ $content['hero']['caption'] ?? ($settings['general.tagline'] ?? 'Independent thinking. Informed decisions.') }}</span></div>
         </section>@endif
 
-        @if($visible['about'] ?? true)<section class="image-intro section-pad" id="about" aria-labelledby="intro-title">
+        @if($visible['about'] ?? true)<section class="image-intro section-pad" id="about" style="order:{{ $sectionOrders['about'] ?? 20 }}" aria-labelledby="intro-title">
             <div class="section-index"><span>01</span><span class="index-rule"></span><span>{{ config('cms.sections.about.label') }}</span></div>
             <div class="image-intro-grid">
                 <div class="image-intro-copy">
@@ -75,6 +75,7 @@
                     <div class="lead-copy">{!! $content['about']['lead'] ?? '<p>BEAL is an intelligence-led strategic advisory and infrastructure consultancy, bringing analytical capability and technical perspective to the decisions that shape projects.</p>' !!}</div>
                     <div>{!! $content['about']['body'] ?? '<p>We look beyond the immediate task to understand context, connect information and help decision-makers move forward with confidence.</p>' !!}</div>
                     <a class="text-link text-link-navy" href="#services">How we work <span aria-hidden="true">↗</span></a>
+                    <a class="text-link text-link-navy" href="{{ route('pages.about') }}">More about BEAL <span aria-hidden="true">↗</span></a>
                 </div>
                 <figure class="image-intro-photo">
                     <img src="{{ $sectionImages['about'] }}" alt="{{ $content['about']['image_alt'] ?? '' }}" width="1500" height="1000" loading="lazy" decoding="async">
@@ -87,7 +88,7 @@
             </div>
         </section>@endif
 
-        @if($visible['services'] ?? true)<section class="image-services section-pad" id="services" aria-labelledby="services-title">
+        @if($visible['services'] ?? true)<section class="image-services section-pad" id="services" style="order:{{ $sectionOrders['services'] ?? 30 }}" aria-labelledby="services-title">
             <div class="section-index"><span>02</span><span class="index-rule"></span><span>OUR SERVICES</span></div>
             <div class="image-section-heading">
                 <h2 id="services-title">{{ $content['services']['heading'] ?? 'Perspective for the' }}<br><em>{{ $content['services']['heading_accent'] ?? 'whole project lifecycle.' }}</em></h2>
@@ -110,26 +111,26 @@
             </div>
         </section>@endif
 
-        @if($visible['sectors'] ?? true)<section class="image-sectors section-pad" id="sectors" aria-labelledby="sectors-title">
+        @if($visible['sectors'] ?? true)<section class="image-sectors section-pad" id="sectors" style="order:{{ $sectionOrders['sectors'] ?? 40 }}" aria-labelledby="sectors-title">
             <div class="image-sectors-photo" aria-hidden="true"><img src="{{ $sectionImages['sectors'] }}" alt="" width="1500" height="1000" loading="lazy" decoding="async"></div>
             <div class="image-sectors-shade" aria-hidden="true"></div>
             <div class="image-sectors-content">
                 <div class="sectors-topline"><div class="section-index section-index-light"><span>03</span><span class="index-rule"></span><span>{{ $content['sectors']['eyebrow'] ?? 'SECTORS' }}</span></div><span class="sectors-aside">{{ $content['sectors']['connected_label'] ?? 'A connected view of Africa’s built environment.' }}</span></div>
                 <div class="image-section-heading image-sectors-heading"><h2 id="sectors-title">{{ $content['sectors']['heading'] ?? 'Where decisions' }}<br><em>{{ $content['sectors']['heading_accent'] ?? 'shape what comes next.' }}</em></h2><div>{!! $content['sectors']['description'] ?? '<p>Our perspective spans the sectors where projects, infrastructure and investment meet long-term public and commercial value.</p>' !!}</div></div>
                 <div class="image-sector-grid">
-                    @foreach($content['sectors']['items'] ?? [] as $sector)<a href="{{ $sector['url'] ?? '#contact' }}"><span>{{ $sector['number'] ?? '' }}</span><b>{{ $sector['title'] ?? '' }}</b><i aria-hidden="true">↗</i></a>@endforeach
+                    @foreach($content['sectors']['items'] ?? [] as $sectorIndex=>$sector)@php($sectorEntry=$sectorEntries->get($sectorIndex))<a href="{{ !empty($sector['url']) && $sector['url'] !== '#contact' ? $sector['url'] : ($sectorEntry ? route('sectors.show',$sectorEntry->slug) : route('pages.contact')) }}"><span>{{ $sector['number'] ?? '' }}</span><b>{{ $sector['title'] ?? '' }}</b><i aria-hidden="true">↗</i></a>@endforeach
                 </div>
             </div>
         </section>@endif
 
-        @if($visible['insights'] ?? true)<section class="image-insights section-pad" id="insights" aria-labelledby="insights-title">
+        @if($visible['insights'] ?? true)<section class="image-insights section-pad" id="insights" style="order:{{ $sectionOrders['insights'] ?? 50 }}" aria-labelledby="insights-title">
             <div class="section-index"><span>04</span><span class="index-rule"></span><span>INSIGHTS &amp; INTELLIGENCE</span></div>
             <div class="image-insights-grid">
                 <div class="image-insights-copy">
                     <p class="eyebrow eyebrow-navy"><span class="eyebrow-rule"></span> {{ $content['insights']['platform_label'] ?? 'A PLATFORM FOR PERSPECTIVE' }}</p>
                     <h2 id="insights-title">{{ $content['insights']['heading'] ?? 'Insight is a' }}<br><em>{{ $content['insights']['heading_accent'] ?? 'starting point.' }}</em></h2>
                     <div>{!! $content['insights']['description'] ?? '<p>Ideas and analysis can make complexity easier to navigate. Our publishing platform is designed to share informed perspectives on the forces shaping projects and infrastructure.</p>' !!}</div>
-                    <a class="text-link text-link-navy" href="{{ $content['insights']['button_url'] ?? '#contact' }}">{{ $content['insights']['button_label'] ?? 'Explore our thinking' }} <span aria-hidden="true">↗</span></a>
+                    <a class="text-link text-link-navy" href="{{ ($content['insights']['button_url'] ?? '#contact') === '#contact' ? route('pages.insights') : $content['insights']['button_url'] }}">{{ $content['insights']['button_label'] ?? 'Explore our thinking' }} <span aria-hidden="true">↗</span></a>
                 </div>
                 <figure class="image-insights-feature">
                     <img src="{{ $sectionImages['insights'] }}" alt="{{ $content['insights']['image_alt'] ?? '' }}" width="2200" height="1237" loading="lazy" decoding="async">
@@ -139,17 +140,17 @@
             <p class="image-insights-note"><span></span>{{ $content['insights']['note'] ?? '' }}</p>
         </section>@endif
 
-        @if($visible['experience'] ?? true)<section class="image-experience section-pad" id="experience" aria-labelledby="experience-title">
+        @if($visible['experience'] ?? true)<section class="image-experience section-pad" id="experience" style="order:{{ $sectionOrders['experience'] ?? 60 }}" aria-labelledby="experience-title">
             <div class="image-experience-copy">
                 <div class="section-index"><span>05</span><span class="index-rule"></span><span>PROJECTS &amp; EXPERIENCE</span></div>
                 <h2 id="experience-title">{{ $content['experience']['heading'] ?? 'Experience, presented' }}<br><em>{{ $content['experience']['heading_accent'] ?? 'with context.' }}</em></h2>
                 <div>{!! $content['experience']['description'] ?? '<p>A considered record of project exposure, sector knowledge and professional contribution belongs here. Each entry will make clear whether it reflects a BEAL engagement or prior professional experience.</p>' !!}</div>
-                <a class="text-link text-link-navy" href="{{ $content['experience']['button_url'] ?? '#contact' }}">{{ $content['experience']['button_label'] ?? 'Discuss experience' }} <span aria-hidden="true">↗</span></a>
+                <a class="text-link text-link-navy" href="{{ ($content['experience']['button_url'] ?? '#contact') === '#contact' ? route('pages.experience') : $content['experience']['button_url'] }}">{{ $content['experience']['button_label'] ?? 'Discuss experience' }} <span aria-hidden="true">↗</span></a>
             </div>
             <figure class="image-experience-photo"><img src="{{ $sectionImages['experience'] }}" alt="{{ $content['experience']['image_alt'] ?? '' }}" width="1400" height="933" loading="lazy" decoding="async"><figcaption>{{ $content['experience']['image_caption'] ?? 'Precision in Every Project.' }}</figcaption></figure>
         </section>@endif
 
-        @if($visible['contact'] ?? true)<section class="image-contact" id="contact" aria-labelledby="contact-title">
+        @if($visible['contact'] ?? true)<section class="image-contact" id="contact" style="order:{{ $sectionOrders['contact'] ?? 70 }}" aria-labelledby="contact-title">
             <img src="{{ $sectionImages['contact'] }}" alt="" width="1500" height="1000" loading="lazy" decoding="async">
             <div class="image-contact-shade" aria-hidden="true"></div>
             <div class="image-contact-content"><div class="section-index section-index-light"><span>06</span><span class="index-rule"></span><span>{{ config('cms.sections.contact.label') }}</span></div><div class="image-contact-layout"><h2 id="contact-title">{{ $content['contact']['heading'] ?? 'Better decisions' }}<br>begin with <em>{{ $content['contact']['heading_accent'] ?? 'a conversation.' }}</em></h2><div>{!! $content['contact']['description'] ?? '<p>Tell us about your project or question. The BEAL team will be in touch.</p>' !!}<button class="button button-gold" type="button" data-enquiry-open>{{ $content['contact']['button_label'] ?? 'Get in touch' }} <span aria-hidden="true">↗</span></button></div></div><div class="image-contact-bottom"><span>{{ $settings['general.tagline'] ?? 'Clarity in Projects. Confidence in Decisions.' }}</span><span>{{ $content['about']['commitment'] ?? 'Precision in Every Project.' }}</span></div></div>

@@ -16,6 +16,11 @@
                 <a href="{{ route('admin.pages.index') }}" @if(request()->routeIs('admin.pages.*')) aria-current="page" @endif>▤ <span>Pages</span></a>
             @endif
             @if(auth()->user()->canManageCms('services'))<a href="{{ route('admin.services.index') }}" @if(request()->routeIs('admin.services.*')) aria-current="page" @endif>⌂ <span>Services</span></a>@endif
+            @if(auth()->user()->canManageCms('content'))
+                <a href="{{ route('admin.content.index', ['type' => 'sector']) }}" @if(request()->route('type') === 'sector') aria-current="page" @endif>◈ <span>Sectors</span></a>
+                <a href="{{ route('admin.content.index', ['type' => 'insight']) }}" @if(request()->routeIs('admin.content.*') && request()->route('type') === 'insight') aria-current="page" @endif>▧ <span>Insights</span></a>
+                <a href="{{ route('admin.content.index', ['type' => 'project']) }}" @if(request()->routeIs('admin.content.*') && request()->route('type') === 'project') aria-current="page" @endif>⌂ <span>Experience</span></a>
+            @endif
             @if(auth()->user()->canManageCms('media'))
                 <div class="cms-nav-label">MEDIA</div><a href="{{ route('admin.media.index') }}" @if(request()->routeIs('admin.media.*')) aria-current="page" @endif>▧ <span>Media library</span></a>
             @endif

@@ -178,6 +178,48 @@ return [
             ],
         ],
     ],
+    'page_sections' => [
+        'about_overview' => [
+            'label' => 'Company overview', 'position' => 10, 'image' => 'assets/home-image/glass-architecture.jpg',
+            'fields' => ['hero_eyebrow' => ['label' => 'Hero label', 'type' => 'text'], 'hero_subtitle' => ['label' => 'Hero supporting line', 'type' => 'text'], 'heading' => ['label' => 'Heading', 'type' => 'text'], 'overview' => ['label' => 'Company overview', 'type' => 'richtext'], 'geographic_focus' => ['label' => 'Geographic focus', 'type' => 'richtext']],
+            'defaults' => ['hero_eyebrow' => 'ABOUT BEAL', 'hero_subtitle' => 'Clarity in Projects. Confidence in Decisions.', 'heading' => 'An intelligence-led consultancy.', 'overview' => '<p>BEAL Consulting Ltd is an intelligence-led consultancy operating across strategic advisory, project and programme management, infrastructure development, governance and decision-support services.</p>', 'geographic_focus' => '<p>BEAL’s strategic ambition is to serve clients across East Africa and the wider African market.</p>'],
+        ],
+        'about_profile' => [
+            'label' => 'Mission, vision & values', 'position' => 20,
+            'fields' => ['mission' => ['label' => 'Mission', 'type' => 'richtext'], 'vision' => ['label' => 'Vision', 'type' => 'richtext'], 'philosophy' => ['label' => 'Corporate philosophy', 'type' => 'richtext'], 'values_json' => ['label' => 'Core values (JSON list)', 'type' => 'json']],
+            'defaults' => ['mission' => '', 'vision' => '', 'philosophy' => '', 'values_json' => '[]'],
+        ],
+        'about_leadership' => [
+            'label' => 'Leadership & professional profile', 'position' => 30,
+            'fields' => ['introduction' => ['label' => 'Section introduction', 'type' => 'richtext'], 'profiles_json' => ['label' => 'Profiles (JSON list)', 'type' => 'json']],
+            'defaults' => ['introduction' => '', 'profiles_json' => '[]'],
+        ],
+        'sectors_intro' => [
+            'label' => 'Sectors introduction', 'position' => 10, 'image' => 'assets/home-image/urban-infrastructure.jpg',
+            'fields' => ['hero_eyebrow' => ['label' => 'Hero label', 'type' => 'text'], 'hero_subtitle' => ['label' => 'Hero supporting line', 'type' => 'text'], 'heading' => ['label' => 'Heading', 'type' => 'text'], 'introduction' => ['label' => 'Introduction', 'type' => 'richtext']],
+            'defaults' => ['hero_eyebrow' => 'SECTOR PERSPECTIVES', 'hero_subtitle' => 'A connected view of Africa’s built environment.', 'heading' => 'Sector perspectives.', 'introduction' => '<p>The website brief identifies six intended areas of sector coverage. The related capabilities describe BEAL’s service offer, not a claim of completed engagements.</p>'],
+        ],
+        'services_intro' => [
+            'label' => 'Services introduction', 'position' => 10, 'image' => 'assets/home-image/glass-architecture.jpg',
+            'fields' => ['hero_eyebrow' => ['label' => 'Hero label', 'type' => 'text'], 'hero_subtitle' => ['label' => 'Hero supporting line', 'type' => 'text'], 'heading' => ['label' => 'Heading', 'type' => 'text'], 'introduction' => ['label' => 'Introduction', 'type' => 'richtext']],
+            'defaults' => ['hero_eyebrow' => 'OUR SERVICES', 'hero_subtitle' => 'Perspective across the whole project lifecycle.', 'heading' => 'Connected capabilities.', 'introduction' => '<p>BEAL’s five service pillars bring intelligence, advisory and delivery expertise together to support complex projects and infrastructure decisions.</p>'],
+        ],
+        'insights_intro' => [
+            'label' => 'Insights introduction', 'position' => 10, 'image' => 'assets/home-image/nairobi-skyline.jpg',
+            'fields' => ['hero_eyebrow' => ['label' => 'Hero label', 'type' => 'text'], 'hero_subtitle' => ['label' => 'Hero supporting line', 'type' => 'text'], 'heading' => ['label' => 'Heading', 'type' => 'text'], 'introduction' => ['label' => 'Introduction', 'type' => 'richtext'], 'publishing_note' => ['label' => 'Publishing note', 'type' => 'text']],
+            'defaults' => ['hero_eyebrow' => 'RESEARCH / PERSPECTIVE / ANALYSIS', 'hero_subtitle' => 'Ideas and analysis for complex project decisions.', 'heading' => 'Ideas for informed decisions.', 'introduction' => '<p>Insights & Intelligence is BEAL’s platform for industry insights, infrastructure and construction intelligence, project delivery perspectives, research, analysis, market observations and professional commentary.</p>', 'publishing_note' => 'No BEAL publications have been approved for release yet.'],
+        ],
+        'experience_intro' => [
+            'label' => 'Experience introduction', 'position' => 10, 'image' => 'assets/home-image/city-development.jpg',
+            'fields' => ['hero_eyebrow' => ['label' => 'Hero label', 'type' => 'text'], 'hero_subtitle' => ['label' => 'Hero supporting line', 'type' => 'text'], 'heading' => ['label' => 'Heading', 'type' => 'text'], 'introduction' => ['label' => 'Introduction', 'type' => 'richtext'], 'publishing_note' => ['label' => 'Publishing note', 'type' => 'text']],
+            'defaults' => ['hero_eyebrow' => 'PROJECTS & EXPERIENCE', 'hero_subtitle' => 'Professional contribution, presented with context.', 'heading' => 'Experience, with context.', 'introduction' => '<p>BEAL’s portfolio is designed to distinguish corporate engagements from previous professional experience, with project description, sector, location, scope, scale and outcomes shown when approved and verified.</p>', 'publishing_note' => 'No project or experience records have been approved for publication yet.'],
+        ],
+        'contact_intro' => [
+            'label' => 'Contact introduction', 'position' => 10, 'image' => 'assets/home-image/urban-infrastructure.jpg',
+            'fields' => ['hero_eyebrow' => ['label' => 'Hero label', 'type' => 'text'], 'hero_subtitle' => ['label' => 'Hero supporting line', 'type' => 'text'], 'heading' => ['label' => 'Heading', 'type' => 'text'], 'introduction' => ['label' => 'Introduction', 'type' => 'richtext'], 'location_label' => ['label' => 'Location label', 'type' => 'text']],
+            'defaults' => ['hero_eyebrow' => 'START A CONVERSATION', 'hero_subtitle' => 'Precision in Every Project.', 'heading' => 'Start a conversation.', 'introduction' => '<p>For professional enquiries, share a few details using the form. The BEAL team will follow up.</p>', 'location_label' => 'Nairobi, Kenya'],
+        ],
+    ],
     'service_page_defaults' => [
         'service_pillar_label' => 'SERVICE PILLAR',
         'hero_button_label' => 'Explore this service',
@@ -197,6 +239,12 @@ return [
         'hero_caption' => 'Clarity in Projects. Confidence in Decisions.',
     ],
     'settings' => [
+        'presentation' => [
+            'internal_cta_heading' => 'Explore the capabilities',
+            'internal_cta_accent' => 'behind the perspective.',
+            'internal_cta_description' => 'Connect with BEAL about complex project and infrastructure decisions.',
+            'internal_cta_button' => 'Start a conversation',
+        ],
         'general' => [
             'site_name' => 'BEAL Consulting',
             'tagline' => 'Independent thinking. Informed decisions.',

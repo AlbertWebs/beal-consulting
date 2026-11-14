@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ContentEntry;
 use App\Models\MediaAsset;
 use App\Models\PageSection;
 use App\Models\SiteSetting;
@@ -61,11 +62,13 @@ class MediaAssetController extends Controller
     {
         abort_if($mediaAsset->is_system, 422, 'Built-in brand and website imagery cannot be deleted.');
         $isInDraft = PageSection::query()->where('draft_media_asset_id', $mediaAsset->id)->exists()
-            || WebsiteService::query()->whereJsonContains('draft_content->media_asset_id', $mediaAsset->id)->exists();
+            || WebsiteService::query()->whereJsonContains('draft_content->media_asset_id', $mediaAsset->id)->exists()
+            || ContentEntry::query()->whereJsonContains('draft_data->media_asset_id', $mediaAsset->id)->exists();
         $isEmbedded = PageSection::query()->get(['content', 'draft_content'])->contains(fn (PageSection $section): bool => $this->containsMediaUrl([$section->content, $section->draft_content], $mediaAsset->url))
             || WebsiteService::query()->get(['description_html', 'content', 'draft_content'])->contains(fn (WebsiteService $service): bool => $this->containsMediaUrl([$service->description_html, $service->content, $service->draft_content], $mediaAsset->url))
+            || ContentEntry::query()->get(['content_html', 'draft_data'])->contains(fn (ContentEntry $entry): bool => $this->containsMediaUrl([$entry->content_html, $entry->draft_data], $mediaAsset->url))
             || SiteSetting::query()->get(['value'])->contains(fn (SiteSetting $setting): bool => $this->containsMediaUrl($setting->value, $mediaAsset->url));
-        abort_if($isInDraft || $isEmbedded || $mediaAsset->sections()->exists() || $mediaAsset->services()->exists() || $mediaAsset->settings()->exists() || $mediaAsset->pages()->exists(), 422, 'This image is currently in use. Replace its references before deleting it.');
+        abort_if($isInDraft || $isEmbedded || $mediaAsset->sections()->exists() || $mediaAsset->services()->exists() || $mediaAsset->contentEntries()->exists() || $mediaAsset->settings()->exists() || $mediaAsset->pages()->exists(), 422, 'This image is currently in use. Replace its references before deleting it.');
         Storage::disk($mediaAsset->disk)->delete(array_filter([$mediaAsset->path, $mediaAsset->thumbnail_path]));
         $mediaAsset->delete();
         $audit->record('media.deleted', 'Deleted media asset');

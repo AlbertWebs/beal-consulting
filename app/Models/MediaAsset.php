@@ -35,6 +35,11 @@ class MediaAsset extends Model
         return $this->hasMany(WebsiteService::class, 'media_asset_id');
     }
 
+    public function contentEntries(): HasMany
+    {
+        return $this->hasMany(ContentEntry::class, 'media_asset_id');
+    }
+
     public function settings(): HasMany
     {
         return $this->hasMany(SiteSetting::class, 'media_asset_id');

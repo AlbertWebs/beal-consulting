@@ -26,7 +26,7 @@ class PageController extends Controller
     {
         return view('admin.pages.edit', [
             'page' => $websitePage->load(['sections.media', 'sections.draftMedia', 'updater']),
-            'schemas' => config('cms.sections'),
+            'schemas' => array_merge(config('cms.sections'), config('cms.page_sections')),
             'mediaAssets' => MediaAsset::query()->where('mime_type', 'like', 'image/%')->orderBy('original_name')->get(),
         ]);
     }
@@ -74,8 +74,6 @@ class PageController extends Controller
 
     public function publish(Request $request, WebsitePage $websitePage, CmsAuditLogger $audit): RedirectResponse
     {
-        abort_unless($websitePage->page_key === 'home', 422, 'This page has no publishable website template.');
-
         DB::transaction(function () use ($websitePage, $request): void {
             foreach ($websitePage->sections as $section) {
                 if ($section->draft_content === null && $section->draft_enabled === null && $section->draft_media_asset_id === null) {
@@ -126,17 +124,17 @@ class PageController extends Controller
     public function updateSection(Request $request, WebsitePage $websitePage, PageSection $section, RichTextSanitizer $sanitizer, CmsAuditLogger $audit): RedirectResponse
     {
         abort_unless($section->website_page_id === $websitePage->id, 404);
-        $schema = config('cms.sections.'.$section->section_key);
+        $schema = config('cms.sections.'.$section->section_key) ?? config('cms.page_sections.'.$section->section_key);
         abort_unless(is_array($schema), 404);
 
-        $rules = ['is_enabled' => ['sometimes', 'boolean'], 'media_asset_id' => ['nullable', 'integer', 'exists:media_assets,id']];
+        $rules = ['is_enabled' => ['sometimes', 'boolean'], 'media_asset_id' => ['nullable', 'integer', 'exists:media_assets,id'], 'sort_order' => ['nullable', 'integer', 'min:0', 'max:100000']];
 
         foreach ($schema['fields'] as $key => $field) {
             $inputKey = $field['type'] === 'repeater' ? 'items_json' : $key;
             $rules['content.'.$inputKey] = match ($field['type']) {
                 'richtext' => ['nullable', 'string', 'max:30000'],
                 'url' => ['nullable', 'string', 'max:2048'],
-                'repeater' => ['nullable', 'string', 'max:12000'],
+                'repeater', 'json' => ['nullable', 'string', 'max:12000'],
                 default => ['nullable', 'string', 'max:2000'],
             };
         }
@@ -167,6 +165,17 @@ class PageController extends Controller
         }
 
         foreach ($schema['fields'] as $key => $field) {
+            if ($field['type'] !== 'json' || ! array_key_exists($key, $content)) {
+                continue;
+            }
+            $decoded = json_decode((string) $content[$key], true);
+            abort_unless(is_array($decoded), 422, $field['label'].' must contain valid JSON.');
+            $targetKey = str_ends_with($key, '_json') ? substr($key, 0, -5) : $key;
+            $content[$targetKey] = $decoded;
+            unset($content[$key]);
+        }
+
+        foreach ($schema['fields'] as $key => $field) {
             if ($field['type'] === 'richtext' && array_key_exists($key, $content)) {
                 $content[$key] = $sanitizer->clean($content[$key]);
             }
@@ -179,7 +188,7 @@ class PageController extends Controller
         if (! $request->boolean('autosave') && $request->header('X-CMS-Autosave') !== 'true') {
             CmsRevision::query()->create(['revisable_type' => $section->getMorphClass(), 'revisable_id' => $section->id, 'snapshot' => $section->toArray(), 'user_id' => $request->user()->id]);
         }
-        $section->update(['draft_content' => $content, 'draft_media_asset_id' => $data['media_asset_id'] ?? null, 'draft_enabled' => $request->boolean('is_enabled'), 'updated_by' => $request->user()->id]);
+        $section->update(['draft_content' => $content, 'draft_media_asset_id' => $data['media_asset_id'] ?? null, 'draft_enabled' => $request->boolean('is_enabled'), 'sort_order' => $data['sort_order'] ?? $section->sort_order, 'updated_by' => $request->user()->id]);
         if ($request->header('X-CMS-Autosave') !== 'true') {
             $audit->record('section.updated', 'Updated '.$section->label.' section', $section);
         }

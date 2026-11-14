@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\AuthController as CmsAuthController;
 use App\Http\Controllers\Admin\ContactSubmissionController;
+use App\Http\Controllers\Admin\ContentEntryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MediaAssetController;
 use App\Http\Controllers\Admin\PageController;
@@ -10,7 +11,9 @@ use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WebsiteServiceController;
+use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\StoreEnquiryController;
+use App\Models\ContentEntry;
 use App\Models\PageSection;
 use App\Models\WebsitePage;
 use App\Models\WebsiteService;
@@ -29,6 +32,7 @@ Route::get('/', function () {
     $sections = $homePage->sections->keyBy('section_key');
     $content = $sections->map(fn (PageSection $section): array => $isPreview ? ($section->draft_content ?? $section->content ?? []) : ($section->content ?? []))->all();
     $visible = $sections->mapWithKeys(fn (PageSection $section): array => [$section->section_key => $isPreview ? ($section->draft_enabled ?? $section->is_enabled) : $section->is_enabled])->all();
+    $sectionOrders = $sections->mapWithKeys(fn (PageSection $section): array => [$section->section_key => $section->sort_order])->all();
     $sectionImages = [];
 
     foreach (config('cms.sections') as $key => $schema) {
@@ -38,14 +42,17 @@ Route::get('/', function () {
     }
     $services = WebsiteService::query()->with('media')->where('status', 'published')->orderBy('sort_order')->get();
     $services = $services->map(fn (WebsiteService $service): array => [...$service->toArray(), 'image' => $service->media?->url ?? asset(ltrim((string) $service->image_path, '/')), 'image_alt' => $service->image_alt])->all();
+    $sectorEntries = ContentEntry::query()->where('type', 'sector')->where('status', 'published')->orderBy('sort_order')->get();
 
     return view('home-image', [
         'siteUrl' => $siteUrl,
         'content' => $content,
         'visible' => $visible,
+        'sectionOrders' => $sectionOrders,
         'sectionImages' => $sectionImages,
         'services' => $services,
         'serviceOptions' => $services,
+        'sectorEntries' => $sectorEntries,
         'settings' => $settings,
         'isPreview' => $isPreview,
         'canonicalUrl' => $siteUrl,
@@ -59,6 +66,16 @@ Route::get('/', function () {
 })->name('home');
 
 Route::redirect('/home-image', '/', 301)->name('home.image');
+
+Route::get('/about', [PublicPageController::class, 'show'])->defaults('pageKey', 'about')->name('pages.about');
+Route::get('/services', [PublicPageController::class, 'show'])->defaults('pageKey', 'services')->name('pages.services');
+Route::get('/sectors', [PublicPageController::class, 'show'])->defaults('pageKey', 'sectors')->name('pages.sectors');
+Route::get('/insights', [PublicPageController::class, 'show'])->defaults('pageKey', 'insights')->name('pages.insights');
+Route::get('/experience', [PublicPageController::class, 'show'])->defaults('pageKey', 'experience')->name('pages.experience');
+Route::get('/contact', [PublicPageController::class, 'show'])->defaults('pageKey', 'contact')->name('pages.contact');
+Route::get('/sectors/{slug}', [PublicPageController::class, 'sector'])->name('sectors.show');
+Route::get('/insights/{slug}', [PublicPageController::class, 'insight'])->name('insights.show');
+Route::get('/experience/{slug}', [PublicPageController::class, 'project'])->name('experience.show');
 
 Route::get('/services/{service}', function (string $service) {
     $isPreview = request()->boolean('cms_preview');
@@ -92,8 +109,10 @@ Route::get('/services/{service}', function (string $service) {
 Route::get('/sitemap.xml', function (WebsiteSettings $settings) {
     $url = rtrim((string) $settings->get('general.site_url', config('beal.site_url')), '/');
     $services = WebsiteService::query()->where('status', 'published')->orderBy('sort_order')->get();
+    $pages = WebsitePage::query()->where('status', 'published')->whereNotIn('page_key', ['home', 'legacy-home'])->get();
+    $entries = ContentEntry::query()->where('status', 'published')->get();
 
-    return response()->view('sitemap', ['url' => $url, 'services' => $services])->header('Content-Type', 'application/xml; charset=UTF-8');
+    return response()->view('sitemap', ['url' => $url, 'services' => $services, 'pages' => $pages, 'entries' => $entries])->header('Content-Type', 'application/xml; charset=UTF-8');
 })->name('sitemap');
 
 Route::post('/enquiries', StoreEnquiryController::class)
@@ -120,6 +139,16 @@ Route::prefix('admin')->as('admin.')->group(function (): void {
             Route::put('/pages/{websitePage}', [PageController::class, 'update'])->name('pages.update');
             Route::put('/pages/{websitePage}/sections/{section}', [PageController::class, 'updateSection'])->name('pages.sections.update');
             Route::post('/pages/{websitePage}/sections/reorder', [PageController::class, 'reorderSections'])->name('pages.sections.reorder');
+        });
+
+        Route::middleware('cms.permission:content')->prefix('/content')->as('content.')->group(function (): void {
+            Route::get('/{type}', [ContentEntryController::class, 'index'])->name('index');
+            Route::get('/{type}/create', [ContentEntryController::class, 'create'])->name('create');
+            Route::post('/{type}', [ContentEntryController::class, 'store'])->name('store');
+            Route::post('/{type}/reorder', [ContentEntryController::class, 'reorder'])->name('reorder');
+            Route::get('/{type}/{contentEntry}/edit', [ContentEntryController::class, 'edit'])->name('edit');
+            Route::put('/{type}/{contentEntry}', [ContentEntryController::class, 'update'])->name('update');
+            Route::post('/{type}/{contentEntry}/publish', [ContentEntryController::class, 'publish'])->name('publish');
         });
 
         Route::middleware('cms.permission:services')->group(function (): void {

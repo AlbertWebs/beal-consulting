@@ -1,0 +1,1 @@
+<nav class="secondary-breadcrumb" aria-label="Breadcrumb"><ol><li><a href="{{ route('home') }}">Home</a></li>@foreach($items as $item)<li aria-hidden="true">/</li><li>@if($loop->last)<span aria-current="page">{{ $item['label'] }}</span>@else<a href="{{ $item['url'] }}">{{ $item['label'] }}</a>@endif</li>@endforeach</ol></nav>

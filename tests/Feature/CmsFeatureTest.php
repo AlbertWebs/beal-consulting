@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\ContentEntry;
 use App\Models\MediaAsset;
 use App\Models\PageSection;
 use App\Models\User;
@@ -135,5 +136,66 @@ class CmsFeatureTest extends TestCase
         ])->assertRedirect();
 
         $this->get(route('home'))->assertOk()->assertSee('BEAL Test');
+    }
+
+    public function test_all_brief_pages_and_sector_detail_pages_render_from_published_content(): void
+    {
+        foreach (['about', 'services', 'sectors', 'insights', 'experience', 'contact'] as $page) {
+            $this->get(route('pages.'.$page))->assertOk();
+        }
+
+        $this->get(route('pages.about'))->assertSee('intelligence-led consultancy');
+        $this->get(route('pages.services'))->assertSee('Strategic Intelligence &amp; Advisory', false)->assertSee('Explore service');
+        $this->get(route('pages.sectors'))->assertSee('Real estate & property development')->assertSee('Public sector & development programmes');
+        $this->get(route('sectors.show', 'infrastructure-transport'))->assertOk()->assertSee('Infrastructure & transport')->assertSee('Strategic Intelligence & Advisory');
+        $this->get(route('pages.insights'))->assertSee('No BEAL publications have been approved for release yet.');
+        $this->get(route('pages.experience'))->assertSee('No project or experience records have been approved for publication yet.');
+        $this->get(route('pages.contact'))->assertSee('Nairobi, Kenya')->assertSee('data-enquiry-open');
+    }
+
+    public function test_admin_can_create_sanitized_insight_draft_and_publish_it(): void
+    {
+        $admin = User::factory()->create(['role' => 'super_admin', 'is_active' => true]);
+
+        $this->actingAs($admin)->post(route('admin.content.store', ['type' => 'insight']), [
+            'title' => 'Reading project signals',
+            'slug' => 'reading-project-signals',
+            'summary' => 'A short editorial perspective.',
+            'content_html' => '<p>Look beyond the immediate metric.</p><script>alert(1)</script>',
+            'category' => 'Project delivery',
+            'author' => 'BEAL Consulting',
+            'published_at' => now()->subDay()->format('Y-m-d\TH:i'),
+            'is_featured' => '1',
+            'seo_title' => 'Reading project signals | BEAL Consulting',
+            'seo_description' => 'A short editorial perspective on project delivery signals.',
+        ])->assertRedirect();
+
+        $entry = ContentEntry::query()->where('slug', 'reading-project-signals')->firstOrFail();
+        $this->assertSame('draft', $entry->status);
+        $this->assertStringNotContainsString('<script', $entry->draft_data['content_html']);
+        $this->get(route('insights.show', $entry->slug))->assertNotFound();
+        $this->get(route('insights.show', ['slug' => $entry->slug, 'cms_preview' => 1]))->assertOk()->assertDontSee('alert(1)')->assertSee('noindex,nofollow');
+
+        $this->actingAs($admin)->post(route('admin.content.publish', ['type' => 'insight', 'contentEntry' => $entry]))->assertRedirect();
+        $this->assertDatabaseHas('content_entries', ['id' => $entry->id, 'status' => 'published', 'is_featured' => true]);
+        $this->get(route('pages.insights', ['q' => 'project signals']))->assertOk()->assertSee('Reading project signals');
+        $this->get(route('insights.show', $entry->slug))->assertOk()->assertSee('Look beyond the immediate metric.');
+    }
+
+    public function test_internal_page_sections_use_draft_and_publish_workflow(): void
+    {
+        $admin = User::factory()->create(['role' => 'super_admin', 'is_active' => true]);
+        $page = WebsitePage::query()->where('page_key', 'about')->firstOrFail();
+        $section = PageSection::query()->where('website_page_id', $page->id)->where('section_key', 'about_overview')->firstOrFail();
+
+        $this->actingAs($admin)->put(route('admin.pages.sections.update', [$page, $section]), [
+            'is_enabled' => '1',
+            'content' => ['overview' => '<p>Updated public profile.</p>'],
+        ])->assertRedirect();
+
+        $this->get(route('pages.about'))->assertDontSee('Updated public profile.');
+        $this->get(route('pages.about', ['cms_preview' => 1]))->assertOk()->assertSee('Updated public profile.');
+        $this->post(route('admin.pages.publish', $page))->assertRedirect();
+        $this->get(route('pages.about'))->assertSee('Updated public profile.');
     }
 }

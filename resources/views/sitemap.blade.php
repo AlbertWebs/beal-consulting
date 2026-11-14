@@ -10,4 +10,11 @@
             <changefreq>monthly</changefreq>
         </url>
     @endforeach
+    @foreach ($pages as $page)
+        <url><loc>{{ $url }}/{{ $page->slug }}</loc><changefreq>monthly</changefreq></url>
+    @endforeach
+    @foreach ($entries as $entry)
+        @php($entryPath = $entry->type === 'sector' ? 'sectors' : ($entry->type === 'insight' ? 'insights' : 'experience'))
+        <url><loc>{{ $url }}/{{ $entryPath }}/{{ $entry->slug }}</loc><lastmod>{{ ($entry->updated_at ?? now())->toAtomString() }}</lastmod><changefreq>monthly</changefreq></url>
+    @endforeach
 </urlset>
