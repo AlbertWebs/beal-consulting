@@ -1,0 +1,83 @@
+<?php
+
+return [
+    'site_url' => env('BEAL_SITE_URL', 'https://www.bealconsulting.africa'),
+    'contact_email' => env('BEAL_CONTACT_EMAIL'),
+    'google_analytics_id' => env('BEAL_GOOGLE_ANALYTICS_ID'),
+    'services' => [
+        'strategic-intelligence-advisory' => [
+            'slug' => 'strategic-intelligence-advisory',
+            'number' => '01',
+            'title' => 'Strategic Intelligence & Advisory',
+            'description' => 'Research, analysis and decision support for complex opportunities.',
+            'image' => 'assets/home-image/urban-infrastructure.jpg',
+            'image_alt' => 'Elevated road infrastructure with a sweeping curve',
+            'subservices' => [
+                'Strategic research and analysis',
+                'Feasibility and development advisory',
+                'Investment and project intelligence',
+                'Decision-support services',
+            ],
+        ],
+        'project-programme-advisory' => [
+            'slug' => 'project-programme-advisory',
+            'number' => '02',
+            'title' => 'Project & Programme Advisory',
+            'description' => 'Disciplined direction from planning through delivery.',
+            'image' => 'assets/home-image/city-development.jpg',
+            'image_alt' => 'Tower cranes and high-rise construction shaping a city skyline',
+            'subservices' => [
+                'Project management',
+                'Programme management',
+                'Project planning and controls',
+                'Project monitoring and reporting',
+                'Delivery strategy',
+            ],
+        ],
+        'governance-risk-performance' => [
+            'slug' => 'governance-risk-performance',
+            'number' => '03',
+            'title' => 'Governance, Risk & Performance',
+            'description' => 'Oversight that strengthens accountability and performance.',
+            'image' => 'assets/home-image/project-analytics.jpg',
+            'image_alt' => 'Project data displayed on a tablet for analysis',
+            'subservices' => [
+                'Project governance',
+                'Portfolio oversight',
+                'Risk management',
+                'Performance monitoring',
+                'Contract and commercial advisory',
+            ],
+        ],
+        'infrastructure-development-consultancy' => [
+            'slug' => 'infrastructure-development-consultancy',
+            'number' => '04',
+            'title' => 'Infrastructure & Development Consultancy',
+            'description' => 'Technical and development insight for the built environment.',
+            'image' => 'assets/home-image/glass-architecture.jpg',
+            'image_alt' => 'Modern commercial building with a reflective geometric facade',
+            'subservices' => [
+                'Infrastructure development advisory',
+                'Construction and development consultancy',
+                'Technical coordination',
+                'Quality, health, safety and environmental advisory',
+                'Sustainability considerations',
+            ],
+        ],
+        'digital-analytical-solutions' => [
+            'slug' => 'digital-analytical-solutions',
+            'number' => '05',
+            'title' => 'Digital & Analytical Solutions',
+            'description' => 'Useful intelligence, made visible and actionable.',
+            'image' => 'assets/home-image/project-analytics.jpg',
+            'image_alt' => 'Digital project dashboard and performance charts on a tablet',
+            'subservices' => [
+                'Project performance analytics',
+                'Data-driven reporting',
+                'Digital project controls',
+                'Management dashboards',
+                'Decision-support tools',
+            ],
+        ],
+    ],
+];

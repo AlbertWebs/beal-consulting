@@ -1,0 +1,89 @@
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .precision-cursor {
+        --cursor-ink: #0b1b31;
+        --cursor-accent: #c8a15d;
+        position: fixed;
+        z-index: 100;
+        top: 0;
+        left: 0;
+        width: 52px;
+        height: 52px;
+        opacity: 0;
+        pointer-events: none;
+        will-change: transform;
+        transition: opacity 180ms ease;
+    }
+
+    .precision-cursor.is-visible { opacity: 1; }
+    .precision-cursor[data-theme="dark"],
+    .precision-cursor[data-theme="photo"] { --cursor-ink: #f1f4f6; }
+    .precision-cursor[data-theme="photo"] { mix-blend-mode: normal; }
+
+    .precision-cursor__svg {
+        position: absolute;
+        inset: 0;
+        width: 52px;
+        height: 52px;
+        overflow: visible;
+        transform: translate(-50%, -50%);
+    }
+
+    .precision-cursor__ring,
+    .precision-cursor__arc,
+    .precision-cursor__tick,
+    .precision-cursor__gold,
+    .precision-cursor__brackets,
+    .precision-cursor__crosshair,
+    .precision-cursor__direction {
+        fill: none;
+        vector-effect: non-scaling-stroke;
+    }
+
+    .precision-cursor__ring { stroke: var(--cursor-ink); stroke-width: 1; opacity: .58; }
+    .precision-cursor__arc { stroke: var(--cursor-ink); stroke-width: .8; stroke-dasharray: 12 6; opacity: .42; }
+    .precision-cursor__tick { stroke: var(--cursor-ink); stroke-width: .9; opacity: .68; transform: translate(var(--cursor-direction-x, 0px), var(--cursor-direction-y, 0px)); }
+    .precision-cursor__gold { stroke: var(--cursor-accent); stroke-width: 1.8; }
+    .precision-cursor__brackets,
+    .precision-cursor__crosshair,
+    .precision-cursor__direction { display: none; stroke: var(--cursor-accent); stroke-width: 1.2; }
+
+    .precision-cursor__field {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 84px;
+        height: 84px;
+        opacity: 0;
+        background-image: linear-gradient(rgba(11, 27, 49, .09) 1px, transparent 1px), linear-gradient(90deg, rgba(11, 27, 49, .09) 1px, transparent 1px);
+        background-size: 8px 8px;
+        transform: translate(-50%, -50%) scale(.82);
+        transition: opacity 220ms ease, transform 220ms ease;
+    }
+
+    .precision-cursor[data-theme="dark"] .precision-cursor__field,
+    .precision-cursor[data-theme="photo"] .precision-cursor__field {
+        background-image: linear-gradient(rgba(241, 244, 246, .13) 1px, transparent 1px), linear-gradient(90deg, rgba(241, 244, 246, .13) 1px, transparent 1px);
+    }
+
+    .precision-cursor__guide { position: absolute; top: 50%; left: 50%; display: none; background: var(--cursor-ink); opacity: .2; }
+    .precision-cursor__guide--horizontal { width: 96px; height: 1px; transform: translate(-50%, -50%); }
+    .precision-cursor__guide--vertical { width: 1px; height: 96px; transform: translate(-50%, -50%); }
+    .precision-cursor.is-drafting .precision-cursor__field { opacity: .35; transform: translate(-50%, -50%) scale(1); }
+    .precision-cursor[data-mode="service"] .precision-cursor__ring,
+    .precision-cursor[data-mode="service"] .precision-cursor__arc,
+    .precision-cursor[data-mode="service"] .precision-cursor__gold,
+    .precision-cursor[data-mode="button"] .precision-cursor__arc,
+    .precision-cursor[data-mode="button"] .precision-cursor__tick { opacity: 0; }
+    .precision-cursor[data-mode="service"] .precision-cursor__brackets,
+    .precision-cursor[data-mode="image"] .precision-cursor__crosshair,
+    .precision-cursor[data-mode="image"] .precision-cursor__guide,
+    .precision-cursor[data-mode="link"] .precision-cursor__direction { display: block; }
+    .precision-cursor[data-mode="button"] .precision-cursor__ring { stroke: var(--cursor-accent); stroke-width: 1.6; opacity: 1; transform: scale(.62); transform-origin: 26px 26px; transition: transform 180ms ease, stroke-width 180ms ease; }
+    .precision-cursor[data-mode="link"] .precision-cursor__ring { opacity: .18; }
+    .precision-cursor[data-mode="image"] .precision-cursor__ring { opacity: .3; }
+    .precision-cursor[data-mode="image"] .precision-cursor__crosshair { stroke: var(--cursor-ink); opacity: .7; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .precision-cursor { display: none !important; }
+}
