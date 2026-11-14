@@ -71,7 +71,13 @@
             <div class="section-index"><span>01</span><span class="index-rule"></span><span>{{ config('cms.sections.about.label') }}</span></div>
             <div class="image-intro-grid">
                 <div class="image-intro-copy">
-                    <h2 id="intro-title">{{ $content['about']['heading'] ?? 'Complexity deserves clear thinking.' }}</h2>
+                    @php($aboutHeading = (string) ($content['about']['heading'] ?? 'Complexity deserves clear thinking.'))
+                    @php($aboutHeadingAccent = 'clear thinking.')
+                    @if (str_ends_with($aboutHeading, $aboutHeadingAccent))
+                        <h2 id="intro-title">{{ trim(substr($aboutHeading, 0, -strlen($aboutHeadingAccent))) }} <em>{{ $aboutHeadingAccent }}</em></h2>
+                    @else
+                        <h2 id="intro-title">{{ $aboutHeading }}</h2>
+                    @endif
                     <div class="lead-copy">{!! $content['about']['lead'] ?? '<p>BEAL is an intelligence-led strategic advisory and infrastructure consultancy, bringing analytical capability and technical perspective to the decisions that shape projects.</p>' !!}</div>
                     <div>{!! $content['about']['body'] ?? '<p>We look beyond the immediate task to understand context, connect information and help decision-makers move forward with confidence.</p>' !!}</div>
                     <a class="text-link text-link-navy" href="#services">How we work <span aria-hidden="true">↗</span></a>
