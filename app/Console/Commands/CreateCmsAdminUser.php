@@ -7,6 +7,8 @@ use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 
 #[Signature('cms:user:create')]
 #[Description('Create a CMS user without exposing credentials in the shell history.')]
@@ -19,7 +21,7 @@ class CreateCmsAdminUser extends Command
     {
         $name = trim((string) $this->ask('Name'));
         $email = mb_strtolower(trim((string) $this->ask('Email')));
-        $password = (string) $this->secret('Password (12 characters minimum)');
+        $password = (string) $this->secret('Password (16+ characters, mixed case, number, symbol)');
         $confirmation = (string) $this->secret('Confirm password');
 
         if ($name === '' || filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
@@ -34,8 +36,12 @@ class CreateCmsAdminUser extends Command
             return self::FAILURE;
         }
 
-        if (mb_strlen($password) < 12 || ! hash_equals($password, $confirmation)) {
-            $this->error('Use a password with at least 12 characters and confirm it exactly.');
+        $isStrongPassword = Validator::make(['password' => $password], [
+            'password' => [Password::min(16)->mixedCase()->numbers()->symbols()],
+        ])->passes();
+
+        if (! $isStrongPassword || ! hash_equals($password, $confirmation)) {
+            $this->error('Use a strong password with at least 16 characters and confirm it exactly.');
 
             return self::FAILURE;
         }
@@ -50,6 +56,7 @@ class CreateCmsAdminUser extends Command
             'password' => Hash::make($password),
             'role' => $role,
             'is_active' => true,
+            'must_change_password' => true,
         ]);
 
         $this->info("Created {$role} account for {$email}.");

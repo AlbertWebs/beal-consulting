@@ -173,6 +173,24 @@ class CmsFeatureTest extends TestCase
         $this->get(route('admin.dashboard'))->assertOk();
     }
 
+    public function test_newly_provisioned_super_admin_must_change_the_initial_password(): void
+    {
+        $temporaryPassword = 'Initial-Strong-Password-294!';
+
+        $this->artisan('cms:user:create')
+            ->expectsQuestion('Name', 'BEAL CMS Admin')
+            ->expectsQuestion('Email', 'admin@bealconsulting.africa')
+            ->expectsQuestion('Password (16+ characters, mixed case, number, symbol)', $temporaryPassword)
+            ->expectsQuestion('Confirm password', $temporaryPassword)
+            ->assertSuccessful();
+
+        $administrator = User::query()->where('email', 'admin@bealconsulting.africa')->firstOrFail();
+
+        $this->assertSame('super_admin', $administrator->role);
+        $this->assertTrue($administrator->must_change_password);
+        $this->assertTrue(Hash::check($temporaryPassword, $administrator->password));
+    }
+
     public function test_new_services_start_as_drafts_and_can_only_be_seen_after_publishing(): void
     {
         $admin = User::factory()->create(['role' => 'super_admin', 'is_active' => true]);
