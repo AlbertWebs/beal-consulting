@@ -4,7 +4,7 @@
         <loc>{{ $url }}/</loc>
         <changefreq>monthly</changefreq>
     </url>
-    @foreach (config('beal.services', []) as $service)
+    @foreach ($services as $service)
         <url>
             <loc>{{ $url }}/services/{{ $service['slug'] }}</loc>
             <changefreq>monthly</changefreq>

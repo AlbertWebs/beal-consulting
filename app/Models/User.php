@@ -10,10 +10,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password', 'role', 'is_active'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
+    public const array CMS_ROLES = [
+        'super_admin' => 'Super Administrator',
+        'administrator' => 'Administrator',
+        'editor' => 'Editor',
+        'content_manager' => 'Content Manager',
+    ];
+
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
@@ -27,6 +34,26 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
+            'last_login_at' => 'datetime',
         ];
+    }
+
+    public function hasCmsAccess(): bool
+    {
+        return $this->is_active && array_key_exists($this->role, self::CMS_ROLES);
+    }
+
+    public function canManageCms(string $module): bool
+    {
+        $permissions = match ($this->role) {
+            'super_admin' => ['*'],
+            'administrator' => ['dashboard', 'pages', 'services', 'media', 'submissions', 'settings', 'activity'],
+            'editor' => ['dashboard', 'pages', 'services', 'media'],
+            'content_manager' => ['dashboard', 'pages', 'services', 'media'],
+            default => [],
+        };
+
+        return $this->hasCmsAccess() && (in_array('*', $permissions, true) || in_array($module, $permissions, true));
     }
 }
