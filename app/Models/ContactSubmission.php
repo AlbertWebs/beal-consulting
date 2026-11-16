@@ -11,7 +11,7 @@ class ContactSubmission extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'email', 'phone', 'company', 'service', 'message', 'status', 'read_at', 'handled_at', 'assigned_to',
+        'name', 'email', 'company', 'service', 'message', 'status', 'read_at', 'handled_at', 'assigned_to',
     ];
 
     protected function casts(): array

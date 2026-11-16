@@ -43,12 +43,12 @@ class ContactSubmissionController extends Controller
 
     public function export(): Response
     {
-        $rows = ContactSubmission::query()->latest()->get(['name', 'email', 'phone', 'company', 'service', 'message', 'status', 'created_at']);
+        $rows = ContactSubmission::query()->latest()->get(['name', 'email', 'company', 'service', 'message', 'status', 'created_at']);
         $stream = fopen('php://temp', 'r+');
-        fputcsv($stream, ['Name', 'Email', 'Telephone', 'Company', 'Service', 'Message', 'Status', 'Received']);
+        fputcsv($stream, ['Name', 'Email', 'Company', 'Service', 'Message', 'Status', 'Received']);
 
         foreach ($rows as $row) {
-            fputcsv($stream, array_map(fn (?string $value): ?string => $value !== null && preg_match('/^\s*[=+@-]/', $value) === 1 ? "'".$value : $value, [$row->name, $row->email, $row->phone, $row->company, $row->service, $row->message, $row->status, $row->created_at->toIso8601String()]));
+            fputcsv($stream, array_map(fn (?string $value): ?string => $value !== null && preg_match('/^\s*[=+@-]/', $value) === 1 ? "'".$value : $value, [$row->name, $row->email, $row->company, $row->service, $row->message, $row->status, $row->created_at->toIso8601String()]));
         }
 
         rewind($stream);

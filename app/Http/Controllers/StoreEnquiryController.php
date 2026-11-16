@@ -23,7 +23,6 @@ class StoreEnquiryController extends Controller
         $enquiry = $request->validate([
             'name' => ['required', 'string', 'max:120'],
             'email' => ['required', 'email', 'max:254'],
-            'phone' => ['required', 'string', 'max:40'],
             'company' => ['nullable', 'string', 'max:180'],
             'service' => ['nullable', 'string', 'max:160', Rule::in(WebsiteService::query()->where('status', 'published')->pluck('title')->all())],
             'message' => ['required', 'string', 'max:5000'],

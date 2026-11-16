@@ -2,7 +2,6 @@
 
 <p><strong>Name:</strong> {{ $enquiry['name'] }}</p>
 <p><strong>Email:</strong> {{ $enquiry['email'] }}</p>
-<p><strong>Telephone:</strong> {{ $enquiry['phone'] }}</p>
 
 @if ($enquiry['company'])
     <p><strong>Company:</strong> {{ $enquiry['company'] }}</p>
