@@ -4,7 +4,7 @@
             <div>
                 <p class="eyebrow eyebrow-navy"><span class="eyebrow-rule"></span> START A CONVERSATION</p>
                 <h2 id="enquiry-dialog-title">Tell us about your project.</h2>
-                <p>Share a few details and the BEAL team will follow up.</p>
+                <p>Share a few details, and our team will follow up.</p>
             </div>
             <button class="enquiry-dialog-close" type="button" aria-label="Close enquiry form" data-enquiry-close>
                 <span aria-hidden="true">×</span>
@@ -24,6 +24,11 @@
                     <label for="enquiry-email">Email address <span aria-hidden="true">*</span></label>
                     <input id="enquiry-email" name="email" type="email" autocomplete="email" maxlength="254" required aria-describedby="enquiry-email-error">
                     <span class="enquiry-field-error" id="enquiry-email-error" data-enquiry-error="email"></span>
+                </div>
+                <div class="enquiry-field">
+                    <label for="enquiry-phone">Telephone number <span aria-hidden="true">*</span></label>
+                    <input id="enquiry-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" required aria-describedby="enquiry-phone-error">
+                    <span class="enquiry-field-error" id="enquiry-phone-error" data-enquiry-error="phone"></span>
                 </div>
                 <div class="enquiry-field">
                     <label for="enquiry-company">Organisation <span class="enquiry-optional">Optional</span></label>

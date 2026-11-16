@@ -13,7 +13,7 @@ class EnquiryReceived extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /** @param array{name: string, email: string, company: ?string, service: ?string, message: string} $enquiry */
+    /** @param array{name: string, email: string, phone: string, company: ?string, service: ?string, message: string} $enquiry */
     public function __construct(public array $enquiry) {}
 
     /**

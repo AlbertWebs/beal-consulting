@@ -51,12 +51,12 @@ class WebsiteContentSeeder extends Seeder
 
         $sitePages = [
             'home' => ['title' => 'Home', 'slug' => '/', 'navigation' => false, 'sections' => config('cms.sections')],
-            'about' => ['title' => 'About BEAL', 'slug' => 'about', 'navigation' => false, 'description' => 'Learn about BEAL Consulting Ltd, an intelligence-led strategic advisory and infrastructure consultancy serving East Africa and the wider African market.', 'sections' => ['about_overview' => config('cms.page_sections.about_overview'), 'about_profile' => config('cms.page_sections.about_profile'), 'about_leadership' => config('cms.page_sections.about_leadership')]],
-            'services' => ['title' => 'Services', 'slug' => 'services', 'navigation' => false, 'description' => 'Explore BEAL Consulting’s five service pillars and capabilities across the project lifecycle.', 'sections' => ['services_intro' => config('cms.page_sections.services_intro')]],
-            'sectors' => ['title' => 'Sectors', 'slug' => 'sectors', 'navigation' => false, 'description' => 'Explore the six areas of intended sector coverage identified in the BEAL Consulting website brief.', 'sections' => ['sectors_intro' => config('cms.page_sections.sectors_intro')]],
-            'insights' => ['title' => 'Insights & Intelligence', 'slug' => 'insights', 'navigation' => false, 'description' => 'BEAL insights on infrastructure intelligence, project delivery, research, analysis and sector perspectives.', 'sections' => ['insights_intro' => config('cms.page_sections.insights_intro')]],
-            'experience' => ['title' => 'Projects & Experience', 'slug' => 'experience', 'navigation' => false, 'description' => 'Verified BEAL engagements and previous professional experience, clearly attributed and presented with context.', 'sections' => ['experience_intro' => config('cms.page_sections.experience_intro')]],
-            'contact' => ['title' => 'Contact', 'slug' => 'contact', 'navigation' => false, 'description' => 'Contact BEAL Consulting in Nairobi, Kenya, for a professional project or advisory enquiry.', 'sections' => ['contact_intro' => config('cms.page_sections.contact_intro')]],
+            'about' => ['title' => 'About BEAL', 'slug' => 'about', 'navigation' => false, 'description' => 'Learn how we bring strategic advice and infrastructure expertise to projects across East Africa and the wider African market.', 'sections' => ['about_overview' => config('cms.page_sections.about_overview'), 'about_profile' => config('cms.page_sections.about_profile'), 'about_leadership' => config('cms.page_sections.about_leadership')]],
+            'services' => ['title' => 'Services', 'slug' => 'services', 'navigation' => false, 'description' => 'Explore our five service pillars and capabilities across the project lifecycle.', 'sections' => ['services_intro' => config('cms.page_sections.services_intro')]],
+            'sectors' => ['title' => 'Sectors', 'slug' => 'sectors', 'navigation' => false, 'description' => 'Explore our perspective across six sectors and the capabilities that support informed project decisions.', 'sections' => ['sectors_intro' => config('cms.page_sections.sectors_intro')]],
+            'insights' => ['title' => 'Insights & Intelligence', 'slug' => 'insights', 'navigation' => false, 'description' => 'Explore our perspectives on infrastructure intelligence, project delivery, research, analysis and sectors.', 'sections' => ['insights_intro' => config('cms.page_sections.insights_intro')]],
+            'experience' => ['title' => 'Projects & Experience', 'slug' => 'experience', 'navigation' => false, 'description' => 'Explore our verified engagements and the founder’s previous professional experience, presented with context.', 'sections' => ['experience_intro' => config('cms.page_sections.experience_intro')]],
+            'contact' => ['title' => 'Contact', 'slug' => 'contact', 'navigation' => false, 'description' => 'Contact us in Nairobi, Kenya, about a project or advisory enquiry.', 'sections' => ['contact_intro' => config('cms.page_sections.contact_intro')]],
         ];
 
         foreach ($sitePages as $key => $pageDefinition) {
@@ -89,18 +89,18 @@ class WebsiteContentSeeder extends Seeder
         }
 
         $sectors = [
-            'real-estate-property-development' => ['Real estate & property development', 'Property development decisions connect strategic research, feasibility and development advisory, project governance and analytical decision support.'],
-            'infrastructure-transport' => ['Infrastructure & transport', 'BEAL identifies infrastructure and transport as an intended sector focus. Its stated services include infrastructure development advisory, project management, governance, risk and decision support.'],
-            'commercial-institutional-development' => ['Commercial & institutional developments', 'BEAL’s brief includes commercial and institutional developments in its intended sector coverage. Its service offer connects strategic advice, project delivery, governance and technical coordination.'],
-            'industrial-manufacturing' => ['Industrial & manufacturing', 'BEAL’s stated capabilities include development advisory, project controls, technical coordination, performance monitoring and analytical tools relevant to complex industrial projects.'],
-            'energy-utilities' => ['Energy & utilities', 'Energy and utilities form part of BEAL’s intended sector coverage. The service offer includes feasibility and development advisory, project intelligence, governance, risk management and performance analytics.'],
-            'public-sector-development-programmes' => ['Public sector & development programmes', 'BEAL’s brief identifies public sector and development programmes among its intended sectors. Relevant capabilities include programme management, portfolio oversight, monitoring and reporting, and decision support.'],
+            'real-estate-property-development' => ['Real estate & property development', 'We connect strategic research, feasibility and development advice with project governance and analytical support to inform property development decisions.'],
+            'infrastructure-transport' => ['Infrastructure & transport', 'We support infrastructure and transport projects with development advisory, project management, governance, risk management and decision support.'],
+            'commercial-institutional-development' => ['Commercial & institutional developments', 'We connect strategic advice, project delivery, governance and technical coordination to support commercial and institutional developments.'],
+            'industrial-manufacturing' => ['Industrial & manufacturing', 'We bring development advisory, project controls, technical coordination, performance monitoring and analytical tools to complex industrial projects.'],
+            'energy-utilities' => ['Energy & utilities', 'We support energy and utilities projects with feasibility and development advice, project intelligence, governance, risk management and performance analytics.'],
+            'public-sector-development-programmes' => ['Public sector & development programmes', 'We support public sector and development programmes with programme management, portfolio oversight, monitoring, reporting and decision support.'],
         ];
 
         foreach ($sectors as $slug => [$title, $summary]) {
             ContentEntry::query()->firstOrCreate(
                 ['type' => 'sector', 'slug' => $slug],
-                ['title' => $title, 'summary' => $summary, 'content_html' => '<p>'.e($summary).'</p><p>This sector overview describes BEAL’s stated service offer and intended coverage. It is not a claim of a specific completed engagement.</p>', 'status' => 'published', 'sort_order' => (array_search($slug, array_keys($sectors), true) + 1) * 10, 'seo_title' => $title.' | BEAL Consulting', 'seo_description' => $summary],
+                ['title' => $title, 'summary' => $summary, 'content_html' => '<p>'.e($summary).'</p><p>Explore how we connect strategic advice, project management and governance to support informed decisions from early planning through delivery.</p>', 'status' => 'published', 'sort_order' => (array_search($slug, array_keys($sectors), true) + 1) * 10, 'seo_title' => $title.' | BEAL Consulting', 'seo_description' => $summary],
             );
         }
 

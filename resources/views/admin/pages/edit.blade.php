@@ -15,7 +15,7 @@
         @elseif($field['type']==='json')@php($jsonValue=$value ?: ($section->draft_content ?? $section->content)[str_ends_with($key,'_json')?substr($key,0,-5):$key] ?? [])<textarea class="cms-input" rows="8" name="content[{{ $key }}]">{{ is_string($jsonValue) ? $jsonValue : json_encode($jsonValue,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE) }}</textarea><small class="cms-muted">Use valid JSON. Leave as [] until verified details are available.</small>
         @else<input class="cms-input" id="field-{{ $section->id }}-{{ $key }}" type="text" @if($field['type']==='url') inputmode="url" @endif name="content[{{ $key }}]" value="{{ $value }}">@endif</div>
     @endforeach
-    <div class="cms-field"><label class="cms-label">Section image</label><select class="cms-select" name="media_asset_id"><option value="">Keep published image</option>@foreach($mediaAssets as $asset)<option value="{{ $asset->id }}" @selected(($section->draft_media_asset_id ?? $section->media_asset_id)===$asset->id)>{{ $asset->original_name }} — {{ $asset->width }}×{{ $asset->height }}</option>@endforeach</select></div>
+    <div class="cms-field"><label class="cms-label">Section image</label><select class="cms-select" name="media_asset_id"><option value="">Keep published image</option>@foreach($mediaAssets as $asset)<option value="{{ $asset->id }}" @selected(($section->draft_media_asset_id ?? $section->media_asset_id)===$asset->id)>{{ $asset->original_name }} | {{ $asset->width }}×{{ $asset->height }}</option>@endforeach</select></div>
     <button class="cms-button" type="submit">Save section</button></form></section>@endif
 @endforeach
 @endsection
