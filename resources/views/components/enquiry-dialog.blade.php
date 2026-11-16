@@ -1,10 +1,12 @@
+@props(['serviceOptions' => []])
+
 <dialog class="enquiry-dialog" aria-labelledby="enquiry-dialog-title" data-enquiry-dialog>
     <div class="enquiry-dialog-panel">
         <div class="enquiry-dialog-heading">
             <div>
                 <p class="eyebrow eyebrow-navy"><span class="eyebrow-rule"></span> START A CONVERSATION</p>
                 <h2 id="enquiry-dialog-title">Tell us about your project.</h2>
-                <p>Share a few details and the BEAL team will follow up.</p>
+                <p>Share a few details and we will follow up.</p>
             </div>
             <button class="enquiry-dialog-close" type="button" aria-label="Close enquiry form" data-enquiry-close>
                 <span aria-hidden="true">×</span>
@@ -34,7 +36,7 @@
                     <label for="enquiry-service">Service area <span class="enquiry-optional">Optional</span></label>
                     <select id="enquiry-service" name="service" aria-describedby="enquiry-service-error" data-enquiry-service-select>
                         <option value="">Choose a service area</option>
-                        @foreach (($serviceOptions ?? $services ?? []) as $serviceOption)
+                        @foreach ($serviceOptions as $serviceOption)
                             <option value="{{ is_array($serviceOption) ? $serviceOption['title'] : $serviceOption->title }}">{{ is_array($serviceOption) ? $serviceOption['title'] : $serviceOption->title }}</option>
                         @endforeach
                     </select>

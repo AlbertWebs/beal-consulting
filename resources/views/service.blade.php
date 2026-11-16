@@ -28,7 +28,7 @@
         <div class="topline-inner">
             <span class="topline-location"><span class="location-mark" aria-hidden="true"></span>{{ $settings['header.announcement'] ?? 'Nairobi, Kenya / Across Africa' }}</span>
             <span class="topline-note">{{ $settings['general.tagline'] ?? 'Independent thinking. Informed decisions.' }}</span>
-            <span class="topline-index">{{ $settings['header.positioning'] ?? 'Strategic advisory — Infrastructure intelligence' }}</span>
+            <span class="topline-index">{{ $settings['header.positioning'] ?? 'Strategic advisory - Infrastructure intelligence' }}</span>
         </div>
     </div>
     <header class="site-header" data-header>
@@ -65,10 +65,17 @@
         </section>
 
         <section class="service-scope section-pad" id="service-scope" aria-labelledby="service-scope-title">
+            @if(!empty(config('cms.service_introductions.'.$service['slug'])))
+                <div class="service-scope-intro">
+                    @foreach(config('cms.service_introductions.'.$service['slug']) as $paragraph)
+                        <p>{{ $paragraph }}</p>
+                    @endforeach
+                </div>
+            @endif
             <div class="section-index"><span>{{ $service['number'] }}</span><span class="index-rule"></span><span>{{ $service['content']['scope_label'] ?? 'AREAS OF FOCUS' }}</span></div>
             <div class="service-scope-heading">
-                    <h2 id="service-scope-title">{{ $service['content']['scope_heading'] ?? 'A considered view' }}<br><em>{{ $service['content']['scope_heading_accent'] ?? 'of what matters.' }}</em></h2>
-                <p>{{ $service['description'] }} {{ $service['content']['scope_description'] ?? 'The service is shaped around the context, information and decisions involved in each project.' }}</p>
+                <h2 id="service-scope-title">{{ $service['content']['scope_heading'] ?? 'A considered view' }}<br><em>{{ $service['content']['scope_heading_accent'] ?? 'of what matters.' }}</em></h2>
+                <p>{{ $service['content']['scope_description'] ?? 'The service is shaped around the context, information and decisions involved in each project.' }}</p>
             </div>
             <div class="service-scope-list">
                 @foreach ($service['subservices'] as $index => $subservice)
@@ -76,6 +83,26 @@
                 @endforeach
             </div>
         </section>
+
+        @if ($service['slug'] === 'governance-risk-performance')
+            <section class="service-scorecard section-pad" id="service-scorecard" aria-labelledby="service-scorecard-title">
+                <div class="section-index"><span>03</span><span class="index-rule"></span><span>PROJECT HEALTH SCORECARD</span></div>
+                <div class="service-scorecard-heading">
+                    <div>
+                        <p class="eyebrow eyebrow-navy"><span class="eyebrow-rule"></span>PROJECT HEALTH ASSESSMENT</p>
+                        <h2 id="service-scorecard-title">The BEAL Project Health<br><em>Scorecard</em></h2>
+                        <p>Across eight core areas, including cost, schedule, quality, procurement, commercial, HSE, governance and delivery, we examine scope, risk and the decisions affecting project performance. Our scorecard shows what is working well, where concerns are emerging and what management action is needed.</p>
+                    </div>
+                </div>
+                <x-scorecard-assessment-grid />
+                <div class="service-scorecard-deliverables">
+                    <div><span>01</span><h3>One view of project health</h3><p>Overall rating with a view of performance across the eight assessment areas.</p></div>
+                    <div><span>02</span><h3>Issues that need attention</h3><p>Key risks, delays, cost concerns and decisions surfaced for management review.</p></div>
+                    <div><span>03</span><h3>Clear next actions</h3><p>Recommended actions with responsible parties and target dates.</p></div>
+                </div>
+                <button class="button button-gold" type="button" data-enquiry-open data-enquiry-service="Governance, Risk &amp; Performance">Request a Project Health Assessment <span aria-hidden="true">↗</span></button>
+            </section>
+        @endif
 
         <section class="service-related section-pad" aria-labelledby="service-related-title">
             <div class="section-index"><span>BEAL</span><span class="index-rule"></span><span>{{ $service['content']['related_label'] ?? 'CONNECTED DISCIPLINES' }}</span></div>
@@ -92,13 +119,18 @@
         <section class="service-detail-cta">
             <div class="service-detail-cta-inner">
                 <div class="section-index section-index-light"><span>BEAL</span><span class="index-rule"></span><span>{{ $service['content']['cta_label'] ?? 'START A CONVERSATION' }}</span></div>
-                <div class="service-detail-cta-row"><h2>{{ $service['content']['cta_heading'] ?? 'Bring clarity to' }}<br><em>{{ $service['content']['cta_heading_accent'] ?? 'the next decision.' }}</em></h2><div><p>{{ $service['content']['cta_description'] ?? 'Tell us what you need and the BEAL team will follow up.' }}</p><button class="button button-gold" type="button" data-enquiry-open data-enquiry-service="{{ $service['title'] }}">Get in touch <span aria-hidden="true">↗</span></button></div></div>
+                <div class="service-detail-cta-row"><h2>{{ $service['content']['cta_heading'] ?? 'Bring clarity to' }}<br><em>{{ $service['content']['cta_heading_accent'] ?? 'the next decision.' }}</em></h2><div><p>{{ $service['content']['cta_description'] ?? 'Tell us what you need and we will follow up.' }}</p><button class="button button-gold" type="button" data-enquiry-open data-enquiry-service="{{ $service['title'] }}">Get in touch <span aria-hidden="true">↗</span></button></div></div>
             </div>
         </section>
     </main>
 
     <footer class="site-footer">
-        <div class="footer-main"><a class="footer-brand" href="{{ route('home') }}"><img src="{{ ($settings['branding.horizontal_logo'] ?? '') ?: asset('assets/beal-horizontal-logo.png') }}" alt="{{ $settings['general.site_name'] ?? 'BEAL Consulting' }}" width="2167" height="726"></a><div class="footer-statement">{{ $settings['footer.statement'] ?? 'Independent thinking. Informed decisions.' }}</div><div class="footer-nav"><span>{{ $settings['footer.explore_label'] ?? 'EXPLORE' }}</span>@foreach(($settings['footer.navigation'] ?? []) as $item) @if($item['enabled'] ?? true)<a href="{{ str_starts_with($item['url'],'#') ? route('home').$item['url'] : $item['url'] }}">{{ $item['label'] }}</a>@endif @endforeach</div><div class="footer-nav"><span>{{ $settings['footer.contact_label'] ?? 'CONNECT' }}</span><a href="{{ filled($settings['general.public_email'] ?? null) ? 'mailto:'.$settings['general.public_email'] : route('home').'#contact' }}">{{ ($settings['general.public_email'] ?? '') ?: 'Contact BEAL' }}</a><span>{{ $settings['general.address'] ?? 'Nairobi, Kenya' }}</span>@foreach(($settings['footer.social_links'] ?? []) as $social) @if($social['enabled']??true)<a href="{{ $social['url'] }}" rel="noopener noreferrer" target="_blank">{{ $social['label']??'Social' }}</a>@endif @endforeach</div></div>
+        @php($publicEmail = $settings['contact.email'] ?? $settings['general.public_email'] ?? '')
+        @php($publicPhone = $settings['contact.phone'] ?? $settings['general.phone'] ?? '')
+        @php($publicLocation = $settings['contact.location'] ?? $settings['general.address'] ?? 'Nairobi, Kenya')
+        @php($publicMapLink = $settings['contact.maps_url'] ?? $settings['general.maps_url'] ?? '')
+        @php($publicHours = $settings['contact.business_hours'] ?? $settings['general.business_hours'] ?? '')
+        <div class="footer-main"><a class="footer-brand" href="{{ route('home') }}"><img src="{{ ($settings['branding.horizontal_logo'] ?? '') ?: asset('assets/beal-horizontal-logo.png') }}" alt="{{ $settings['general.site_name'] ?? 'BEAL Consulting' }}" width="2167" height="726"></a><div class="footer-statement">{{ $settings['footer.statement'] ?? 'Independent thinking. Informed decisions.' }}</div><div class="footer-nav"><span>{{ $settings['footer.explore_label'] ?? 'EXPLORE' }}</span>@foreach(($settings['footer.navigation'] ?? []) as $item) @if($item['enabled'] ?? true)<a href="{{ str_starts_with($item['url'],'#') ? route('home').$item['url'] : $item['url'] }}">{{ $item['label'] }}</a>@endif @endforeach</div><div class="footer-nav"><span>{{ $settings['footer.contact_label'] ?? 'CONNECT' }}</span><a href="{{ filled($publicEmail) ? 'mailto:'.$publicEmail : route('home').'#contact' }}">{{ $publicEmail ?: 'Contact BEAL' }}</a>@if(filled($publicPhone))<a href="tel:{{ preg_replace('/[^+0-9]/', '', $publicPhone) }}">{{ $publicPhone }}</a>@endif @if(filled($publicLocation))<span>{{ $publicLocation }}</span>@endif @if(filled($publicMapLink))<a href="{{ $publicMapLink }}" rel="noopener noreferrer" target="_blank">View location <span aria-hidden="true">↗</span></a>@endif @if(filled($publicHours))<span>{{ $publicHours }}</span>@endif @foreach(($settings['footer.social_links'] ?? []) as $social) @if($social['enabled']??true)<a href="{{ $social['url'] }}" rel="noopener noreferrer" target="_blank">{{ $social['label']??'Social' }}</a>@endif @endforeach</div></div>
         <div class="footer-legal"><span>{{ str_replace(':year', date('Y'), $settings['general.copyright'] ?? '© :year BEAL Consulting Ltd') }}</span><span>Precision in Every Project.</span><a href="{{ route('home') }}#top">Back to top ↑</a></div>
     </footer>
     <x-enquiry-dialog />

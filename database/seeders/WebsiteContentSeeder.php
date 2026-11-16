@@ -89,18 +89,18 @@ class WebsiteContentSeeder extends Seeder
         }
 
         $sectors = [
-            'real-estate-property-development' => ['Real estate & property development', 'Property development decisions connect strategic research, feasibility and development advisory, project governance and analytical decision support.'],
-            'infrastructure-transport' => ['Infrastructure & transport', 'BEAL identifies infrastructure and transport as an intended sector focus. Its stated services include infrastructure development advisory, project management, governance, risk and decision support.'],
-            'commercial-institutional-development' => ['Commercial & institutional developments', 'BEAL’s brief includes commercial and institutional developments in its intended sector coverage. Its service offer connects strategic advice, project delivery, governance and technical coordination.'],
-            'industrial-manufacturing' => ['Industrial & manufacturing', 'BEAL’s stated capabilities include development advisory, project controls, technical coordination, performance monitoring and analytical tools relevant to complex industrial projects.'],
-            'energy-utilities' => ['Energy & utilities', 'Energy and utilities form part of BEAL’s intended sector coverage. The service offer includes feasibility and development advisory, project intelligence, governance, risk management and performance analytics.'],
-            'public-sector-development-programmes' => ['Public sector & development programmes', 'BEAL’s brief identifies public sector and development programmes among its intended sectors. Relevant capabilities include programme management, portfolio oversight, monitoring and reporting, and decision support.'],
+            'real-estate-property-development' => ['Real estate & property development', 'We connect strategic research, feasibility and development advice with project governance and analytical support to inform property development decisions.'],
+            'infrastructure-transport' => ['Infrastructure & transport', 'We support infrastructure and transport projects with development advisory, project management, governance, risk management and decision support.'],
+            'commercial-institutional-development' => ['Commercial & institutional developments', 'We connect strategic advice, project delivery, governance and technical coordination to support commercial and institutional developments.'],
+            'industrial-manufacturing' => ['Industrial & manufacturing', 'We bring development advisory, project controls, technical coordination, performance monitoring and analytical tools to complex industrial projects.'],
+            'energy-utilities' => ['Energy & utilities', 'We support energy and utilities projects with feasibility and development advice, project intelligence, governance, risk management and performance analytics.'],
+            'public-sector-development-programmes' => ['Public sector & development programmes', 'We support public sector and development programmes with programme management, portfolio oversight, monitoring, reporting and decision support.'],
         ];
 
         foreach ($sectors as $slug => [$title, $summary]) {
             ContentEntry::query()->firstOrCreate(
                 ['type' => 'sector', 'slug' => $slug],
-                ['title' => $title, 'summary' => $summary, 'content_html' => '<p>'.e($summary).'</p><p>This sector overview describes BEAL’s stated service offer and intended coverage. It is not a claim of a specific completed engagement.</p>', 'status' => 'published', 'sort_order' => (array_search($slug, array_keys($sectors), true) + 1) * 10, 'seo_title' => $title.' | BEAL Consulting', 'seo_description' => $summary],
+                ['title' => $title, 'summary' => $summary, 'content_html' => '<p>'.e($summary).'</p><p>Explore how we connect strategic advice, project management and governance to support informed decisions from early planning through delivery.</p>', 'status' => 'published', 'sort_order' => (array_search($slug, array_keys($sectors), true) + 1) * 10, 'seo_title' => $title.' | BEAL Consulting', 'seo_description' => $summary],
             );
         }
 

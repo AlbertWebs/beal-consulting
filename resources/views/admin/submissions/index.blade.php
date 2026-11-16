@@ -1,5 +1,55 @@
 @extends('admin.layouts.app', ['title' => 'Enquiries'])
+
 @section('content')
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><div><p class="cms-muted" style="margin:0">COMMUNICATION</p><h1 class="cms-title">Enquiries</h1><p class="cms-muted">Website form submissions are stored securely here.</p></div><a class="cms-button" href="{{ route('admin.submissions.export') }}">Export CSV ↓</a></div>
-<div class="cms-card"><form method="get" class="cms-actions" style="margin-bottom:16px"><input class="cms-input" name="q" value="{{ request('q') }}" placeholder="Search name or email" style="max-width:300px"><select class="cms-select" name="status" style="max-width:180px"><option value="">All statuses</option>@foreach(['new','read','in_progress','handled','spam'] as $status)<option value="{{ $status }}" @selected(request('status')===$status)>{{ str($status)->replace('_',' ')->title() }}</option>@endforeach</select><button class="cms-button">Filter</button></form><table class="cms-table"><thead><tr><th>Received</th><th>Contact</th><th>Company</th><th>Service</th><th>Status</th><th></th></tr></thead><tbody>@forelse($submissions as $submission)<tr><td>{{ $submission->created_at->format('M j, Y H:i') }}</td><td><strong>{{ $submission->name }}</strong><br><a href="mailto:{{ $submission->email }}">{{ $submission->email }}</a></td><td>{{ $submission->company ?: '—' }}</td><td>{{ $submission->service ?: '—' }}</td><td>{{ str($submission->status)->replace('_',' ')->title() }}</td><td><a class="cms-button" href="{{ route('admin.submissions.show',$submission) }}">Read</a></td></tr>@empty<tr><td colspan="6" class="cms-muted">No enquiries received yet.</td></tr>@endforelse</tbody></table><div style="margin-top:14px">{{ $submissions->links() }}</div></div>
+    <header class="cms-page-heading">
+        <div>
+            <p class="cms-page-eyebrow">COMMUNICATION</p>
+            <h1 class="cms-title">Enquiries</h1>
+            <p class="cms-page-intro">Website form submissions are stored securely here.</p>
+        </div>
+        <a class="cms-button cms-button-gold" href="{{ route('admin.submissions.export') }}">Export CSV <span aria-hidden="true">↓</span></a>
+    </header>
+
+    <section class="cms-card" aria-label="Enquiry records">
+        <form method="get" class="cms-actions cms-table-filters">
+            <label class="cms-table-filter-search">
+                <span class="cms-visually-hidden">Search enquiries by name or email</span>
+                <input class="cms-input" name="q" value="{{ request('q') }}" placeholder="Search name or email">
+            </label>
+            <label class="cms-table-filter-status">
+                <span class="cms-visually-hidden">Filter enquiries by status</span>
+                <select class="cms-select" name="status" aria-label="Filter enquiries by status">
+                    <option value="">All statuses</option>
+                    @foreach(['new', 'read', 'in_progress', 'handled', 'spam'] as $status)
+                        <option value="{{ $status }}" @selected(request('status') === $status)>{{ str($status)->replace('_', ' ')->title() }}</option>
+                    @endforeach
+                </select>
+            </label>
+            <button class="cms-button" type="submit">Filter enquiries</button>
+        </form>
+
+        <div class="cms-table-scroll">
+            <table class="cms-table">
+                <caption class="cms-table-caption">Enquiries received from the website contact form</caption>
+                <thead>
+                    <tr><th scope="col">Received</th><th scope="col">Contact</th><th scope="col">Company</th><th scope="col">Service</th><th scope="col">Status</th><th scope="col"><span class="cms-visually-hidden">Actions</span></th></tr>
+                </thead>
+                <tbody>
+                    @forelse($submissions as $submission)
+                        <tr>
+                            <td data-label="Received"><time class="cms-page-updated" datetime="{{ $submission->created_at->toIso8601String() }}">{{ $submission->created_at->format('M j, Y') }}</time><span class="cms-table-subtext">{{ $submission->created_at->format('g:i A') }}</span></td>
+                            <td data-label="Contact"><strong>{{ $submission->name }}</strong><span class="cms-table-subtext"><a href="mailto:{{ $submission->email }}">{{ $submission->email }}</a></span></td>
+                            <td data-label="Company">{{ $submission->company ?: '-' }}</td>
+                            <td data-label="Service">{{ $submission->service ?: '-' }}</td>
+                            <td data-label="Status"><span class="cms-status-pill cms-status-{{ $submission->status }}">{{ str($submission->status)->replace('_', ' ')->title() }}</span></td>
+                            <td data-label="Action"><a class="cms-table-action" href="{{ route('admin.submissions.show', $submission) }}">Read <span aria-hidden="true">↗</span></a></td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="6" class="cms-table-empty">No enquiries match these filters.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        <div class="cms-table-pagination">{{ $submissions->links() }}</div>
+    </section>
 @endsection

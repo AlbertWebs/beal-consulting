@@ -17,8 +17,26 @@ class SettingsController extends Controller
     {
         $groups = config('cms.settings');
         abort_unless(array_key_exists($group, $groups), 404);
+        $settings = app(WebsiteSettings::class);
+        $values = $settings->group($group);
 
-        return view('admin.settings.edit', ['group' => $group, 'groups' => $groups, 'values' => app(WebsiteSettings::class)->group($group)]);
+        if ($group === 'contact') {
+            $legacyKeys = [
+                'email' => 'general.public_email',
+                'phone' => 'general.phone',
+                'location' => 'general.address',
+                'maps_url' => 'general.maps_url',
+                'business_hours' => 'general.business_hours',
+            ];
+
+            foreach ($legacyKeys as $key => $legacyKey) {
+                if (! array_key_exists($key, $values)) {
+                    $values[$key] = $settings->get($legacyKey, $groups['contact'][$key]);
+                }
+            }
+        }
+
+        return view('admin.settings.edit', ['group' => $group, 'groups' => $groups, 'values' => $values]);
     }
 
     public function update(Request $request, string $group, WebsiteSettings $settings, CmsAuditLogger $audit): RedirectResponse
@@ -64,7 +82,7 @@ class SettingsController extends Controller
                     abort_unless(is_string($value) && preg_match('/^#[0-9a-fA-F]{6}$/', $value) === 1, 422, 'Brand colors must be six digit hexadecimal values.');
                 }
 
-                if (in_array($key, ['public_email', 'contact_recipient_email'], true) && $value !== '') {
+                if (in_array($key, ['public_email', 'contact_recipient_email', 'email'], true) && $value !== '') {
                     validator(['email' => $value], ['email' => ['email', 'max:254']])->validate();
                 }
 

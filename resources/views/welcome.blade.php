@@ -31,13 +31,13 @@
         <div class="topline-inner">
             <span class="topline-location"><span class="location-mark" aria-hidden="true"></span>Nairobi, Kenya <span class="topline-divider">/</span> Across Africa</span>
             <span class="topline-note">Independent thinking. Informed decisions.</span>
-            <span class="topline-index">Strategic advisory <span>—</span> Infrastructure intelligence</span>
+            <span class="topline-index">Strategic advisory <span>-</span> Infrastructure intelligence</span>
         </div>
     </div>
     <header class="site-header" data-header>
         <div class="header-inner">
             <a class="brand" href="#top" aria-label="BEAL Consulting home">
-                <img src="{{ asset('assets/beal-horizontal-logo.png') }}" alt="BEAL Consulting — Precision in Every Project" width="2167" height="726">
+                <img src="{{ asset('assets/beal-horizontal-logo.png') }}" alt="BEAL Consulting - Precision in Every Project" width="2167" height="726">
             </a>
             <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="primary-navigation" data-menu-toggle>
                 <span></span><span></span><span></span>
@@ -80,7 +80,7 @@
                 <div class="art-caption"><span>PROJECT INTELLIGENCE</span><b>Insight that moves<br>decisions forward.</b></div>
                 <div class="art-coordinate coordinate-two">S 01° 17' <span>E 36° 49'</span></div>
             </div>
-            <div class="hero-bottom"><span>Precision in every project.</span><span class="hero-bottom-line"></span><span>01 — 05</span></div>
+            <div class="hero-bottom"><span>Precision in every project.</span><span class="hero-bottom-line"></span><span>01 - 05</span></div>
         </section>
 
         <section class="intro-section section-pad" id="about" aria-labelledby="intro-title">
@@ -88,7 +88,7 @@
             <div class="intro-layout">
                 <h2 id="intro-title">Complexity deserves <em>clear thinking.</em></h2>
                 <div class="intro-copy">
-                    <p class="lead-copy">BEAL is an intelligence-led strategic advisory and infrastructure consultancy, bringing analytical capability and technical perspective to the decisions that shape projects.</p>
+                    <p class="lead-copy">We are an intelligence-led strategic advisory and infrastructure consultancy. We bring analytical insight and technical perspective to the decisions that shape projects.</p>
                     <p>We look beyond the immediate task to understand context, connect information and help decision-makers move forward with confidence.</p>
                     <a class="text-link text-link-navy" href="#services">How we work <span aria-hidden="true">↗</span></a>
                 </div>
@@ -104,7 +104,7 @@
         <section class="services-section section-pad" id="services" aria-labelledby="services-title">
             <div class="section-index"><span>02</span><span class="index-rule"></span><span>OUR SERVICES</span></div>
             <div class="section-heading-row">
-                <h2 id="services-title">Perspective for the<br><em>whole project lifecycle.</em></h2>
+                <h2 id="services-title">Perspective for the <em>whole project lifecycle.</em></h2>
                 <p>Five connected disciplines. One considered view of the decisions, risks and opportunities that shape project outcomes.</p>
             </div>
             <div class="service-list">
@@ -148,7 +148,7 @@
         </section>
 
         <section class="contact-section" id="contact" aria-labelledby="contact-title">
-            <div class="contact-inner"><div class="section-index section-index-light"><span>06</span><span class="index-rule"></span><span>START A CONVERSATION</span></div><div class="contact-layout"><h2 id="contact-title">Better decisions<br>begin with <em>a conversation.</em></h2><div><p>Tell us about your project or question. The BEAL team will be in touch.</p><button class="button button-gold" type="button" data-enquiry-open>Get in touch <span aria-hidden="true">↗</span></button></div></div><div class="contact-bottom"><img src="{{ asset('assets/beal-logo.png') }}" alt="" width="1276" height="1233"><span>Clarity in Projects.<br>Confidence in Decisions.</span><span class="contact-bottom-tag">Precision in Every Project.</span></div></div>
+            <div class="contact-inner"><div class="section-index section-index-light"><span>06</span><span class="index-rule"></span><span>START A CONVERSATION</span></div><div class="contact-layout"><h2 id="contact-title">Better decisions<br>begin with <em>a conversation.</em></h2><div><p>Tell us about your project or question, and our team will be in touch.</p><button class="button button-gold" type="button" data-enquiry-open>Get in touch <span aria-hidden="true">↗</span></button></div></div><div class="contact-bottom"><img src="{{ asset('assets/beal-logo.png') }}" alt="" width="1276" height="1233"><span>Clarity in Projects.<br>Confidence in Decisions.</span><span class="contact-bottom-tag">Precision in Every Project.</span></div></div>
         </section>
     </main>
 

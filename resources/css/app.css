@@ -24,3 +24,17 @@
 
 html.has-scroll-reveal .scroll-reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.65,.25,1);transition-delay:var(--reveal-delay,0ms)}html.has-scroll-reveal .scroll-reveal.is-revealed{opacity:1;transform:translateY(0)}@media(max-width:760px){html.has-scroll-reveal .scroll-reveal{transform:translateY(15px)}}
 .header-cta[aria-current=page]{background:var(--gold);color:var(--navy)}
+.footer-nav>span:first-child{padding-bottom:9px;border-bottom:1px solid rgba(200,161,93,.72);margin-bottom:5px}
+.site-footer{padding-top:52px;border-top:1px solid #e7e3da;background:#f6f5f1}
+.footer-main{grid-template-columns:minmax(165px,.9fr) minmax(230px,1.2fr) minmax(160px,.8fr) minmax(190px,.9fr);gap:clamp(24px,2.7vw,42px);padding-bottom:42px}
+.footer-brand{width:180px}
+.footer-statement{max-width:300px;font-size:20px;line-height:1.4}
+.footer-nav{gap:11px;color:#4c5967}
+.footer-nav>span:first-child{padding-bottom:11px;border-bottom:1px solid rgba(200,161,93,.72);margin-bottom:7px;font-size:13px}
+.footer-nav a{width:fit-content;line-height:1.5;transition:color .18s ease,text-decoration-color .18s ease}
+.footer-nav a:hover{color:#9b7439;text-decoration:underline;text-decoration-color:#c8a15d;text-underline-offset:4px}
+.footer-nav a:focus-visible,.footer-legal a:focus-visible{outline:2px solid #a77e36;outline-offset:4px}
+.footer-legal{min-height:60px;font-size:14px}
+@media(max-width:1020px){.footer-main{grid-template-columns:repeat(2,minmax(0,1fr));gap:27px 22px}}
+@media(max-width:760px){.site-footer{padding-top:38px}.footer-main{grid-template-columns:repeat(2,minmax(0,1fr));gap:27px 20px;padding-bottom:29px}.footer-brand{width:160px}.footer-statement{font-size:17px}.footer-nav{min-width:0}.footer-legal{min-height:0;padding:15px 0;font-size:13px}}
+@media(max-width:460px){.footer-main{grid-template-columns:1fr;gap:22px}.footer-brand{width:170px}.footer-statement{max-width:none}.footer-nav{max-width:100%}.footer-legal{align-items:flex-start;flex-direction:column;gap:9px}.footer-legal span:nth-child(2){display:block}}
