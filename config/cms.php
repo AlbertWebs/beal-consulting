@@ -437,7 +437,7 @@ return [
             ],
             'social_links' => [
                 ['label' => 'LinkedIn', 'url' => 'https://ke.linkedin.com/company/beal-consulting-ltdke', 'enabled' => true],
-                ['label' => 'Facebook', 'url' => '', 'enabled' => true],
+                ['label' => 'Facebook', 'url' => 'https://www.facebook.com/', 'enabled' => true],
             ],
         ],
         'seo' => [

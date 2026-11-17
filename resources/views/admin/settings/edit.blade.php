@@ -21,7 +21,7 @@
                     <label class="cms-label" for="setting-{{ $key }}">{{ $label }}</label>
                     @if(is_array($default))
                         <textarea class="cms-input" id="setting-{{ $key }}" rows="8" name="settings[{{ $key }}]">{{ json_encode($values[$key] ?? $default, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) }}</textarea>
-                        <small class="cms-muted">@if($group === 'footer' && $key === 'social_links')Add each profile label and URL here. Links with a blank URL will stay hidden from the footer. The Facebook URL still needs to be added.@else Structured setting. Edit as JSON.@endif</small>
+                        <small class="cms-muted">@if($group === 'footer' && $key === 'social_links')Add or update the profile labels and URLs here. Links with a blank URL stay hidden from the footer.@else Structured setting. Edit as JSON.@endif</small>
                     @else
                         <input class="cms-input" id="setting-{{ $key }}" name="settings[{{ $key }}]" value="{{ old('settings.'.$key, $values[$key] ?? $default) }}" @if(str_contains($key, 'email')) type="email" @elseif(str_contains($key, 'url')) type="url" @elseif(str_contains($key, 'color')) type="color" @else type="text" @endif>
                         @if($group === 'contact')
