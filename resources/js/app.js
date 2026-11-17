@@ -212,6 +212,12 @@ const revealSelectors = [
     '.service-related-heading',
     '.service-related-card',
     '.service-detail-cta-row',
+    '.secondary-experience-section > .secondary-index',
+    '.secondary-experience-heading',
+    '.secondary-experience-areas',
+    '.secondary-project-exposure',
+    '.secondary-experience-areas li',
+    '.secondary-project-exposure li',
 ];
 
 const revealElements = document.querySelectorAll(revealSelectors.join(','));
