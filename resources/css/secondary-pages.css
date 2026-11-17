@@ -101,6 +101,8 @@
 .secondary-team-portrait-placeholder span{color:#d1ad6b;font-family:Georgia,serif;font-size:clamp(62px,8vw,96px);font-style:italic;line-height:1}
 .secondary-team-card-content{padding:25px 30px 29px}
 @media(max-width:760px){.secondary-leadership .secondary-profile-grid{grid-template-columns:1fr}.secondary-team-card-content{padding:21px 22px 24px}}
+.secondary-team-portrait{width:160px;max-width:calc(100% - 48px);aspect-ratio:1;margin:24px 0 0 30px}
+@media(max-width:760px){.secondary-team-portrait{width:140px;margin:20px 0 0 22px}}
 .secondary-team-network{display:grid;grid-template-columns:minmax(260px,.8fr) minmax(0,1.2fr);gap:28px 8%;margin-top:24px;padding:30px 32px;border:1px solid #dedbd3;background:#eeece6}
 .secondary-team-network-heading>span{display:block;margin-bottom:14px;color:#a17c3e;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
 .secondary-team-network-heading h3{margin:0 0 15px;color:var(--navy);font-size:clamp(25px,3vw,35px);font-weight:500;line-height:1.14;letter-spacing:-.035em}
