@@ -262,3 +262,6 @@
 .secondary-attribution-note p{margin:0}
 @media(max-width:900px){.secondary-experience{grid-template-columns:1fr;gap:16px;margin-top:44px;padding-top:30px}.secondary-experience-section .secondary-experience{margin-top:0;padding-top:0}.secondary-experience-heading{grid-row:auto}.secondary-project-exposure{grid-column:auto}.secondary-experience-heading h2 br{display:none}}
 @media(max-width:760px){.secondary-leadership{padding:60px 24px 66px}.secondary-leadership>.secondary-intro-grid{margin:27px 0 23px}.secondary-leadership .secondary-profile-grid{grid-template-columns:1fr}.secondary-team-card{padding:22px}.secondary-team-bio{font-size:15px}.secondary-experience-section{padding:58px 24px 64px}.secondary-experience-section>.secondary-index{margin-bottom:23px}.secondary-experience{gap:12px;margin-top:35px;padding-top:25px}.secondary-experience-section .secondary-experience{margin-top:0;padding-top:0}.secondary-experience-heading h2{font-size:36px}.secondary-experience-areas,.secondary-project-exposure{padding:20px}.secondary-experience-areas ul,.secondary-project-exposure ul{grid-template-columns:1fr;gap:0}}
+.secondary-team-card-founder{align-items:start}
+.secondary-team-card-founder .secondary-team-portrait{margin-top:14px}
+@media(max-width:760px){.secondary-team-card-founder .secondary-team-portrait{margin-top:0}}
