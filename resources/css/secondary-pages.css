@@ -265,3 +265,24 @@
 .secondary-team-card-founder{align-items:start}
 .secondary-team-card-founder .secondary-team-portrait{margin-top:14px}
 @media(max-width:760px){.secondary-team-card-founder .secondary-team-portrait{margin-top:0}}
+.secondary-leadership.section-pad{width:100%;max-width:none;margin-left:0;margin-right:0;padding:27px clamp(30px,5.2vw,80px) 42px;overflow:hidden;background:#faf9f6}
+.secondary-leadership:before{position:absolute;z-index:0;top:0;right:0;width:min(80%,1160px);height:460px;background:url('/assets/home-image/glass-architecture.jpg') right 18%/cover no-repeat;opacity:.14;filter:grayscale(1) saturate(.7);mask-image:linear-gradient(180deg,#000 0%,#000 40%,transparent 100%);content:"";pointer-events:none}
+.secondary-leadership>*{position:relative;z-index:1}
+.secondary-leadership>.secondary-intro-grid{margin:23px 0 30px}
+.secondary-team-card-founder{grid-template-columns:minmax(280px,31%) minmax(0,1fr);min-height:390px;padding:18px 35px 18px 20px}
+.secondary-team-card-founder:before{width:20%}
+.secondary-team-card-founder .secondary-team-portrait{height:clamp(300px,24vw,350px);margin-top:14px;border:4px solid #fff;border-radius:17px;clip-path:polygon(16% 0,100% 0,100% 100%,0 100%,0 62%)}
+@media(max-width:760px){.secondary-leadership.section-pad{padding:58px 24px 64px}.secondary-leadership:before{width:100%;height:340px;background-position:right top;background-size:auto 340px;opacity:.11}.secondary-team-card-founder{min-height:0;padding:14px 16px 22px}.secondary-team-card-founder:before{width:45%;height:225px}.secondary-team-card-founder .secondary-team-portrait{height:230px;margin:0;border-width:3px;clip-path:none}}
+.secondary-leadership>.secondary-intro-grid{grid-template-columns:minmax(0,.6fr) minmax(0,1.4fr);gap:3%}
+.secondary-leadership>.secondary-intro-grid h2{font-size:clamp(40px,3.8vw,56px)}
+.secondary-leadership:before{opacity:.1}
+.secondary-leadership .secondary-team-card-founder{padding:18px 35px 18px 20px}
+.secondary-team-network{margin:0 clamp(-30px,-2vw,-20px) 0}
+@media(max-width:760px){.secondary-leadership>.secondary-intro-grid{grid-template-columns:1fr;gap:19px}.secondary-leadership>.secondary-intro-grid h2{font-size:clamp(40px,10vw,52px)}.secondary-leadership .secondary-team-card-founder{padding:14px 16px 22px}.secondary-team-network{margin:0}}
+.secondary-leadership>.secondary-intro-grid>div{max-width:650px}
+.secondary-team-card-founder{grid-template-columns:minmax(280px,29.5%) minmax(0,1fr);gap:clamp(22px,3.3vw,52px)}
+.secondary-leadership .secondary-team-card-founder{padding:18px clamp(24px,3.3vw,50px) 18px 0}
+.secondary-team-card-founder:before{width:16.5%}
+.secondary-team-card-founder .secondary-team-bio{line-height:1.42}
+.secondary-team-card-founder .secondary-team-bio p{margin-bottom:6px}
+@media(max-width:760px){.secondary-team-card-founder{grid-template-columns:1fr;gap:16px}.secondary-leadership .secondary-team-card-founder{padding:14px 16px 22px}.secondary-team-card-founder:before{width:45%}.secondary-team-card-founder .secondary-team-bio{line-height:1.42}}
