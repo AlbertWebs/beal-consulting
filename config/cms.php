@@ -234,9 +234,21 @@ return [
             'fields' => [
                 'introduction' => ['label' => 'Team introduction', 'type' => 'richtext'],
                 'profiles_json' => ['label' => 'Team members (JSON list)', 'type' => 'json'],
+                'network_introduction' => ['label' => 'Wider team introduction', 'type' => 'richtext'],
+                'team_capabilities_json' => ['label' => 'Wider team expertise (JSON list)', 'type' => 'json'],
+                'team_explore_label' => ['label' => 'Wider team link label', 'type' => 'text'],
+                'team_explore_url' => ['label' => 'Wider team link destination', 'type' => 'url'],
             ],
             'defaults' => [
                 'introduction' => '<p>Meet the people who bring practical delivery experience, technical understanding and project leadership to BEAL Consulting.</p>',
+                'network_introduction' => '<p>We draw on a wider network of experienced professionals and specialist consultants, bringing the right expertise to each project.</p>',
+                'team_capabilities' => [
+                    ['title' => 'Project & programme management', 'description' => 'Planning, programme controls and delivery oversight.'],
+                    ['title' => 'Construction & site delivery', 'description' => 'Construction management, quality assurance and multidisciplinary coordination.'],
+                    ['title' => 'Technical & specialist advisory', 'description' => 'Technical interfaces, procurement and project specific specialist input.'],
+                ],
+                'team_explore_label' => 'Explore our experience',
+                'team_explore_url' => '#professional-experience',
                 'profiles' => [[
                     'name' => 'Benson Mathia Ng’ang’a',
                     'role' => 'Founder & Director | PMP® | Construction & Project Management Professional',

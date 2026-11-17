@@ -125,6 +125,28 @@
                         </article>
                     @endforeach
                 </div>
+                @if (!empty($leadership['team_capabilities']))
+                    <div class="secondary-team-network">
+                        <div class="secondary-team-network-heading">
+                            <span>Wider team</span>
+                            <h3>More expertise.<br><em>One connected team.</em></h3>
+                            @if (filled(strip_tags($leadership['network_introduction'] ?? '')))
+                                <div>{!! $leadership['network_introduction'] !!}</div>
+                            @endif
+                            <a href="{{ $leadership['team_explore_url'] ?? '#professional-experience' }}">{{ $leadership['team_explore_label'] ?? 'Explore our experience' }} <span aria-hidden="true">↗</span></a>
+                        </div>
+                        <ol>
+                            @foreach ($leadership['team_capabilities'] as $capability)
+                                @if (is_array($capability) && filled($capability['title'] ?? ''))
+                                    <li>
+                                        <span>{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                                        <div><h4>{{ $capability['title'] }}</h4><p>{{ $capability['description'] ?? '' }}</p></div>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ol>
+                    </div>
+                @endif
             </section>
         @endif
     @endif
@@ -132,7 +154,7 @@
     @if (($visible['about_experience'] ?? true) && isset($content['about_experience']))
         @php($experience = $content['about_experience'])
         @if (filled(strip_tags($experience['experience_introduction'] ?? '')) || !empty($experience['experience_areas']) || !empty($experience['projects']))
-            <section class="secondary-experience-section section-pad" style="order:{{ $sectionOrders['about_experience'] ?? 50 }}">
+            <section id="professional-experience" class="secondary-experience-section section-pad" style="order:{{ $sectionOrders['about_experience'] ?? 50 }}">
                 <div class="secondary-index"><span>05</span><i></i><span>PROFESSIONAL EXPERIENCE &amp; PROJECT EXPOSURE</span></div>
                 <div class="secondary-experience">
                     <div class="secondary-experience-heading">
