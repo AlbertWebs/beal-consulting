@@ -214,11 +214,12 @@ return [
         ],
         'about_profile' => [
             'label' => 'Mission, vision & values', 'position' => 30,
-            'fields' => ['mission' => ['label' => 'Mission', 'type' => 'richtext'], 'vision' => ['label' => 'Vision', 'type' => 'richtext'], 'philosophy' => ['label' => 'Corporate philosophy', 'type' => 'richtext'], 'values_json' => ['label' => 'Core values (JSON list)', 'type' => 'json']],
+            'fields' => ['mission' => ['label' => 'Mission', 'type' => 'richtext'], 'vision' => ['label' => 'Vision', 'type' => 'richtext'], 'philosophy' => ['label' => 'Corporate philosophy', 'type' => 'richtext'], 'commitment' => ['label' => 'Our commitment', 'type' => 'richtext'], 'values_json' => ['label' => 'Core values (JSON list)', 'type' => 'json']],
             'defaults' => [
                 'mission' => '<p>To bring intelligence, strategic insight and professional expertise to complex projects and infrastructure decisions, helping clients evaluate choices and move forward with clarity.</p>',
-                'vision' => '<p>To build a trusted African consultancy that supports better project outcomes through analytical capability, technical competence and forward-looking advisory.</p>',
+                'vision' => '<p>To become a trusted African project advisory and built-environment consultancy, recognised for professional excellence, effective project governance and the successful delivery of sustainable development initiatives.</p>',
                 'philosophy' => '<p>We look beyond the immediate task. By understanding context, connecting information and considering delivery implications, we help clients make informed decisions with confidence.</p>',
+                'commitment' => '<p>We are committed to bringing clarity to complex projects, strengthening accountability and helping clients translate development objectives into measurable project outcomes.</p>',
                 'values' => [
                     'Intelligence and analytical thinking',
                     'Professionalism and institutional credibility',

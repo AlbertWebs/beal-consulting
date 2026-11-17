@@ -55,7 +55,7 @@
         @endif
     @endif
 
-    @if (($visible['about_profile'] ?? true) && isset($content['about_profile']) && (filled(strip_tags($content['about_profile']['mission'] ?? '')) || filled(strip_tags($content['about_profile']['vision'] ?? '')) || filled(strip_tags($content['about_profile']['philosophy'] ?? '')) || !empty($content['about_profile']['values'])))
+    @if (($visible['about_profile'] ?? true) && isset($content['about_profile']) && (filled(strip_tags($content['about_profile']['mission'] ?? '')) || filled(strip_tags($content['about_profile']['vision'] ?? '')) || filled(strip_tags($content['about_profile']['philosophy'] ?? '')) || filled(strip_tags($content['about_profile']['commitment'] ?? '')) || !empty($content['about_profile']['values'])))
         @php($profile = $content['about_profile'])
         <section class="secondary-values secondary-about-values section-pad" style="order:{{ $sectionOrders['about_profile'] ?? 30 }}">
             <div class="secondary-index"><span>03</span><i></i><span>OUR PERSPECTIVE</span></div>
@@ -67,6 +67,15 @@
                     @endif
                 @endforeach
             </div>
+            @if (filled(strip_tags($profile['commitment'] ?? '')))
+                <div class="secondary-commitment">
+                    <div class="secondary-commitment-heading">
+                        <span>Our commitment</span>
+                        <h3>Clarity in projects,<br><em>confidence in decisions.</em></h3>
+                    </div>
+                    <div class="secondary-commitment-copy">{!! $profile['commitment'] !!}</div>
+                </div>
+            @endif
             @if (!empty($profile['values']))
                 <div class="secondary-principles">
                     <h3>Core values</h3>
