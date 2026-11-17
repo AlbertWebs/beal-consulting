@@ -435,7 +435,10 @@ return [
                 ['label' => 'Our Services', 'url' => '#services', 'enabled' => true],
                 ['label' => 'Insights & Intelligence', 'url' => '#insights', 'enabled' => true],
             ],
-            'social_links' => [],
+            'social_links' => [
+                ['label' => 'LinkedIn', 'url' => 'https://ke.linkedin.com/company/beal-consulting-ltdke', 'enabled' => true],
+                ['label' => 'Facebook', 'url' => '', 'enabled' => true],
+            ],
         ],
         'seo' => [
             'title' => 'BEAL Consulting | Clarity in Projects. Confidence in Decisions.',

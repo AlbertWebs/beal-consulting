@@ -16,12 +16,12 @@
         @method('PUT')
         <div class="cms-settings-fields">
             @foreach($groups[$group] as $key => $default)
-                @php($label = $group === 'contact' ? ['email' => 'Public email', 'phone' => 'Public phone number', 'location' => 'Office location', 'maps_url' => 'Map link', 'business_hours' => 'Business hours'][$key] : str($key)->replace('_', ' ')->title())
+                @php($label = $group === 'contact' ? ['email' => 'Public email', 'phone' => 'Public phone number', 'location' => 'Office location', 'maps_url' => 'Map link', 'business_hours' => 'Business hours'][$key] : ($group === 'footer' && $key === 'social_links' ? 'Social links' : str($key)->replace('_', ' ')->title()))
                 <div class="cms-field">
                     <label class="cms-label" for="setting-{{ $key }}">{{ $label }}</label>
                     @if(is_array($default))
                         <textarea class="cms-input" id="setting-{{ $key }}" rows="8" name="settings[{{ $key }}]">{{ json_encode($values[$key] ?? $default, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) }}</textarea>
-                        <small class="cms-muted">Structured setting. Edit as JSON.</small>
+                        <small class="cms-muted">@if($group === 'footer' && $key === 'social_links')Add each profile label and URL here. Links with a blank URL will stay hidden from the footer. The Facebook URL still needs to be added.@else Structured setting. Edit as JSON.@endif</small>
                     @else
                         <input class="cms-input" id="setting-{{ $key }}" name="settings[{{ $key }}]" value="{{ old('settings.'.$key, $values[$key] ?? $default) }}" @if(str_contains($key, 'email')) type="email" @elseif(str_contains($key, 'url')) type="url" @elseif(str_contains($key, 'color')) type="color" @else type="text" @endif>
                         @if($group === 'contact')
