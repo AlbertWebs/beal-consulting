@@ -28,8 +28,8 @@ class FounderProjectDraftsSeeder extends Seeder
             $draftData = [
                 'title' => $title,
                 'slug' => $slug,
-                'summary' => '',
-                'content_html' => '',
+                'summary' => 'Project experience gained by the Founding Director through a previous professional engagement.',
+                'content_html' => '<p>This project is included as part of the Founding Director’s professional experience. It is not presented as an engagement contracted by BEAL Consulting Ltd.</p>',
                 'category' => '',
                 'author' => '',
                 'location' => '',
@@ -47,15 +47,27 @@ class FounderProjectDraftsSeeder extends Seeder
                 'published_at' => null,
             ];
 
-            ContentEntry::query()->firstOrCreate(
+            $entry = ContentEntry::query()->firstOrCreate(
                 ['type' => 'project', 'slug' => $slug],
                 [
                     ...$draftData,
-                    'title' => $title,
-                    'status' => 'draft',
-                    'draft_data' => $draftData,
+                    'status' => 'published',
+                    'published_at' => now(),
+                    'draft_data' => null,
                 ],
             );
+
+            $untouchedDraftData = [...$draftData, 'summary' => '', 'content_html' => ''];
+            if ($entry->wasRecentlyCreated || $entry->status !== 'draft' || $entry->draft_data != $untouchedDraftData) {
+                continue;
+            }
+
+            $entry->update([
+                ...$draftData,
+                'status' => 'published',
+                'published_at' => now(),
+                'draft_data' => null,
+            ]);
         }
     }
 }
