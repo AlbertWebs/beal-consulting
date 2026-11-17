@@ -103,39 +103,37 @@
 @media(max-width:760px){.secondary-leadership .secondary-profile-grid{grid-template-columns:1fr}.secondary-team-card-content{padding:21px 22px 24px}}
 .secondary-team-portrait{width:160px;max-width:calc(100% - 48px);aspect-ratio:1;margin:24px 0 0 30px}
 @media(max-width:760px){.secondary-team-portrait{width:140px;margin:20px 0 0 22px}}
-.secondary-team-network{display:grid;grid-template-columns:minmax(260px,.8fr) minmax(0,1.2fr);gap:28px 8%;margin-top:24px;padding:30px 32px;border:1px solid #dedbd3;background:#eeece6}
-.secondary-team-network-heading>span{display:block;margin-bottom:14px;color:#a17c3e;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
-.secondary-team-network-heading h3{margin:0 0 15px;color:var(--navy);font-size:clamp(25px,3vw,35px);font-weight:500;line-height:1.14;letter-spacing:-.035em}
+.secondary-team-card-founder{display:grid;grid-template-columns:minmax(180px,220px) minmax(0,1fr);align-items:start;gap:30px;margin-bottom:30px}
+.secondary-team-card-founder .secondary-team-portrait{margin:27px 0 0 27px}
+.secondary-team-network{display:block;margin-top:34px;padding:27px 30px;border:1px solid #dedbd3;background:#eeece6}
+.secondary-team-network-heading{display:grid;grid-template-columns:minmax(190px,.9fr) minmax(240px,1.1fr) auto;align-items:end;gap:18px 26px;margin-bottom:22px}
+.secondary-team-network-heading>span{grid-column:1/-1;display:block;margin-bottom:-10px;color:#a17c3e;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.secondary-team-network-heading h3{margin:0;color:var(--navy);font-size:clamp(25px,3vw,35px);font-weight:500;line-height:1.14;letter-spacing:-.035em}
 .secondary-team-network-heading h3 em{color:#a17c3e;font-family:Georgia,serif;font-weight:400}
-.secondary-team-network-heading>div{max-width:400px;color:#596572;font-size:14px;line-height:1.65}
+.secondary-team-network-heading>div{max-width:440px;color:#596572;font-size:14px;line-height:1.65}
 .secondary-team-network-heading>div p{margin:0}
-.secondary-team-network-heading>a{display:inline-flex;align-items:center;gap:18px;margin-top:21px;color:#8c6935;font-size:14px;font-weight:600;text-decoration:none}
+.secondary-team-network-heading>a{display:inline-flex;align-items:center;gap:18px;color:#8c6935;font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap}
 .secondary-team-network-heading>a span{font-size:18px;transition:transform .2s ease}
 .secondary-team-network-heading>a:hover span{transform:translate(3px,-3px)}
-.secondary-team-network ol{display:grid;gap:0;margin:0;padding:0;list-style:none;counter-reset:wider-team}
-.secondary-team-network li{display:grid;grid-template-columns:35px minmax(0,1fr);gap:15px;padding:17px 0;border-top:1px solid #d7d4cc}
-.secondary-team-network li:first-child{border-top:0;padding-top:2px}
-.secondary-team-network li>span{padding-top:3px;color:#a17c3e;font-size:12px;font-weight:600;letter-spacing:.1em}
-.secondary-team-network li h4{margin:0 0 5px;color:var(--navy);font-size:16px;font-weight:600;line-height:1.35}
-.secondary-team-network li p{margin:0;color:#5d6874;font-size:14px;line-height:1.55}
-@media(max-width:760px){.secondary-team-network{grid-template-columns:1fr;gap:20px;margin-top:16px;padding:23px 21px}.secondary-team-network li{padding:14px 0}}
+.secondary-wider-team-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:14px}
+.secondary-wider-team-grid .secondary-team-card{height:100%;border-top-width:2px}
+.secondary-wider-team-grid .secondary-team-card-content{padding:18px 22px 22px}
+.secondary-wider-team-grid .secondary-team-portrait{width:132px;margin:20px 0 0 22px}
+@media(max-width:900px){.secondary-team-network-heading{grid-template-columns:1fr 1fr}.secondary-team-network-heading>a{grid-column:2;grid-row:2;justify-self:start}.secondary-wider-team-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.secondary-team-card-founder{grid-template-columns:180px minmax(0,1fr);gap:20px}}
+@media(max-width:760px){.secondary-team-network{margin-top:25px;padding:22px 20px}.secondary-team-network-heading{grid-template-columns:1fr;gap:13px;margin-bottom:19px}.secondary-team-network-heading>span{grid-column:auto;margin-bottom:0}.secondary-team-network-heading>a{grid-column:auto;grid-row:auto}.secondary-wider-team-grid{grid-template-columns:1fr}.secondary-team-card-founder{grid-template-columns:1fr;gap:0;margin-bottom:24px}.secondary-team-card-founder .secondary-team-portrait{margin:20px 0 0 22px}}
 /* About page hover states stay subtle and consistent across cards and lists. */
-.secondary-approach-grid article,.secondary-about-values .secondary-values-grid article,.secondary-team-card,.secondary-team-network,.secondary-experience-areas,.secondary-project-exposure,.secondary-commitment{transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease,background-color .22s ease}
-.secondary-approach-grid article:hover,.secondary-about-values .secondary-values-grid article:hover,.secondary-team-card:hover,.secondary-team-network:hover,.secondary-experience-areas:hover,.secondary-project-exposure:hover{transform:translateY(-3px);border-color:#c8a15d;box-shadow:0 15px 34px rgba(11,27,49,.09)}
+.secondary-approach-grid article,.secondary-about-values .secondary-values-grid article,.secondary-team-card,.secondary-experience-areas,.secondary-project-exposure,.secondary-commitment{transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease,background-color .22s ease}
+.secondary-approach-grid article:hover,.secondary-about-values .secondary-values-grid article:hover,.secondary-team-card:hover,.secondary-experience-areas:hover,.secondary-project-exposure:hover{transform:translateY(-3px);border-color:#c8a15d;box-shadow:0 15px 34px rgba(11,27,49,.09)}
 .secondary-approach-grid article:hover{background:#fff}
 .secondary-team-portrait img{transition:transform .45s cubic-bezier(.2,.65,.25,1)}
 .secondary-team-card:hover .secondary-team-portrait img{transform:scale(1.045)}
-.secondary-team-network li{transition:padding-left .2s ease,border-color .2s ease}
-.secondary-team-network li:hover{padding-left:5px;border-color:#c8a15d}
-.secondary-team-network li h4{transition:color .2s ease}
-.secondary-team-network li:hover h4{color:#926b34}
 .secondary-experience-areas li,.secondary-project-exposure li{transition:color .2s ease,transform .2s ease}
 .secondary-experience-areas li:hover,.secondary-project-exposure li:hover{transform:translateX(3px);color:#8f6a35}
 .secondary-about-values .secondary-principles li{transition:color .2s ease,border-color .2s ease}
 .secondary-about-values .secondary-principles li:hover{color:#8f6a35;border-color:#c8a15d}
 .secondary-commitment:hover{background:#122946;box-shadow:0 16px 36px rgba(11,27,49,.12)}
 .secondary-team-network-heading>a:focus-visible,.secondary-about-cta .button:focus-visible{outline:3px solid #c8a15d;outline-offset:4px}
-@media(prefers-reduced-motion:reduce){.secondary-approach-grid article:hover,.secondary-about-values .secondary-values-grid article:hover,.secondary-team-card:hover,.secondary-team-network:hover,.secondary-experience-areas:hover,.secondary-project-exposure:hover,.secondary-experience-areas li:hover,.secondary-project-exposure li:hover,.secondary-team-card:hover .secondary-team-portrait img{transform:none}}
+@media(prefers-reduced-motion:reduce){.secondary-approach-grid article:hover,.secondary-about-values .secondary-values-grid article:hover,.secondary-team-card:hover,.secondary-experience-areas:hover,.secondary-project-exposure:hover,.secondary-experience-areas li:hover,.secondary-project-exposure li:hover,.secondary-team-card:hover .secondary-team-portrait img{transform:none}}
 .secondary-experience-heading{position:sticky;top:116px;align-self:start}
 @media(max-width:900px){.secondary-experience-heading{position:static}}
 

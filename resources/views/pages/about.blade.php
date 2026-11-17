@@ -93,58 +93,31 @@
 
     @if (($visible['about_leadership'] ?? true) && isset($content['about_leadership']))
         @php($leadership = $content['about_leadership'])
-        @if (filled(strip_tags($leadership['introduction'] ?? '')) || !empty($leadership['profiles']))
+        @php($teamProfiles = collect($leadership['profiles'] ?? []))
+        @if (filled(strip_tags($leadership['introduction'] ?? '')) || $teamProfiles->isNotEmpty())
             <section class="secondary-leadership section-pad" style="order:{{ $sectionOrders['about_leadership'] ?? 40 }}">
                 <div class="secondary-index"><span>04</span><i></i><span>OUR TEAM</span></div>
                 @if (filled(strip_tags($leadership['introduction'] ?? '')))
                     <div class="secondary-intro-grid"><h2>People behind<br><em>the perspective.</em></h2><div>{!! $leadership['introduction'] !!}</div></div>
                 @endif
-                <div class="secondary-profile-grid">
-                    @foreach ($leadership['profiles'] ?? [] as $profile)
-                        @php($profileName = (string) ($profile['name'] ?? ''))
-                        @php($nameParts = preg_split('/\s+/', trim($profileName)) ?: [])
-                        @php($profileInitials = mb_strtoupper(mb_substr($nameParts[0] ?? 'B', 0, 1).(count($nameParts) > 1 ? mb_substr(end($nameParts), 0, 1) : '')))
-                        <article class="secondary-team-card">
-                            @if (filled($profile['image'] ?? ''))
-                                <div class="secondary-team-portrait"><img src="{{ $profile['image'] }}" alt="{{ $profile['image_alt'] ?? 'Portrait of '.$profileName }}" loading="lazy"></div>
-                            @else
-                                <div class="secondary-team-portrait secondary-team-portrait-placeholder" aria-hidden="true"><span>{{ $profileInitials }}</span></div>
-                            @endif
-                            <div class="secondary-team-card-content">
-                                <div class="secondary-team-card-heading">
-                                    <span class="secondary-team-label">BEAL leadership</span>
-                                    <h3>{{ $profileName }}</h3>
-                                    <p>{{ $profile['role'] ?? '' }}</p>
-                                </div>
-                                <div class="secondary-team-bio">
-                                    @foreach (is_array($profile['bio'] ?? null) ? $profile['bio'] : (filled($profile['bio'] ?? '') ? [strip_tags($profile['bio'])] : []) as $paragraph)
-                                        @if (filled($paragraph))<p>{{ $paragraph }}</p>@endif
-                                    @endforeach
-                                </div>
-                            </div>
-                        </article>
-                    @endforeach
-                </div>
-                @if (!empty($leadership['team_capabilities']))
+                @if ($teamProfiles->isNotEmpty())
+                    @include('pages.partials.team-profile', ['profile' => $teamProfiles->first(), 'label' => 'Founder', 'founder' => true])
+                @endif
+                @if ($teamProfiles->count() > 1)
                     <div class="secondary-team-network">
                         <div class="secondary-team-network-heading">
                             <span>Wider team</span>
-                            <h3>More expertise.<br><em>One connected team.</em></h3>
+                            <h3>Meet the people<br><em>behind the work.</em></h3>
                             @if (filled(strip_tags($leadership['network_introduction'] ?? '')))
                                 <div>{!! $leadership['network_introduction'] !!}</div>
                             @endif
                             <a href="{{ $leadership['team_explore_url'] ?? '#professional-experience' }}">{{ $leadership['team_explore_label'] ?? 'Explore our experience' }} <span aria-hidden="true">↗</span></a>
                         </div>
-                        <ol>
-                            @foreach ($leadership['team_capabilities'] as $capability)
-                                @if (is_array($capability) && filled($capability['title'] ?? ''))
-                                    <li>
-                                        <span>{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                                        <div><h4>{{ $capability['title'] }}</h4><p>{{ $capability['description'] ?? '' }}</p></div>
-                                    </li>
-                                @endif
+                        <div class="secondary-wider-team-grid">
+                            @foreach ($teamProfiles->skip(1) as $profile)
+                                @include('pages.partials.team-profile', ['profile' => $profile, 'label' => 'Team member', 'founder' => false])
                             @endforeach
-                        </ol>
+                        </div>
                     </div>
                 @endif
             </section>
