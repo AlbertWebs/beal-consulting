@@ -51,6 +51,19 @@ class PublicPageController extends Controller
         }
         $entries = $contentType === null ? collect() : $entryQuery->orderByDesc('is_featured')->orderBy('sort_order')->orderByDesc('published_at')->get();
         $categories = $pageKey === 'insights' ? ContentEntry::query()->where('type', 'insight')->where('status', 'published')->where(fn ($query) => $query->whereNull('published_at')->orWhere('published_at', '<=', now()))->whereNotNull('category')->distinct()->orderBy('category')->pluck('category') : collect();
+        $experienceProjectLinks = collect();
+        if ($pageKey === 'about') {
+            $projectTitles = array_values(array_filter($content['about_experience']['projects'] ?? [], 'is_string'));
+            if ($projectTitles !== []) {
+                $experienceProjectLinks = ContentEntry::query()
+                    ->where('type', 'project')
+                    ->where('status', 'published')
+                    ->where(fn ($query) => $query->whereNull('published_at')->orWhere('published_at', '<=', now()))
+                    ->whereIn('title', $projectTitles)
+                    ->get(['id', 'title', 'slug'])
+                    ->keyBy('title');
+            }
+        }
 
         return view('pages.'.$pageKey, [
             'page' => $page,
@@ -59,6 +72,7 @@ class PublicPageController extends Controller
             'sectionOrders' => $sectionOrders,
             'sectionImages' => $sectionImages,
             'entries' => $entries,
+            'experienceProjectLinks' => $experienceProjectLinks,
             'categories' => $categories,
             'search' => $search,
             'selectedCategory' => $category,
@@ -95,6 +109,10 @@ class PublicPageController extends Controller
             'project' => 'experience',
         };
         $relatedEntries = $type === 'insight' ? ContentEntry::query()->where('type', 'insight')->where('status', 'published')->where('id', '!=', $entry->id)->where(fn ($query) => $query->whereNull('published_at')->orWhere('published_at', '<=', now()))->when($entry->category, fn ($query) => $query->where('category', $entry->category))->orderByDesc('published_at')->limit(3)->get() : collect();
+        $galleryMediaIds = $type === 'project' ? ($entry->gallery_media_ids ?? []) : [];
+        $galleryMedia = $galleryMediaIds === []
+            ? collect()
+            : MediaAsset::query()->whereIn('id', $galleryMediaIds)->get()->sortBy(fn (MediaAsset $mediaAsset): int|false => array_search($mediaAsset->id, $galleryMediaIds))->values();
 
         return view('pages.entry', [
             'entry' => $entry,
@@ -108,6 +126,7 @@ class PublicPageController extends Controller
             'serviceOptions' => WebsiteService::query()->where('status', 'published')->orderBy('sort_order')->get(),
             'services' => WebsiteService::query()->where('status', 'published')->orderBy('sort_order')->get(),
             'relatedEntries' => $relatedEntries,
+            'galleryMedia' => $galleryMedia,
         ]);
     }
 

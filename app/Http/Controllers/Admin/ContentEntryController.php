@@ -141,12 +141,17 @@ class ContentEntryController extends Controller
         ];
         if ($type === 'project') {
             $rules['experience_source'] = ['required', 'in:beal_engagement,previous_professional'];
+            $rules['gallery_media_ids'] = ['nullable', 'array', 'max:20'];
+            $rules['gallery_media_ids.*'] = ['required', 'integer', 'distinct', 'exists:media_assets,id'];
         }
 
         $data = $request->validate($rules);
         $data['content_html'] = $sanitizer->clean($data['content_html'] ?? '');
         $data['sort_order'] = (int) ($data['sort_order'] ?? 0);
         $data['is_featured'] = $request->boolean('is_featured');
+        if ($type === 'project') {
+            $data['gallery_media_ids'] = array_values(array_map('intval', $data['gallery_media_ids'] ?? []));
+        }
         unset($data['visibility']);
 
         return $data;

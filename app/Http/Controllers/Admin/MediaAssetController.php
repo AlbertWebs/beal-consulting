@@ -9,6 +9,7 @@ use App\Models\PageSection;
 use App\Models\SiteSetting;
 use App\Models\WebsiteService;
 use App\Services\CmsAuditLogger;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -24,10 +25,11 @@ class MediaAssetController extends Controller
         return view('admin.media.index', ['assets' => $assets]);
     }
 
-    public function store(Request $request, CmsAuditLogger $audit): RedirectResponse
+    public function store(Request $request, CmsAuditLogger $audit): RedirectResponse|JsonResponse
     {
         $data = $request->validate(['files' => ['required', 'array', 'max:20'], 'files.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:10240', 'dimensions:max_width=4000,max_height=4000'], 'alt_text' => ['nullable', 'string', 'max:500']]);
         $diskName = (string) config('filesystems.cms_media_disk', 'public');
+        $uploadedAssets = [];
 
         foreach ($data['files'] as $file) {
             $name = Str::uuid().'.'.$file->extension();
@@ -43,9 +45,23 @@ class MediaAssetController extends Controller
             if ($thumbnail !== null) {
                 $asset->update(['thumbnail_path' => $thumbnail]);
             }
+
+            $uploadedAssets[] = $asset->fresh();
         }
 
         $audit->record('media.uploaded', 'Uploaded '.$request->file('files')[0]->getClientOriginalName());
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'assets' => collect($uploadedAssets)->map(fn (MediaAsset $asset): array => [
+                    'id' => $asset->id,
+                    'name' => $asset->original_name,
+                    'url' => $asset->url,
+                    'thumbnail_url' => $asset->thumbnail_url,
+                    'alt_text' => $asset->alt_text,
+                ])->values(),
+            ], 201);
+        }
 
         return back()->with('success', 'Media uploaded successfully.');
     }
@@ -63,12 +79,14 @@ class MediaAssetController extends Controller
         abort_if($mediaAsset->is_system, 422, 'Built-in brand and website imagery cannot be deleted.');
         $isInDraft = PageSection::query()->where('draft_media_asset_id', $mediaAsset->id)->exists()
             || WebsiteService::query()->whereJsonContains('draft_content->media_asset_id', $mediaAsset->id)->exists()
-            || ContentEntry::query()->whereJsonContains('draft_data->media_asset_id', $mediaAsset->id)->exists();
+            || ContentEntry::query()->whereJsonContains('draft_data->media_asset_id', $mediaAsset->id)->exists()
+            || ContentEntry::query()->whereJsonContains('draft_data->gallery_media_ids', $mediaAsset->id)->exists();
         $isEmbedded = PageSection::query()->get(['content', 'draft_content'])->contains(fn (PageSection $section): bool => $this->containsMediaUrl([$section->content, $section->draft_content], $mediaAsset->url))
             || WebsiteService::query()->get(['description_html', 'content', 'draft_content'])->contains(fn (WebsiteService $service): bool => $this->containsMediaUrl([$service->description_html, $service->content, $service->draft_content], $mediaAsset->url))
             || ContentEntry::query()->get(['content_html', 'draft_data'])->contains(fn (ContentEntry $entry): bool => $this->containsMediaUrl([$entry->content_html, $entry->draft_data], $mediaAsset->url))
             || SiteSetting::query()->get(['value'])->contains(fn (SiteSetting $setting): bool => $this->containsMediaUrl($setting->value, $mediaAsset->url));
-        abort_if($isInDraft || $isEmbedded || $mediaAsset->sections()->exists() || $mediaAsset->services()->exists() || $mediaAsset->contentEntries()->exists() || $mediaAsset->settings()->exists() || $mediaAsset->pages()->exists(), 422, 'This image is currently in use. Replace its references before deleting it.');
+        $isInPublishedGallery = ContentEntry::query()->whereJsonContains('gallery_media_ids', $mediaAsset->id)->exists();
+        abort_if($isInDraft || $isInPublishedGallery || $isEmbedded || $mediaAsset->sections()->exists() || $mediaAsset->services()->exists() || $mediaAsset->contentEntries()->exists() || $mediaAsset->settings()->exists() || $mediaAsset->pages()->exists(), 422, 'This image is currently in use. Replace its references before deleting it.');
         Storage::disk($mediaAsset->disk)->delete(array_filter([$mediaAsset->path, $mediaAsset->thumbnail_path]));
         $mediaAsset->delete();
         $audit->record('media.deleted', 'Deleted media asset');

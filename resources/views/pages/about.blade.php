@@ -151,7 +151,16 @@
                             <h3>Selected project experience of the Founding Director</h3>
                             <ul>
                                 @foreach ($experience['projects'] as $project)
-                                    @if (is_string($project) && trim($project) !== '')<li>{{ $project }}</li>@endif
+                                    @if (is_string($project) && trim($project) !== '')
+                                        @php($projectEntry = $experienceProjectLinks->get($project))
+                                        <li>
+                                            @if ($projectEntry)
+                                                <a class="secondary-project-link" href="{{ route('experience.show', $projectEntry->slug) }}">{{ $project }} <span aria-hidden="true">↗</span></a>
+                                            @else
+                                                {{ $project }}
+                                            @endif
+                                        </li>
+                                    @endif
                                 @endforeach
                             </ul>
                             @if (filled(strip_tags($experience['attribution_note'] ?? '')))
