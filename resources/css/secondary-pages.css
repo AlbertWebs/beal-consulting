@@ -119,6 +119,23 @@
 .secondary-team-network li h4{margin:0 0 5px;color:var(--navy);font-size:16px;font-weight:600;line-height:1.35}
 .secondary-team-network li p{margin:0;color:#5d6874;font-size:14px;line-height:1.55}
 @media(max-width:760px){.secondary-team-network{grid-template-columns:1fr;gap:20px;margin-top:16px;padding:23px 21px}.secondary-team-network li{padding:14px 0}}
+/* About page hover states stay subtle and consistent across cards and lists. */
+.secondary-approach-grid article,.secondary-about-values .secondary-values-grid article,.secondary-team-card,.secondary-team-network,.secondary-experience-areas,.secondary-project-exposure,.secondary-commitment{transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease,background-color .22s ease}
+.secondary-approach-grid article:hover,.secondary-about-values .secondary-values-grid article:hover,.secondary-team-card:hover,.secondary-team-network:hover,.secondary-experience-areas:hover,.secondary-project-exposure:hover{transform:translateY(-3px);border-color:#c8a15d;box-shadow:0 15px 34px rgba(11,27,49,.09)}
+.secondary-approach-grid article:hover{background:#fff}
+.secondary-team-portrait img{transition:transform .45s cubic-bezier(.2,.65,.25,1)}
+.secondary-team-card:hover .secondary-team-portrait img{transform:scale(1.045)}
+.secondary-team-network li{transition:padding-left .2s ease,border-color .2s ease}
+.secondary-team-network li:hover{padding-left:5px;border-color:#c8a15d}
+.secondary-team-network li h4{transition:color .2s ease}
+.secondary-team-network li:hover h4{color:#926b34}
+.secondary-experience-areas li,.secondary-project-exposure li{transition:color .2s ease,transform .2s ease}
+.secondary-experience-areas li:hover,.secondary-project-exposure li:hover{transform:translateX(3px);color:#8f6a35}
+.secondary-about-values .secondary-principles li{transition:color .2s ease,border-color .2s ease}
+.secondary-about-values .secondary-principles li:hover{color:#8f6a35;border-color:#c8a15d}
+.secondary-commitment:hover{background:#122946;box-shadow:0 16px 36px rgba(11,27,49,.12)}
+.secondary-team-network-heading>a:focus-visible,.secondary-about-cta .button:focus-visible{outline:3px solid #c8a15d;outline-offset:4px}
+@media(prefers-reduced-motion:reduce){.secondary-approach-grid article:hover,.secondary-about-values .secondary-values-grid article:hover,.secondary-team-card:hover,.secondary-team-network:hover,.secondary-experience-areas:hover,.secondary-project-exposure:hover,.secondary-experience-areas li:hover,.secondary-project-exposure li:hover,.secondary-team-card:hover .secondary-team-portrait img{transform:none}}
 
 /* Services page card refinements preserve the existing grid and content order. */
 .sector-directory-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;margin:0 0 29px;padding-bottom:24px;border-bottom:1px solid #d6d4ce}
