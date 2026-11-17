@@ -182,10 +182,38 @@ return [
         'about_overview' => [
             'label' => 'Company overview', 'position' => 10, 'image' => 'assets/home-image/glass-architecture.jpg',
             'fields' => ['hero_eyebrow' => ['label' => 'Hero label', 'type' => 'text'], 'hero_subtitle' => ['label' => 'Hero supporting line', 'type' => 'text'], 'heading' => ['label' => 'Heading', 'type' => 'text'], 'overview' => ['label' => 'Company overview', 'type' => 'richtext'], 'geographic_focus' => ['label' => 'Geographic focus', 'type' => 'richtext']],
-            'defaults' => ['hero_eyebrow' => 'ABOUT BEAL', 'hero_subtitle' => 'Clarity in Projects. Confidence in Decisions.', 'heading' => 'An intelligence-led consultancy.', 'overview' => '<p>We are an intelligence-led consultancy working across strategic advisory, project and programme management, infrastructure development, governance and decision-support services.</p><p>We bring together technical expertise, strategic thinking, analytical capability and professional advisory services to help decision-makers assess options, understand project considerations and move forward with greater clarity.</p>', 'geographic_focus' => '<p>Based in Nairobi, Kenya, we aim to serve clients across East Africa and the wider African market. As our business grows, our platform is intended to expand with research publications, analytical products, digital solutions and additional advisory services.</p>'],
+            'defaults' => [
+                'hero_eyebrow' => 'ABOUT BEAL',
+                'hero_subtitle' => 'Clarity in Projects. Confidence in Decisions.',
+                'heading' => 'An intelligence-led consultancy.',
+                'overview' => '<p>Founded in Kenya on 16 July 2021, we are an Africa-focused built-environment and project advisory consultancy. We provide integrated project and programme management, construction management, development monitoring, project controls and technical coordination.</p><p>We work with developers, investors, institutions and organisations to strengthen project planning, delivery oversight, governance and performance. By combining practical construction delivery experience with structured project management, multidisciplinary coordination and performance-based reporting, we help clients make informed decisions and achieve successful project outcomes.</p>',
+                'geographic_focus' => '<p>Through a flexible network of experienced professionals and specialist consultants, we support projects across Kenya, East Africa and the wider African market.</p>',
+            ],
+        ],
+        'about_approach' => [
+            'label' => 'Our approach', 'position' => 20,
+            'fields' => [
+                'heading' => ['label' => 'Heading', 'type' => 'text'],
+                'introduction' => ['label' => 'Introduction', 'type' => 'richtext'],
+                'items' => ['label' => 'Approach areas', 'type' => 'repeater', 'columns' => ['title' => 'Focus area', 'description' => 'Description']],
+                'objective' => ['label' => 'Closing statement', 'type' => 'richtext'],
+            ],
+            'defaults' => [
+                'heading' => 'Structure for every project stage.',
+                'introduction' => '<p>Successful projects need more than effective construction supervision. They require strategic planning, disciplined coordination, proactive risk management and continuous performance monitoring.</p><p>We bring structure, accountability and visibility to the full project lifecycle, from early planning and development through procurement, implementation, testing, commissioning and handover.</p>',
+                'items' => [
+                    ['title' => 'Project governance', 'description' => 'Establish clear management structures, accountability frameworks and decision-making processes.'],
+                    ['title' => 'Programme & project controls', 'description' => 'Develop baseline programmes, monitor progress, manage critical activities and identify potential delays.'],
+                    ['title' => 'Risk & performance management', 'description' => 'Identify project risks, track performance and develop practical mitigation strategies.'],
+                    ['title' => 'Contract & commercial coordination', 'description' => 'Support contract administration, procurement management, claims assessment and contractual compliance.'],
+                    ['title' => 'Technical & stakeholder coordination', 'description' => 'Facilitate collaboration between clients, consultants, contractors, suppliers and other project stakeholders.'],
+                    ['title' => 'Quality & delivery assurance', 'description' => 'Monitor project quality, construction standards, completion requirements and handover processes.'],
+                ],
+                'objective' => '<p>Our objective is to give clients greater control, confidence and visibility over their projects.</p>',
+            ],
         ],
         'about_profile' => [
-            'label' => 'Mission, vision & values', 'position' => 20,
+            'label' => 'Mission, vision & values', 'position' => 30,
             'fields' => ['mission' => ['label' => 'Mission', 'type' => 'richtext'], 'vision' => ['label' => 'Vision', 'type' => 'richtext'], 'philosophy' => ['label' => 'Corporate philosophy', 'type' => 'richtext'], 'values_json' => ['label' => 'Core values (JSON list)', 'type' => 'json']],
             'defaults' => [
                 'mission' => '<p>To bring intelligence, strategic insight and professional expertise to complex projects and infrastructure decisions, helping clients evaluate choices and move forward with clarity.</p>',
@@ -201,7 +229,7 @@ return [
             ],
         ],
         'about_leadership' => [
-            'label' => 'Leadership & professional profile', 'position' => 30,
+            'label' => 'Leadership & professional profile', 'position' => 40,
             'fields' => ['introduction' => ['label' => 'Section introduction', 'type' => 'richtext'], 'profiles_json' => ['label' => 'Profiles (JSON list)', 'type' => 'json']],
             'defaults' => ['introduction' => '', 'profiles_json' => '[]'],
         ],
