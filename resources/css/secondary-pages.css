@@ -145,3 +145,33 @@
 @media(max-width:900px){.secondary-approach-heading{gap:7%}.secondary-approach-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.secondary-about-approach{padding-top:61px;padding-bottom:66px}.secondary-approach-heading{grid-template-columns:1fr;gap:18px;margin:28px 0 23px}.secondary-approach-heading h2{font-size:39px}.secondary-approach-grid{gap:10px}.secondary-approach-grid article{min-height:165px;padding:18px}.secondary-approach-grid h3{margin-top:13px;font-size:17px}.secondary-approach-objective{margin-top:20px;font-size:15px}}
 @media(max-width:420px){.secondary-approach-grid{grid-template-columns:1fr}.secondary-approach-grid article{min-height:0}}
+.secondary-leadership{padding-top:78px;padding-bottom:86px;background:#f8f7f3}
+.secondary-leadership>.secondary-intro-grid{margin:34px 0 30px}
+.secondary-leadership .secondary-profile-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:16px;margin-top:0}
+.secondary-team-card{padding:28px 30px;border:1px solid #dedbd3;border-top:2px solid #c8a15d;background:#fff}
+.secondary-team-card-heading{padding-bottom:20px;border-bottom:1px solid #e3e0d9}
+.secondary-team-label{display:block;margin-bottom:15px;color:#a17c3e;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.secondary-leadership .secondary-profile-grid h3{margin:0 0 8px;color:var(--navy);font-size:clamp(25px,3vw,34px);font-weight:500;line-height:1.15;letter-spacing:-.035em}
+.secondary-leadership .secondary-profile-grid .secondary-team-card-heading p{margin:0;color:#9a7740;font-size:15px;font-weight:500;line-height:1.6}
+.secondary-team-bio{padding-top:19px;color:#586573;font-size:15px;line-height:1.75}
+.secondary-team-bio p{margin:0 0 13px}
+.secondary-team-bio p:last-child{margin-bottom:0}
+.secondary-experience-section{padding-top:70px;padding-bottom:82px;background:#eeece6}
+.secondary-experience-section>.secondary-index{margin-bottom:30px}
+.secondary-experience{display:grid;grid-template-columns:minmax(230px,.72fr) minmax(0,1.28fr);gap:30px 8%;margin-top:62px;padding-top:37px;border-top:1px solid #d9d6ce}
+.secondary-experience-heading{grid-row:span 2}
+.secondary-experience-section .secondary-experience{margin-top:0;padding-top:0;border-top:0}
+.secondary-experience-heading h2{margin:0 0 19px;color:var(--navy);font-size:clamp(31px,3.5vw,45px);font-weight:500;line-height:1.08;letter-spacing:-.045em}
+.secondary-experience-heading h2 em{color:#a17c3e;font-family:Georgia,serif;font-weight:400}
+.secondary-experience-intro{color:#596572;font-size:15px;line-height:1.7}
+.secondary-experience-intro p{margin:0}
+.secondary-experience-areas,.secondary-project-exposure{padding:23px 25px;border:1px solid #dedbd3;background:#fff}
+.secondary-experience-areas h3,.secondary-project-exposure h3{margin:0 0 18px;color:var(--navy);font-size:18px;font-weight:500;line-height:1.35}
+.secondary-experience-areas ul,.secondary-project-exposure ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 22px;margin:0;padding:0;list-style:none}
+.secondary-experience-areas li,.secondary-project-exposure li{position:relative;padding:11px 0 11px 17px;border-top:1px solid #e8e5de;color:#56616d;font-size:14px;line-height:1.55}
+.secondary-experience-areas li:before,.secondary-project-exposure li:before{position:absolute;top:18px;left:0;width:5px;height:5px;border-radius:50%;background:#bd914b;content:""}
+.secondary-project-exposure{grid-column:2}
+.secondary-attribution-note{margin-top:16px;padding:14px 16px;border-left:2px solid #bd914b;background:#f3f1eb;color:#64707b;font-size:13px;line-height:1.65}
+.secondary-attribution-note p{margin:0}
+@media(max-width:900px){.secondary-experience{grid-template-columns:1fr;gap:16px;margin-top:44px;padding-top:30px}.secondary-experience-section .secondary-experience{margin-top:0;padding-top:0}.secondary-experience-heading{grid-row:auto}.secondary-project-exposure{grid-column:auto}.secondary-experience-heading h2 br{display:none}}
+@media(max-width:760px){.secondary-leadership{padding:60px 24px 66px}.secondary-leadership>.secondary-intro-grid{margin:27px 0 23px}.secondary-leadership .secondary-profile-grid{grid-template-columns:1fr}.secondary-team-card{padding:22px}.secondary-team-bio{font-size:15px}.secondary-experience-section{padding:58px 24px 64px}.secondary-experience-section>.secondary-index{margin-bottom:23px}.secondary-experience{gap:12px;margin-top:35px;padding-top:25px}.secondary-experience-section .secondary-experience{margin-top:0;padding-top:0}.secondary-experience-heading h2{font-size:36px}.secondary-experience-areas,.secondary-project-exposure{padding:20px}.secondary-experience-areas ul,.secondary-project-exposure ul{grid-template-columns:1fr;gap:0}}

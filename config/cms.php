@@ -230,8 +230,57 @@ return [
         ],
         'about_leadership' => [
             'label' => 'Leadership & professional profile', 'position' => 40,
-            'fields' => ['introduction' => ['label' => 'Section introduction', 'type' => 'richtext'], 'profiles_json' => ['label' => 'Profiles (JSON list)', 'type' => 'json']],
-            'defaults' => ['introduction' => '', 'profiles_json' => '[]'],
+            'fields' => [
+                'introduction' => ['label' => 'Team introduction', 'type' => 'richtext'],
+                'profiles_json' => ['label' => 'Team members (JSON list)', 'type' => 'json'],
+            ],
+            'defaults' => [
+                'introduction' => '<p>Meet the people who bring practical delivery experience, technical understanding and project leadership to BEAL Consulting.</p>',
+                'profiles' => [[
+                    'name' => 'Benson Mathia Ng’ang’a',
+                    'role' => 'Founder & Director | PMP® | Construction & Project Management Professional',
+                    'bio' => [
+                        'Benson Mathia Ng’ang’a is the Founder and Director of BEAL Consulting Ltd, bringing over a decade of professional experience in construction and project management across commercial, residential, hospitality, industrial and infrastructure developments.',
+                        'He is a Project Management Professional (PMP®) with extensive contractor-side project delivery experience, covering the full project lifecycle from planning and mobilisation through construction, multidisciplinary coordination, testing, commissioning and handover.',
+                        'His expertise includes project planning, programme and cost management, contract administration, procurement coordination, risk management, quality assurance, subcontractor management and stakeholder engagement.',
+                        'Benson holds a Master of Science in Construction Engineering Management from the University of East London and a Bachelor of Science in Construction Management from the University of Nairobi. He combines technical construction knowledge with practical project leadership and a strong appreciation of governance, commercial performance and strategic project delivery.',
+                        'Through BEAL, he brings together experienced professionals and specialist expertise to support well-planned, efficiently managed and successfully delivered projects across Africa.',
+                    ],
+                ]],
+            ],
+        ],
+        'about_experience' => [
+            'label' => 'Professional experience & project exposure', 'position' => 50,
+            'fields' => [
+                'experience_introduction' => ['label' => 'Professional experience introduction', 'type' => 'richtext'],
+                'experience_areas_json' => ['label' => 'Professional experience areas (JSON list)', 'type' => 'json'],
+                'projects_json' => ['label' => 'Selected project experience (JSON list)', 'type' => 'json'],
+                'attribution_note' => ['label' => 'Project experience attribution note', 'type' => 'richtext'],
+            ],
+            'defaults' => [
+                'experience_introduction' => '<p>BEAL’s leadership draws on experience gained through the planning, coordination and delivery of projects across diverse sectors of the built environment.</p>',
+                'experience_areas' => [
+                    'Project inception, planning and mobilisation',
+                    'Construction and programme management',
+                    'Baseline programme development and progress monitoring',
+                    'Project controls, reporting and performance assessment',
+                    'Contract administration and claims coordination',
+                    'Procurement and subcontractor management',
+                    'Cost, quality, risk and resource management',
+                    'Multidisciplinary technical and stakeholder coordination',
+                    'Testing, commissioning and project handover',
+                ],
+                'projects' => [
+                    'Itare Fresh Water Dam Project',
+                    'Onyx Apartments',
+                    'East African Breweries Limited (EABL) Headquarters Fit-out',
+                    'Scania East Africa Facilities',
+                    'EABL Microbrewery Project',
+                    'Africa Area Office Development',
+                    'British American Tobacco (BAT) Headquarters Refurbishment',
+                ],
+                'attribution_note' => '<p>These projects reflect the Founding Director’s professional experience gained through previous engagements. They are not presented as projects directly contracted by BEAL Consulting Ltd.</p>',
+            ],
         ],
         'sectors_intro' => [
             'label' => 'Sectors introduction', 'position' => 10, 'image' => 'assets/home-image/urban-infrastructure.jpg',

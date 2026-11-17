@@ -86,14 +86,65 @@
         @php($leadership = $content['about_leadership'])
         @if (filled(strip_tags($leadership['introduction'] ?? '')) || !empty($leadership['profiles']))
             <section class="secondary-leadership section-pad" style="order:{{ $sectionOrders['about_leadership'] ?? 40 }}">
-                <div class="secondary-index"><span>04</span><i></i><span>LEADERSHIP &amp; PROFESSIONAL PROFILE</span></div>
+                <div class="secondary-index"><span>04</span><i></i><span>OUR TEAM</span></div>
                 @if (filled(strip_tags($leadership['introduction'] ?? '')))
                     <div class="secondary-intro-grid"><h2>People behind<br><em>the perspective.</em></h2><div>{!! $leadership['introduction'] !!}</div></div>
                 @endif
                 <div class="secondary-profile-grid">
                     @foreach ($leadership['profiles'] ?? [] as $profile)
-                        <article><h3>{{ $profile['name'] ?? '' }}</h3><p>{{ $profile['role'] ?? '' }}</p><div>{!! $profile['bio'] ?? '' !!}</div></article>
+                        <article class="secondary-team-card">
+                            <div class="secondary-team-card-heading">
+                                <span class="secondary-team-label">BEAL leadership</span>
+                                <h3>{{ $profile['name'] ?? '' }}</h3>
+                                <p>{{ $profile['role'] ?? '' }}</p>
+                            </div>
+                            <div class="secondary-team-bio">
+                                @foreach (is_array($profile['bio'] ?? null) ? $profile['bio'] : (filled($profile['bio'] ?? '') ? [strip_tags($profile['bio'])] : []) as $paragraph)
+                                    @if (filled($paragraph))<p>{{ $paragraph }}</p>@endif
+                                @endforeach
+                            </div>
+                        </article>
                     @endforeach
+                </div>
+            </section>
+        @endif
+    @endif
+
+    @if (($visible['about_experience'] ?? true) && isset($content['about_experience']))
+        @php($experience = $content['about_experience'])
+        @if (filled(strip_tags($experience['experience_introduction'] ?? '')) || !empty($experience['experience_areas']) || !empty($experience['projects']))
+            <section class="secondary-experience-section section-pad" style="order:{{ $sectionOrders['about_experience'] ?? 50 }}">
+                <div class="secondary-index"><span>05</span><i></i><span>PROFESSIONAL EXPERIENCE &amp; PROJECT EXPOSURE</span></div>
+                <div class="secondary-experience">
+                    <div class="secondary-experience-heading">
+                        <h2>Experience across<br><em>the project lifecycle.</em></h2>
+                        @if (filled(strip_tags($experience['experience_introduction'] ?? '')))
+                            <div class="secondary-experience-intro">{!! $experience['experience_introduction'] !!}</div>
+                        @endif
+                    </div>
+                    @if (!empty($experience['experience_areas']))
+                        <div class="secondary-experience-areas">
+                            <h3>Areas of experience</h3>
+                            <ul>
+                                @foreach ($experience['experience_areas'] as $area)
+                                    @if (is_string($area) && trim($area) !== '')<li>{{ $area }}</li>@endif
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    @if (!empty($experience['projects']))
+                        <div class="secondary-project-exposure">
+                            <h3>Selected project experience of the Founding Director</h3>
+                            <ul>
+                                @foreach ($experience['projects'] as $project)
+                                    @if (is_string($project) && trim($project) !== '')<li>{{ $project }}</li>@endif
+                                @endforeach
+                            </ul>
+                            @if (filled(strip_tags($experience['attribution_note'] ?? '')))
+                                <div class="secondary-attribution-note">{!! $experience['attribution_note'] !!}</div>
+                            @endif
+                        </div>
+                    @endif
                 </div>
             </section>
         @endif
