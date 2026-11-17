@@ -240,6 +240,8 @@ return [
                 'profiles' => [[
                     'name' => 'Benson Mathia Ng’ang’a',
                     'role' => 'Founder & Director | PMP® | Construction & Project Management Professional',
+                    'image' => '',
+                    'image_alt' => 'Portrait of Benson Mathia Ng’ang’a',
                     'bio' => [
                         'Benson Mathia Ng’ang’a is the Founder and Director of BEAL Consulting Ltd, bringing over a decade of professional experience in construction and project management across commercial, residential, hospitality, industrial and infrastructure developments.',
                         'He is a Project Management Professional (PMP®) with extensive contractor-side project delivery experience, covering the full project lifecycle from planning and mobilisation through construction, multidisciplinary coordination, testing, commissioning and handover.',

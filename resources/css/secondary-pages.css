@@ -93,6 +93,14 @@
 .secondary-commitment-copy{max-width:620px;color:#e0e5e9;font-size:16px;line-height:1.75}
 .secondary-commitment-copy p{margin:0}
 @media(max-width:760px){.secondary-commitment{grid-template-columns:1fr;gap:14px;padding:24px 22px}}
+.secondary-leadership .secondary-profile-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}
+.secondary-leadership .secondary-team-card{overflow:hidden;padding:0}
+.secondary-team-portrait{width:100%;aspect-ratio:4/3;overflow:hidden;background:linear-gradient(135deg,#132a46,#243e5c);}
+.secondary-team-portrait img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 35%}
+.secondary-team-portrait-placeholder{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 68% 25%,rgba(197,157,89,.25),transparent 34%),linear-gradient(135deg,#10233d,#1d3653)}
+.secondary-team-portrait-placeholder span{color:#d1ad6b;font-family:Georgia,serif;font-size:clamp(62px,8vw,96px);font-style:italic;line-height:1}
+.secondary-team-card-content{padding:25px 30px 29px}
+@media(max-width:760px){.secondary-leadership .secondary-profile-grid{grid-template-columns:1fr}.secondary-team-card-content{padding:21px 22px 24px}}
 
 /* Services page card refinements preserve the existing grid and content order. */
 .sector-directory-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;margin:0 0 29px;padding-bottom:24px;border-bottom:1px solid #d6d4ce}

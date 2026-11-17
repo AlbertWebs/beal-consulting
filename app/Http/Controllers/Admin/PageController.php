@@ -170,6 +170,16 @@ class PageController extends Controller
             }
             $decoded = json_decode((string) $content[$key], true);
             abort_unless(is_array($decoded), 422, $field['label'].' must contain valid JSON.');
+            if ($key === 'profiles_json') {
+                foreach ($decoded as $profile) {
+                    abort_unless(is_array($profile), 422, 'Each team member must be an object.');
+                    foreach (['image', 'image_alt'] as $imageField) {
+                        abort_unless(! isset($profile[$imageField]) || is_string($profile[$imageField]), 422, 'Team member image details must be text.');
+                    }
+                    abort_unless(strlen((string) ($profile['image_alt'] ?? '')) <= 500, 422, 'Image descriptions cannot exceed 500 characters.');
+                    abort_unless($this->isSafeUrl((string) ($profile['image'] ?? '')), 422, 'Team member images must use a relative path or http(s) URL.');
+                }
+            }
             $targetKey = str_ends_with($key, '_json') ? substr($key, 0, -5) : $key;
             $content[$targetKey] = $decoded;
             unset($content[$key]);
