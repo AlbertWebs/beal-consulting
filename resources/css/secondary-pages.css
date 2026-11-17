@@ -134,6 +134,43 @@
 .secondary-commitment:hover{background:#122946;box-shadow:0 16px 36px rgba(11,27,49,.12)}
 .secondary-team-network-heading>a:focus-visible,.secondary-about-cta .button:focus-visible{outline:3px solid #c8a15d;outline-offset:4px}
 @media(prefers-reduced-motion:reduce){.secondary-approach-grid article:hover,.secondary-about-values .secondary-values-grid article:hover,.secondary-team-card:hover,.secondary-experience-areas:hover,.secondary-project-exposure:hover,.secondary-experience-areas li:hover,.secondary-project-exposure li:hover,.secondary-team-card:hover .secondary-team-portrait img{transform:none}}
+.secondary-leadership{position:relative;overflow:hidden;padding:27px clamp(32px,5vw,82px) 42px;background-color:#faf9f6;background-image:linear-gradient(180deg,rgba(250,249,246,.2) 0%,#f8f7f3 54%),url('/assets/home-image/glass-architecture.jpg');background-repeat:no-repeat;background-position:center top,right top;background-size:cover,min(100%,1200px) auto}
+.secondary-leadership>.secondary-index{position:relative;z-index:1}
+.secondary-leadership>.secondary-intro-grid{position:relative;z-index:1;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:7%;margin:23px 0 30px}
+.secondary-leadership>.secondary-intro-grid h2{max-width:520px;font-size:clamp(40px,4.4vw,56px);line-height:.98}
+.secondary-leadership>.secondary-intro-grid>div{align-self:center;padding:5px 0 5px 42px;border-left:1px solid #c89a45;color:#3e4a5a;font-size:16px;line-height:1.65}
+.secondary-team-card-founder{position:relative;isolation:isolate;grid-template-columns:minmax(280px,31%) minmax(0,1fr);align-items:center;gap:34px;min-height:360px;margin:0 0 27px;padding:18px 35px 18px 20px;border:1px solid rgba(11,27,49,.08);border-radius:19px;background:#fff;box-shadow:0 12px 30px rgba(11,27,49,.09)}
+.secondary-team-card-founder::before{position:absolute;z-index:-1;inset:0 auto 0 0;width:27%;border-radius:18px 0 0 18px;background:linear-gradient(125deg,#0b2741 0 68%,#c89a45 68% 71%,transparent 71%);content:""}
+.secondary-team-card-founder .secondary-team-portrait{width:100%;height:326px;max-width:none;aspect-ratio:auto;margin:0;border-radius:16px;box-shadow:0 6px 18px rgba(11,27,49,.12)}
+.secondary-team-card-founder .secondary-team-portrait img{object-position:center 30%}
+.secondary-team-card-founder .secondary-team-card-content{padding:0}
+.secondary-team-card-founder .secondary-team-card-heading{padding:0;border:0}
+.secondary-team-card-founder .secondary-team-label{display:inline-block;margin:0 0 8px;padding:4px 13px;background:#f4d99e;color:#915b00;clip-path:polygon(0 0,100% 0,92% 100%,0 100%)}
+.secondary-team-card-founder .secondary-team-card-heading h3{margin:0 0 3px;font-size:clamp(25px,2.5vw,34px)}
+.secondary-team-card-founder .secondary-team-card-heading p{color:var(--navy);font-size:15px}
+.secondary-team-card-founder .secondary-team-card-heading:after{display:block;width:56px;height:2px;margin:12px 0 10px;background:#c89a45;content:""}
+.secondary-team-card-founder .secondary-team-bio{padding:0;color:#28384b;font-size:14px;line-height:1.48}
+.secondary-team-card-founder .secondary-team-bio p{margin:0 0 8px}
+.secondary-team-network{margin:0;padding:21px 25px 23px;border:0;border-radius:22px;background:rgba(241,238,231,.83)}
+.secondary-team-network-heading{grid-template-columns:minmax(0,.95fr) minmax(280px,1fr) auto;align-items:center;gap:10px 28px;margin:0 10px 22px}
+.secondary-team-network-heading>span{grid-column:1;grid-row:1;margin:0 0 -8px}
+.secondary-team-network-heading h3{grid-column:1;grid-row:2;font-size:clamp(25px,2.8vw,34px)}
+.secondary-team-network-heading>div{grid-column:2;grid-row:2;padding-left:28px;border-left:1px solid #c89a45;color:#3e4a5a;font-size:14px;line-height:1.5}
+.secondary-team-network-heading>a{grid-column:3;grid-row:2;justify-self:end;padding:9px 19px;border:1px solid #b87c17;border-radius:999px;background:#fff;color:#985900;transition:background-color .2s ease,color .2s ease,transform .2s ease}
+.secondary-team-network-heading>a:hover{transform:translateY(-2px);background:#a96100;color:#fff}
+.secondary-team-network-heading>a span{font-size:18px}
+.secondary-wider-team-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.secondary-wider-team-grid .secondary-team-card{display:grid;grid-template-columns:minmax(116px,42%) minmax(0,1fr);align-items:center;gap:12px;min-height:166px;padding:12px;border:1px solid rgba(11,27,49,.06);border-radius:16px;background:#fff;box-shadow:0 7px 16px rgba(11,27,49,.07)}
+.secondary-wider-team-grid .secondary-team-portrait{position:relative;width:100%;height:142px;max-width:none;aspect-ratio:auto;margin:0;border-radius:11px;clip-path:polygon(0 0,100% 0,87% 100%,0 100%)}
+.secondary-wider-team-grid .secondary-team-portrait:after{position:absolute;top:0;right:0;width:12px;height:100%;background:#c89a45;clip-path:polygon(100% 0,100% 100%,0 100%);content:""}
+.secondary-wider-team-grid .secondary-team-card-content{min-width:0;padding:4px 5px 4px 0}
+.secondary-wider-team-grid .secondary-team-card-heading{padding:0;border:0}
+.secondary-wider-team-grid .secondary-team-label{margin-bottom:10px;color:#a35f00;font-size:11px;letter-spacing:.12em}
+.secondary-wider-team-grid .secondary-team-card-heading h3{margin:0 0 5px;font-size:clamp(17px,1.55vw,22px);line-height:1.2;overflow-wrap:anywhere}
+.secondary-wider-team-grid .secondary-team-card-heading p{color:#233249;font-size:14px;line-height:1.4}
+.secondary-wider-team-grid .secondary-team-card-heading:after{display:block;width:45px;height:2px;margin-top:12px;background:#c89a45;content:""}
+@media(max-width:1100px){.secondary-team-network-heading{grid-template-columns:minmax(0,1fr) minmax(250px,1fr)}.secondary-team-network-heading>a{grid-column:2;grid-row:3;justify-self:start}.secondary-team-network-heading>div{grid-column:2;grid-row:2}.secondary-team-network-heading h3{grid-column:1;grid-row:2}.secondary-wider-team-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.secondary-wider-team-grid .secondary-team-card{grid-template-columns:130px minmax(0,1fr)}.secondary-wider-team-grid .secondary-team-portrait{height:138px}}
+@media(max-width:760px){.secondary-leadership{padding:58px 24px 64px;background-size:cover,auto 340px}.secondary-leadership>.secondary-intro-grid{grid-template-columns:1fr;gap:19px;margin:25px 0}.secondary-leadership>.secondary-intro-grid h2{font-size:clamp(40px,10vw,52px)}.secondary-leadership>.secondary-intro-grid>div{padding:0;border:0;font-size:15px}.secondary-team-card-founder{grid-template-columns:1fr;gap:16px;min-height:0;padding:14px 16px 22px}.secondary-team-card-founder::before{width:45%;height:225px}.secondary-team-card-founder .secondary-team-portrait{width:min(100%,270px);height:230px;margin:0}.secondary-team-card-founder .secondary-team-card-content{padding:0 2px}.secondary-team-card-founder .secondary-team-bio{font-size:14px}.secondary-team-network{padding:20px 16px}.secondary-team-network-heading{grid-template-columns:1fr;gap:13px;margin:0 2px 18px}.secondary-team-network-heading>span,.secondary-team-network-heading h3,.secondary-team-network-heading>div,.secondary-team-network-heading>a{grid-column:1;grid-row:auto}.secondary-team-network-heading>div{padding:0;border:0}.secondary-team-network-heading>a{justify-self:start}.secondary-wider-team-grid{grid-template-columns:1fr;gap:11px}.secondary-wider-team-grid .secondary-team-card{grid-template-columns:128px minmax(0,1fr);min-height:156px}.secondary-wider-team-grid .secondary-team-portrait{height:132px}}
 .secondary-experience-heading{position:sticky;top:116px;align-self:start}
 @media(max-width:900px){.secondary-experience-heading{position:static}}
 
