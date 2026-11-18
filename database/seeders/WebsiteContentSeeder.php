@@ -17,6 +17,7 @@ class WebsiteContentSeeder extends Seeder
     {
         $mediaByPath = [];
         $assetDisk = Storage::disk('assets');
+        $projectGalleryAssets = collect(config('cms.project_gallery_assets'))->keyBy('path');
         $knownPaths = collect(config('cms.sections'))->merge(config('cms.page_sections'))->pluck('image')->filter()->unique();
 
         foreach (config('beal.services') as $service) {
@@ -24,6 +25,7 @@ class WebsiteContentSeeder extends Seeder
         }
 
         $knownPaths->push('assets/beal-horizontal-logo.png', 'assets/beal-logo.png', 'assets/favicon.png');
+        $projectGalleryAssets->each(fn (array $asset) => $knownPaths->push('assets/'.$asset['path']));
 
         foreach ($knownPaths->unique() as $path) {
             $relativePath = str_starts_with($path, 'assets/') ? substr($path, 7) : $path;
@@ -42,7 +44,7 @@ class WebsiteContentSeeder extends Seeder
                     'file_size' => $assetDisk->size($relativePath),
                     'width' => $dimensions[0],
                     'height' => $dimensions[1],
-                    'alt_text' => '',
+                    'alt_text' => $projectGalleryAssets->get($relativePath)['alt_text'] ?? '',
                     'is_system' => true,
                 ],
             );

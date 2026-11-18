@@ -1,6 +1,23 @@
 <?php
 
 return [
+    'project_gallery_stages' => [
+        'blueprints' => 'Blueprints & plans',
+        'visualisations' => 'Design visualisations',
+        'in_progress' => 'Work in progress',
+        'completed' => 'Completed project',
+        'general' => 'General project imagery',
+    ],
+    'project_gallery_assets' => [
+        ['path' => 'project-gallery/africa-area-office-blueprints.webp', 'stage' => 'blueprints', 'alt_text' => 'AI illustration of the proposed office in architectural drawings; not an actual project drawing.'],
+        ['path' => 'project-gallery/africa-area-office-blueprints-detail.png', 'stage' => 'blueprints', 'alt_text' => 'AI-generated illustrative plan set with office elevations and site layout; not an actual project drawing.'],
+        ['path' => 'project-gallery/africa-area-office-visualisation.webp', 'stage' => 'visualisations', 'alt_text' => 'AI concept visualisation of a modern regional office in Nairobi; not a rendering from the actual project.'],
+        ['path' => 'project-gallery/africa-area-office-visualisation-detail.png', 'stage' => 'visualisations', 'alt_text' => 'AI-generated exterior concept of a regional office in Nairobi; not an approved or actual project rendering.'],
+        ['path' => 'project-gallery/africa-area-office-construction.webp', 'stage' => 'in_progress', 'alt_text' => 'AI-generated illustrative work-in-progress scene; not a photograph of this project.'],
+        ['path' => 'project-gallery/africa-area-office-construction-detail.png', 'stage' => 'in_progress', 'alt_text' => 'AI-generated illustrative construction progress scene; not a photograph of this project.'],
+        ['path' => 'project-gallery/africa-area-office-completed.webp', 'stage' => 'completed', 'alt_text' => 'AI concept view of a finished regional office; not a photograph of the actual completed project.'],
+        ['path' => 'project-gallery/africa-area-office-completed-detail.png', 'stage' => 'completed', 'alt_text' => 'AI-generated concept view of a completed regional office; not a photograph of the actual project.'],
+    ],
     'banners' => [
         'home_hero' => ['label' => 'Homepage hero', 'description' => 'The main image behind the homepage introduction.', 'group' => 'Homepage', 'page' => 'home', 'section' => 'hero', 'image' => 'assets/home-image/nairobi-skyline.jpg'],
         'home_about' => ['label' => 'Homepage · About', 'description' => 'The image beside the homepage introduction to BEAL.', 'group' => 'Homepage', 'page' => 'home', 'section' => 'about', 'image' => 'assets/home-image/glass-architecture.jpg'],

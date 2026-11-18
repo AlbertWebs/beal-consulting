@@ -274,3 +274,188 @@ if (revealElements.length > 0 && !prefersReducedMotion && 'IntersectionObserver'
         revealObserver.observe(element);
     });
 }
+
+const projectGallery = document.querySelector('.secondary-project-gallery');
+
+if (projectGallery) {
+    const imageFrames = Array.from(projectGallery.querySelectorAll('.project-gallery-image-frame'));
+    const zoomButtons = imageFrames.flatMap((frame) => {
+        const image = frame.querySelector('img');
+
+        if (!image) {
+            return [];
+        }
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'project-gallery-image-zoom';
+        button.setAttribute('aria-label', `View larger image: ${image.alt || 'Project gallery image'}`);
+        button.dataset.galleryImage = image.currentSrc || image.src;
+        button.dataset.galleryAlt = image.alt;
+        frame.replaceChild(button, image);
+        button.append(image);
+
+        return [button];
+    });
+
+    if (zoomButtons.length > 0) {
+        const lightbox = document.createElement('dialog');
+        lightbox.className = 'project-gallery-lightbox';
+        lightbox.setAttribute('aria-label', 'Project gallery image viewer');
+
+        const closeButton = document.createElement('button');
+        closeButton.type = 'button';
+        closeButton.className = 'project-gallery-lightbox-close';
+        closeButton.setAttribute('aria-label', 'Close image viewer');
+        closeButton.textContent = '×';
+
+        const previousButton = document.createElement('button');
+        previousButton.type = 'button';
+        previousButton.className = 'project-gallery-lightbox-previous';
+        previousButton.setAttribute('aria-label', 'View previous image');
+        previousButton.textContent = '←';
+
+        const nextButton = document.createElement('button');
+        nextButton.type = 'button';
+        nextButton.className = 'project-gallery-lightbox-next';
+        nextButton.setAttribute('aria-label', 'View next image');
+        nextButton.textContent = '→';
+
+        const figure = document.createElement('figure');
+        const lightboxImage = document.createElement('img');
+        const caption = document.createElement('figcaption');
+        figure.append(lightboxImage, caption);
+        lightbox.append(closeButton, previousButton, figure, nextButton);
+        document.body.append(lightbox);
+
+        let activeImageIndex = 0;
+
+        const showImage = (index) => {
+            activeImageIndex = (index + zoomButtons.length) % zoomButtons.length;
+            const activeButton = zoomButtons[activeImageIndex];
+            lightboxImage.src = activeButton.dataset.galleryImage;
+            lightboxImage.alt = activeButton.dataset.galleryAlt || '';
+            caption.textContent = activeButton.dataset.galleryAlt || `Image ${activeImageIndex + 1} of ${zoomButtons.length}`;
+        };
+
+        zoomButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                showImage(index);
+                lightbox.showModal();
+                closeButton.focus();
+            });
+        });
+
+        closeButton.addEventListener('click', () => lightbox.close());
+        previousButton.addEventListener('click', () => showImage(activeImageIndex - 1));
+        nextButton.addEventListener('click', () => showImage(activeImageIndex + 1));
+        lightbox.addEventListener('click', (event) => {
+            if (event.target === lightbox) {
+                lightbox.close();
+            }
+        });
+        lightbox.addEventListener('close', () => zoomButtons[activeImageIndex]?.focus());
+        lightbox.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                showImage(activeImageIndex - 1);
+            } else if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                showImage(activeImageIndex + 1);
+            }
+        });
+
+        if (zoomButtons.length < 2) {
+            previousButton.hidden = true;
+            nextButton.hidden = true;
+        }
+    }
+}
+
+if (projectGallery && !prefersReducedMotion && 'IntersectionObserver' in window) {
+    const stageLinks = Array.from(projectGallery.querySelectorAll('.project-gallery-path a[href^="#project-stage-"]'));
+    const stageElements = stageLinks
+        .map((link) => projectGallery.querySelector(link.getAttribute('href')))
+        .filter(Boolean);
+
+    if (stageElements.length > 0) {
+        document.documentElement.classList.add('has-project-gallery-motion');
+
+        const setCurrentStage = (stage) => {
+            const activeIndex = stageElements.indexOf(stage);
+
+            stageLinks.forEach((link, index) => {
+                const isCurrent = index === activeIndex;
+                link.closest('li')?.classList.toggle('is-current', isCurrent);
+
+                if (isCurrent) {
+                    link.setAttribute('aria-current', 'step');
+                } else {
+                    link.removeAttribute('aria-current');
+                }
+            });
+
+            stageElements.forEach((stageElement) => {
+                stageElement.classList.toggle('is-active', stageElement === stage);
+            });
+
+            const progress = stageElements.length > 1 ? activeIndex / (stageElements.length - 1) : 0;
+            projectGallery.querySelector('.project-gallery-path')?.style.setProperty('--gallery-progress', `${progress * 100}%`);
+        };
+
+        const stageObserver = new IntersectionObserver((entries) => {
+            entries.filter((entry) => entry.isIntersecting).forEach((entry) => {
+                entry.target.classList.add('is-visible');
+            });
+        }, {
+            threshold: 0.12,
+            rootMargin: '-22% 0px -58% 0px',
+        });
+
+        stageElements.forEach((stage) => {
+            stageObserver.observe(stage);
+            stage.querySelectorAll('.project-gallery-image-card').forEach((card, index) => {
+                card.style.setProperty('--gallery-card-delay', `${Math.min(index, 3) * 110}ms`);
+            });
+        });
+
+        const cardObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-in-view');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.16,
+            rootMargin: '0px 0px -8% 0px',
+        });
+
+        projectGallery.querySelectorAll('.project-gallery-image-card').forEach((card) => cardObserver.observe(card));
+
+        let galleryProgressFrame = 0;
+        const updateCurrentStage = () => {
+            if (galleryProgressFrame) {
+                return;
+            }
+
+            galleryProgressFrame = window.requestAnimationFrame(() => {
+                galleryProgressFrame = 0;
+                const activationLine = Math.min(window.innerHeight * 0.46, 320);
+                let currentStage = stageElements[0];
+
+                stageElements.forEach((stage) => {
+                    if (stage.getBoundingClientRect().top <= activationLine) {
+                        currentStage = stage;
+                    }
+                });
+
+                setCurrentStage(currentStage);
+            });
+        };
+
+        window.addEventListener('scroll', updateCurrentStage, { passive: true });
+        window.addEventListener('resize', updateCurrentStage);
+        updateCurrentStage();
+    }
+}

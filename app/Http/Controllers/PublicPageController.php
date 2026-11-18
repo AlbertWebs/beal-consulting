@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContentEntry;
+use App\Models\MediaAsset;
 use App\Models\PageSection;
 use App\Models\WebsitePage;
 use App\Models\WebsiteService;
@@ -214,6 +215,19 @@ class PublicPageController extends Controller
         $galleryMedia = $galleryMediaIds === []
             ? collect()
             : MediaAsset::query()->whereIn('id', $galleryMediaIds)->get()->sortBy(fn (MediaAsset $mediaAsset): int|false => array_search($mediaAsset->id, $galleryMediaIds))->values();
+        $projectGalleryStages = config('cms.project_gallery_stages', []);
+        $galleryMedia->each(function (MediaAsset $mediaAsset) use ($entry, $projectGalleryStages): void {
+            $stage = $entry->gallery_stages[$mediaAsset->id] ?? 'general';
+            if (! array_key_exists($stage, $projectGalleryStages)) {
+                $stage = 'general';
+            }
+            $mediaAsset->setAttribute('project_stage', $stage);
+            $mediaAsset->setAttribute('project_stage_label', $projectGalleryStages[$stage]);
+        });
+        $galleryMedia = $galleryMedia->sortBy(fn (MediaAsset $mediaAsset): array => [
+            array_search($mediaAsset->project_stage, array_keys($projectGalleryStages), true),
+            array_search($mediaAsset->id, $galleryMediaIds, true),
+        ])->values();
 
         return view('pages.entry', [
             'entry' => $entry,
@@ -228,6 +242,7 @@ class PublicPageController extends Controller
             'services' => WebsiteService::query()->where('status', 'published')->orderBy('sort_order')->get(),
             'relatedEntries' => $relatedEntries,
             'galleryMedia' => $galleryMedia,
+            'projectGalleryStages' => $projectGalleryStages,
             'bannerImage' => filled($entryBanner) ? $entryBanner : ($entry->media?->url ?? asset('assets/home-image/'.($type === 'sector' ? 'urban-infrastructure.jpg' : ($type === 'insight' ? 'nairobi-skyline.jpg' : 'city-development.jpg')))),
         ]);
     }

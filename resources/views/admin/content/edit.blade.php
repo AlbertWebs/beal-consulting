@@ -10,31 +10,44 @@
 </div>
 @if($type==='project')
     @php($galleryMediaIds = old('gallery_media_ids', $entry->gallery_media_ids ?? []))
-    <div class="cms-field cms-project-gallery" data-project-gallery data-upload-url="{{ route('admin.media.store') }}">
-        <label class="cms-label">Project image gallery</label>
-        <p class="cms-muted">Add up to 20 project images. They appear on the public project page after you publish it.</p>
+    @php($galleryStageValues = old('gallery_stages', $entry->gallery_stages ?? []))
+    @php($galleryStageOptions = config('cms.project_gallery_stages', []))
+    <div class="cms-field cms-project-gallery" data-project-gallery data-upload-url="{{ route('admin.media.store') }}" data-stage-options="{{ json_encode($galleryStageOptions) }}">
+        <label class="cms-label">Project gallery</label>
+        <p class="cms-muted">Add up to 20 images and videos combined. Add several items to the same stage for a fuller story from plans and visualisations through construction to completion.</p>
         <div class="cms-drop-zone" data-gallery-drop-zone>
-            <div><strong>Drop project images here</strong><span class="cms-muted"> or choose files from your device</span></div>
-            <label class="cms-button" for="gallery-files">Choose images</label>
-            <input class="cms-input" id="gallery-files" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple data-gallery-file-input>
-            <small class="cms-muted">Up to 20 images, 10 MB each. Maximum dimensions 4000 × 4000.</small>
+            <div><strong>Drop project images or videos here</strong><span class="cms-muted"> or choose files from your device</span></div>
+            <label class="cms-button" for="gallery-files">Choose media</label>
+            <input class="cms-input" id="gallery-files" type="file" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm" multiple data-gallery-file-input>
+            <small class="cms-muted">Images: up to 10 MB and 4000 × 4000 pixels. Videos: MP4 or WebM up to 50 MB. Up to 20 gallery items.</small>
         </div>
         <div class="cms-grid cms-upload-previews" data-gallery-upload-preview aria-live="polite"></div>
         <div class="cms-gallery-grid" data-gallery-items>
             @foreach($galleryMediaIds as $galleryMediaId)
-                @php($galleryAsset = $mediaAssets->firstWhere('id', (int) $galleryMediaId))
+                @php($galleryAsset = $galleryAssets->firstWhere('id', (int) $galleryMediaId))
                 @if($galleryAsset)
                     <article class="cms-gallery-item" data-gallery-item>
-                        <img class="cms-preview" src="{{ $galleryAsset->thumbnail_url }}" alt="{{ $galleryAsset->alt_text ?: 'Project image for '.$entry->title }}">
+                        @if(str_starts_with($galleryAsset->mime_type, 'video/'))
+                            <div class="cms-gallery-video-preview" aria-label="Video file"><span aria-hidden="true">▶</span><b>VIDEO</b></div>
+                        @else
+                            <img class="cms-preview" src="{{ $galleryAsset->thumbnail_url }}" alt="{{ $galleryAsset->alt_text ?: 'Project image for '.$entry->title }}">
+                        @endif
                         <p>{{ $galleryAsset->original_name }}</p>
                         <input type="hidden" name="gallery_media_ids[]" value="{{ $galleryAsset->id }}">
-                        <button class="cms-gallery-remove" type="button" data-gallery-remove>Remove image</button>
+                        <label class="cms-label" for="gallery-stage-{{ $galleryAsset->id }}">Project stage</label>
+                        <select class="cms-select cms-gallery-stage-select" id="gallery-stage-{{ $galleryAsset->id }}" name="gallery_stages[{{ $galleryAsset->id }}]">
+                            <option value="">Choose a stage</option>
+                            @foreach($galleryStageOptions as $stageKey => $stageLabel)
+                                <option value="{{ $stageKey }}" @selected(($galleryStageValues[$galleryAsset->id] ?? '') === $stageKey)>{{ $stageLabel }}</option>
+                            @endforeach
+                        </select>
+                        <button class="cms-gallery-remove" type="button" data-gallery-remove>Remove item</button>
                     </article>
                 @endif
             @endforeach
         </div>
         <div class="cms-actions">
-            <button class="cms-button" type="button" data-gallery-upload disabled>Upload selected images</button>
+            <button class="cms-button" type="button" data-gallery-upload disabled>Upload selected media</button>
             <span class="cms-muted" data-gallery-status role="status" aria-live="polite"></span>
         </div>
     </div>
@@ -55,7 +68,9 @@
                 const items = gallery.querySelector('[data-gallery-items]');
                 const uploadButton = gallery.querySelector('[data-gallery-upload]');
                 const status = gallery.querySelector('[data-gallery-status]');
+                const stageOptions = JSON.parse(gallery.dataset.stageOptions || '{}');
                 let selectedFiles = [];
+                let previewObjectUrls = [];
 
                 const bindRemoveButton = (button) => {
                     button.addEventListener('click', () => {
@@ -66,19 +81,31 @@
                 gallery.querySelectorAll('[data-gallery-remove]').forEach(bindRemoveButton);
 
                 const showSelectedFiles = () => {
+                    previewObjectUrls.forEach((previewUrl) => URL.revokeObjectURL(previewUrl));
+                    previewObjectUrls = [];
                     uploadPreview.replaceChildren();
                     selectedFiles.forEach((file) => {
                         const card = document.createElement('article');
                         card.className = 'cms-gallery-item';
-                        const image = document.createElement('img');
                         const previewUrl = URL.createObjectURL(file);
-                        image.className = 'cms-preview';
-                        image.src = previewUrl;
-                        image.alt = `Preview of ${file.name}`;
-                        image.addEventListener('load', () => URL.revokeObjectURL(previewUrl), { once: true });
+                        previewObjectUrls.push(previewUrl);
+                        let preview;
+                        if (file.type.startsWith('video/')) {
+                            preview = document.createElement('video');
+                            preview.className = 'cms-preview cms-preview-video';
+                            preview.src = previewUrl;
+                            preview.controls = true;
+                            preview.muted = true;
+                            preview.preload = 'metadata';
+                        } else {
+                            preview = document.createElement('img');
+                            preview.className = 'cms-preview';
+                            preview.src = previewUrl;
+                            preview.alt = `Preview of ${file.name}`;
+                        }
                         const name = document.createElement('p');
                         name.textContent = `${file.name} · ${(file.size / 1024 / 1024).toFixed(2)} MB`;
-                        card.append(image, name);
+                        card.append(preview, name);
                         uploadPreview.append(card);
                     });
                     uploadButton.disabled = selectedFiles.length === 0;
@@ -87,7 +114,7 @@
                 fileInput.addEventListener('change', () => {
                     selectedFiles = Array.from(fileInput.files || []);
                     showSelectedFiles();
-                    status.textContent = selectedFiles.length ? `${selectedFiles.length} image(s) ready to upload.` : '';
+                    status.textContent = selectedFiles.length ? `${selectedFiles.length} item(s) ready to upload.` : '';
                 });
 
                 dropZone.addEventListener('dragover', (event) => {
@@ -108,35 +135,65 @@
                     const card = document.createElement('article');
                     card.className = 'cms-gallery-item';
                     card.dataset.galleryItem = '';
-                    const image = document.createElement('img');
-                    image.className = 'cms-preview';
-                    image.src = asset.thumbnail_url;
-                    image.alt = asset.alt_text || `Project image for ${document.querySelector('#title').value}`;
+                    let preview;
+                    if (asset.mime_type?.startsWith('video/')) {
+                        preview = document.createElement('div');
+                        preview.className = 'cms-gallery-video-preview';
+                        const playIcon = document.createElement('span');
+                        playIcon.setAttribute('aria-hidden', 'true');
+                        playIcon.textContent = '▶';
+                        const videoLabel = document.createElement('b');
+                        videoLabel.textContent = 'VIDEO';
+                        preview.append(playIcon, videoLabel);
+                    } else {
+                        preview = document.createElement('img');
+                        preview.className = 'cms-preview';
+                        preview.src = asset.thumbnail_url;
+                        preview.alt = asset.alt_text || `Project image for ${document.querySelector('#title').value}`;
+                    }
                     const name = document.createElement('p');
                     name.textContent = asset.name;
                     const id = document.createElement('input');
                     id.type = 'hidden';
                     id.name = 'gallery_media_ids[]';
                     id.value = asset.id;
+                    const stageLabel = document.createElement('label');
+                    stageLabel.className = 'cms-label';
+                    stageLabel.htmlFor = `gallery-stage-${asset.id}`;
+                    stageLabel.textContent = 'Project stage';
+                    const stageSelect = document.createElement('select');
+                    stageSelect.className = 'cms-select cms-gallery-stage-select';
+                    stageSelect.id = `gallery-stage-${asset.id}`;
+                    stageSelect.name = `gallery_stages[${asset.id}]`;
+                    const blankStage = document.createElement('option');
+                    blankStage.value = '';
+                    blankStage.textContent = 'Choose a stage';
+                    stageSelect.append(blankStage);
+                    Object.entries(stageOptions).forEach(([value, label]) => {
+                        const option = document.createElement('option');
+                        option.value = value;
+                        option.textContent = label;
+                        stageSelect.append(option);
+                    });
                     const remove = document.createElement('button');
                     remove.className = 'cms-gallery-remove';
                     remove.type = 'button';
-                    remove.textContent = 'Remove image';
+                    remove.textContent = 'Remove item';
                     remove.dataset.galleryRemove = '';
                     bindRemoveButton(remove);
-                    card.append(image, name, id, remove);
+                    card.append(preview, name, id, stageLabel, stageSelect, remove);
                     items.append(card);
                 };
 
                 uploadButton.addEventListener('click', async () => {
                     const remaining = 20 - items.querySelectorAll('[data-gallery-item]').length;
                     if (selectedFiles.length > remaining) {
-                        status.textContent = `This gallery can contain up to 20 images. Remove ${selectedFiles.length - remaining} image(s) first.`;
+                        status.textContent = `This gallery can contain up to 20 items. Remove ${selectedFiles.length - remaining} item(s) first.`;
                         return;
                     }
 
                     uploadButton.disabled = true;
-                    status.textContent = 'Uploading images…';
+                    status.textContent = 'Uploading media…';
                     const formData = new FormData();
                     selectedFiles.forEach((file) => formData.append('files[]', file, file.name));
 
@@ -157,7 +214,7 @@
                         selectedFiles = [];
                         fileInput.value = '';
                         showSelectedFiles();
-                        status.textContent = `${uploadedCount} image(s) uploaded. Save the draft to add them to this project.`;
+                        status.textContent = `${uploadedCount} item(s) uploaded. Assign a stage, then save the draft to add them to this project.`;
                     } catch (error) {
                         uploadButton.disabled = false;
                         status.textContent = error instanceof Error ? error.message : 'The images could not be uploaded. Check the files and try again.';

@@ -112,6 +112,10 @@ class ContentEntryController extends Controller
             'label' => ContentEntry::TYPES[$type],
             'entry' => $entry,
             'mediaAssets' => MediaAsset::query()->where('mime_type', 'like', 'image/%')->orderBy('original_name')->get(),
+            'galleryAssets' => MediaAsset::query()
+                ->where(fn ($query) => $query->where('mime_type', 'like', 'image/%')->orWhere('mime_type', 'like', 'video/%'))
+                ->orderBy('original_name')
+                ->get(),
         ]);
     }
 
@@ -143,6 +147,8 @@ class ContentEntryController extends Controller
             $rules['experience_source'] = ['required', 'in:beal_engagement,previous_professional'];
             $rules['gallery_media_ids'] = ['nullable', 'array', 'max:20'];
             $rules['gallery_media_ids.*'] = ['required', 'integer', 'distinct', 'exists:media_assets,id'];
+            $rules['gallery_stages'] = ['nullable', 'array', 'max:20'];
+            $rules['gallery_stages.*'] = ['nullable', Rule::in(array_keys(config('cms.project_gallery_stages', [])))];
         }
 
         $data = $request->validate($rules);
@@ -151,6 +157,9 @@ class ContentEntryController extends Controller
         $data['is_featured'] = $request->boolean('is_featured');
         if ($type === 'project') {
             $data['gallery_media_ids'] = array_values(array_map('intval', $data['gallery_media_ids'] ?? []));
+            $selectedMediaIds = array_fill_keys($data['gallery_media_ids'], true);
+            $galleryStages = array_filter($data['gallery_stages'] ?? [], fn (?string $stage): bool => filled($stage));
+            $data['gallery_stages'] = array_intersect_key($galleryStages, $selectedMediaIds);
         }
         unset($data['visibility']);
 

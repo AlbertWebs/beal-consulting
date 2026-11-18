@@ -276,6 +276,88 @@ class CmsFeatureTest extends TestCase
         $this->get(route('insights.show', $entry->slug))->assertOk()->assertSee('Look beyond the immediate metric.');
     }
 
+    public function test_project_gallery_stages_publish_in_their_delivery_order(): void
+    {
+        $admin = User::factory()->create(['role' => 'super_admin', 'is_active' => true]);
+        $blueprint = MediaAsset::query()->create([
+            'disk' => 'public',
+            'path' => 'projects/office-blueprint.jpg',
+            'original_name' => 'office-blueprint.jpg',
+            'mime_type' => 'image/jpeg',
+            'file_size' => 1000,
+            'alt_text' => 'Approved office floor plan',
+        ]);
+        $completed = MediaAsset::query()->create([
+            'disk' => 'public',
+            'path' => 'projects/office-complete.jpg',
+            'original_name' => 'office-complete.jpg',
+            'mime_type' => 'image/jpeg',
+            'file_size' => 1200,
+            'alt_text' => 'Completed office development',
+        ]);
+        $project = ContentEntry::factory()->create([
+            'type' => 'project',
+            'title' => 'Office development gallery test',
+            'slug' => 'office-development-gallery-test',
+            'summary' => null,
+            'content_html' => null,
+            'experience_source' => 'previous_professional',
+        ]);
+
+        $this->actingAs($admin)->put(route('admin.content.update', ['type' => 'project', 'contentEntry' => $project]), [
+            'title' => $project->title,
+            'slug' => $project->slug,
+            'experience_source' => 'previous_professional',
+            'gallery_media_ids' => [$completed->id, $blueprint->id],
+            'gallery_stages' => [$completed->id => 'completed', $blueprint->id => 'blueprints'],
+        ])->assertRedirect();
+
+        $project->refresh();
+        $this->assertSame('blueprints', $project->draft_data['gallery_stages'][$blueprint->id]);
+        $this->assertSame('completed', $project->draft_data['gallery_stages'][$completed->id]);
+
+        $this->post(route('admin.content.publish', ['type' => 'project', 'contentEntry' => $project]))->assertRedirect();
+
+        $project->refresh();
+        $this->assertSame('blueprints', $project->gallery_stages[$blueprint->id]);
+        $this->assertSame('completed', $project->gallery_stages[$completed->id]);
+
+        $response = $this->get(route('experience.show', $project->slug));
+        $response->assertOk()
+            ->assertSee('PROJECT JOURNEY')
+            ->assertSee('Blueprints & plans')
+            ->assertSee('Completed project')
+            ->assertSee('Approved office floor plan')
+            ->assertSee('Completed office development');
+        $this->assertLessThan(strpos($response->getContent(), 'Completed project'), strpos($response->getContent(), 'Blueprints &amp; plans'));
+    }
+
+    public function test_project_gallery_rejects_unrecognized_stages(): void
+    {
+        $admin = User::factory()->create(['role' => 'super_admin', 'is_active' => true]);
+        $media = MediaAsset::query()->create([
+            'disk' => 'public',
+            'path' => 'projects/office-plan.jpg',
+            'original_name' => 'office-plan.jpg',
+            'mime_type' => 'image/jpeg',
+            'file_size' => 1000,
+        ]);
+        $project = ContentEntry::factory()->create([
+            'type' => 'project',
+            'experience_source' => 'previous_professional',
+        ]);
+
+        $this->actingAs($admin)->put(route('admin.content.update', ['type' => 'project', 'contentEntry' => $project]), [
+            'title' => $project->title,
+            'slug' => $project->slug,
+            'experience_source' => 'previous_professional',
+            'gallery_media_ids' => [$media->id],
+            'gallery_stages' => [$media->id => 'construction-complete'],
+        ])->assertSessionHasErrors(['gallery_stages.'.$media->id]);
+
+        $this->assertNull($project->fresh()->draft_data);
+    }
+
     public function test_internal_page_sections_use_draft_and_publish_workflow(): void
     {
         $admin = User::factory()->create(['role' => 'super_admin', 'is_active' => true]);

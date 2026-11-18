@@ -14,33 +14,64 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class MediaAssetController extends Controller
 {
     public function index(Request $request): View
     {
-        $assets = MediaAsset::query()->where('mime_type', 'like', 'image/%')->when($request->string('q')->isNotEmpty(), fn ($query) => $query->where('original_name', 'like', '%'.$request->string('q').'%'))->latest()->paginate(36)->withQueryString();
+        $assets = MediaAsset::query()
+            ->where(fn ($query) => $query->where('mime_type', 'like', 'image/%')->orWhere('mime_type', 'like', 'video/%'))
+            ->when($request->string('q')->isNotEmpty(), fn ($query) => $query->where('original_name', 'like', '%'.$request->string('q').'%'))
+            ->latest()
+            ->paginate(36)
+            ->withQueryString();
 
         return view('admin.media.index', ['assets' => $assets]);
     }
 
     public function store(Request $request, CmsAuditLogger $audit): RedirectResponse|JsonResponse
     {
-        $data = $request->validate(['files' => ['required', 'array', 'max:20'], 'files.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:10240', 'dimensions:max_width=4000,max_height=4000'], 'alt_text' => ['nullable', 'string', 'max:500']]);
+        $data = $request->validate([
+            'files' => ['required', 'array', 'max:20'],
+            'files.*' => ['required', 'file', 'mimes:jpg,jpeg,png,webp,gif,mp4,webm', 'max:51200'],
+            'alt_text' => ['nullable', 'string', 'max:500'],
+        ]);
+        $validationErrors = [];
+        foreach ($data['files'] as $index => $file) {
+            if (str_starts_with((string) $file->getMimeType(), 'image/')) {
+                if ($file->getSize() > 10240 * 1024) {
+                    $validationErrors['files.'.$index] = 'Images must be 10 MB or smaller.';
+                }
+
+                $dimensions = @getimagesize($file->getRealPath()) ?: [null, null];
+                if (($dimensions[0] ?? 0) > 4000 || ($dimensions[1] ?? 0) > 4000) {
+                    $validationErrors['files.'.$index] = 'Images cannot exceed 4000 × 4000 pixels.';
+                }
+            } elseif (! in_array($file->getMimeType(), ['video/mp4', 'video/webm'], true)) {
+                $validationErrors['files.'.$index] = 'Videos must be MP4 or WebM files.';
+            }
+        }
+
+        if ($validationErrors !== []) {
+            throw ValidationException::withMessages($validationErrors);
+        }
+
         $diskName = (string) config('filesystems.cms_media_disk', 'public');
         $uploadedAssets = [];
 
         foreach ($data['files'] as $file) {
             $name = Str::uuid().'.'.$file->extension();
             $path = $file->storeAs('cms-media', $name, $diskName);
-            $dimensions = @getimagesize($file->getRealPath()) ?: [null, null];
+            $isImage = str_starts_with((string) $file->getMimeType(), 'image/');
+            $dimensions = $isImage ? (@getimagesize($file->getRealPath()) ?: [null, null]) : [null, null];
             $asset = MediaAsset::query()->create([
                 'disk' => $diskName, 'path' => $path, 'original_name' => $file->getClientOriginalName(),
                 'mime_type' => $file->getMimeType(), 'file_size' => $file->getSize(), 'width' => $dimensions[0],
                 'height' => $dimensions[1], 'alt_text' => $data['alt_text'] ?? '', 'uploaded_by' => $request->user()->id,
             ]);
-            $thumbnail = $this->makeThumbnail($file->getRealPath(), $asset->id, $diskName);
+            $thumbnail = $isImage ? $this->makeThumbnail($file->getRealPath(), $asset->id, $diskName) : null;
 
             if ($thumbnail !== null) {
                 $asset->update(['thumbnail_path' => $thumbnail]);
@@ -59,6 +90,7 @@ class MediaAssetController extends Controller
                     'url' => $asset->url,
                     'thumbnail_url' => $asset->thumbnail_url,
                     'alt_text' => $asset->alt_text,
+                    'mime_type' => $asset->mime_type,
                 ])->values(),
             ], 201);
         }
@@ -86,7 +118,7 @@ class MediaAssetController extends Controller
             || ContentEntry::query()->get(['content_html', 'draft_data'])->contains(fn (ContentEntry $entry): bool => $this->containsMediaUrl([$entry->content_html, $entry->draft_data], $mediaAsset->url))
             || SiteSetting::query()->get(['value'])->contains(fn (SiteSetting $setting): bool => $this->containsMediaUrl($setting->value, $mediaAsset->url));
         $isInPublishedGallery = ContentEntry::query()->whereJsonContains('gallery_media_ids', $mediaAsset->id)->exists();
-        abort_if($isInDraft || $isInPublishedGallery || $isEmbedded || $mediaAsset->sections()->exists() || $mediaAsset->services()->exists() || $mediaAsset->contentEntries()->exists() || $mediaAsset->settings()->exists() || $mediaAsset->pages()->exists(), 422, 'This image is currently in use. Replace its references before deleting it.');
+        abort_if($isInDraft || $isInPublishedGallery || $isEmbedded || $mediaAsset->sections()->exists() || $mediaAsset->services()->exists() || $mediaAsset->contentEntries()->exists() || $mediaAsset->settings()->exists() || $mediaAsset->pages()->exists(), 422, 'This media item is currently in use. Replace its references before deleting it.');
         Storage::disk($mediaAsset->disk)->delete(array_filter([$mediaAsset->path, $mediaAsset->thumbnail_path]));
         $mediaAsset->delete();
         $audit->record('media.deleted', 'Deleted media asset');
