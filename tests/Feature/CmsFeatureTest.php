@@ -239,8 +239,11 @@ class CmsFeatureTest extends TestCase
         $this->get(route('pages.services'))->assertSee('Strategic Intelligence &amp; Advisory', false)->assertSee('Explore service');
         $this->get(route('pages.sectors'))->assertSee('Real estate & property development')->assertSee('Public sector & development programmes');
         $this->get(route('sectors.show', 'infrastructure-transport'))->assertOk()->assertSee('Infrastructure & transport')->assertSee('Strategic Intelligence & Advisory');
-        $this->get(route('pages.insights'))->assertSee('No BEAL publications have been approved for release yet.');
-        $this->get(route('pages.experience'))->assertSee('No project or experience records have been approved for publication yet.');
+        $this->get(route('pages.insights'))
+            ->assertSee('NCA compliance in Kenya: the project controls developers should get right')
+            ->assertSee('After the Eastleigh building collapse: what project governance must make visible')
+            ->assertSee('The quiet project risk hiding in a concrete pour: curing and handover discipline');
+        $this->get(route('pages.experience'))->assertSee('Itare Fresh Water Dam Project')->assertSee('Previous professional experience');
         $this->get(route('pages.contact'))->assertSee('Nairobi, Kenya')->assertSee('data-enquiry-open');
     }
 

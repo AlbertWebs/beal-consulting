@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0b1b31">
     <meta name="description" content="{{ $pageDescription }}">
-    <meta name="robots" content="{{ ($isPreview ?? false) ? 'noindex,nofollow' : ($settings['seo.robots'] ?? 'index,follow') }}">
+    <meta name="robots" content="{{ ($isPreview ?? false) || ! config('beal.indexing_enabled') ? 'noindex,nofollow' : ($settings['seo.robots'] ?? 'index,follow') }}">
     <meta property="og:type" content="website">
     <meta property="og:title" content="{{ $pageTitle }}">
     <meta property="og:description" content="{{ $pageDescription }}">
@@ -100,7 +100,10 @@
                     <div><span>02</span><h3>Issues that need attention</h3><p>Key risks, delays, cost concerns and decisions surfaced for management review.</p></div>
                     <div><span>03</span><h3>Clear next actions</h3><p>Recommended actions with responsible parties and target dates.</p></div>
                 </div>
-                <button class="button button-gold" type="button" data-enquiry-open data-enquiry-service="Governance, Risk &amp; Performance">Request a Project Health Assessment <span aria-hidden="true">↗</span></button>
+                <div class="service-scorecard-actions">
+                    <a class="button button-gold" href="{{ route('scorecard.assessment') }}">Request a Project Health Assessment <span aria-hidden="true">↗</span></a>
+                    <a class="button button-outline" href="{{ route('scorecard.samples') }}">View sample scorecards <span aria-hidden="true">↗</span></a>
+                </div>
             </section>
         @endif
 

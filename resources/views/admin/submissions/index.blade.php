@@ -5,7 +5,7 @@
         <div>
             <p class="cms-page-eyebrow">COMMUNICATION</p>
             <h1 class="cms-title">Enquiries</h1>
-            <p class="cms-page-intro">Website form submissions are stored securely here.</p>
+            <p class="cms-page-intro">Website enquiries and Project Health Assessment requests are stored here.</p>
         </div>
         <a class="cms-button cms-button-gold" href="{{ route('admin.submissions.export') }}">Export CSV <span aria-hidden="true">↓</span></a>
     </header>
@@ -30,7 +30,7 @@
 
         <div class="cms-table-scroll">
             <table class="cms-table">
-                <caption class="cms-table-caption">Enquiries received from the website contact form</caption>
+                <caption class="cms-table-caption">Enquiries and assessment requests received from the BEAL website</caption>
                 <thead>
                     <tr><th scope="col">Received</th><th scope="col">Contact</th><th scope="col">Company</th><th scope="col">Service</th><th scope="col">Status</th><th scope="col"><span class="cms-visually-hidden">Actions</span></th></tr>
                 </thead>
@@ -40,7 +40,7 @@
                             <td data-label="Received"><time class="cms-page-updated" datetime="{{ $submission->created_at->toIso8601String() }}">{{ $submission->created_at->format('M j, Y') }}</time><span class="cms-table-subtext">{{ $submission->created_at->format('g:i A') }}</span></td>
                             <td data-label="Contact"><strong>{{ $submission->name }}</strong><span class="cms-table-subtext"><a href="mailto:{{ $submission->email }}">{{ $submission->email }}</a></span></td>
                             <td data-label="Company">{{ $submission->company ?: '-' }}</td>
-                            <td data-label="Service">{{ $submission->service ?: '-' }}</td>
+                            <td data-label="Service">@if(str_starts_with($submission->message, 'PROJECT HEALTH ASSESSMENT REQUEST'))<strong>Project Health Assessment</strong><span class="cms-table-subtext">{{ $submission->service }}</span>@else{{ $submission->service ?: '-' }}@endif</td>
                             <td data-label="Status"><span class="cms-status-pill cms-status-{{ $submission->status }}">{{ str($submission->status)->replace('_', ' ')->title() }}</span></td>
                             <td data-label="Action"><a class="cms-table-action" href="{{ route('admin.submissions.show', $submission) }}">Read <span aria-hidden="true">↗</span></a></td>
                         </tr>

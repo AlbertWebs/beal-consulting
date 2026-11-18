@@ -86,6 +86,11 @@ class SettingsController extends Controller
                     validator(['email' => $value], ['email' => ['email', 'max:254']])->validate();
                 }
 
+                if ($group === 'contact' && $key === 'whatsapp' && $value !== '') {
+                    $digits = preg_replace('/\D/', '', $value);
+                    abort_unless(preg_match('/^\+?[0-9\s().-]+$/', $value) === 1 && strlen($digits) >= 8 && strlen($digits) <= 15, 422, 'Enter a WhatsApp number in international format.');
+                }
+
                 SiteSetting::query()->updateOrCreate(
                     ['setting_key' => $group.'.'.$key],
                     ['setting_group' => $group, 'value' => ['value' => $value], 'updated_by' => $request->user()->id],

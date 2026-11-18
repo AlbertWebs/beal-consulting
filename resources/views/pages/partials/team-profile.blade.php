@@ -3,6 +3,7 @@
     $nameParts = preg_split('/\s+/', trim($profileName)) ?: [];
     $profileInitials = mb_strtoupper(mb_substr($nameParts[0] ?? 'T', 0, 1).(count($nameParts) > 1 ? mb_substr(end($nameParts), 0, 1) : ''));
     $bio = is_array($profile['bio'] ?? null) ? $profile['bio'] : (filled($profile['bio'] ?? '') ? [strip_tags($profile['bio'])] : []);
+    $profileSlug = filled($profile['slug'] ?? null) ? \Illuminate\Support\Str::slug($profile['slug']) : \Illuminate\Support\Str::slug($profileName);
 @endphp
 
 <article class="secondary-team-card {{ $founder ? 'secondary-team-card-founder' : 'secondary-team-card-member' }}">
@@ -24,5 +25,6 @@
                 @endforeach
             </div>
         @endif
+        <a class="text-link text-link-navy" href="{{ route('team.show', ['slug' => $profileSlug]) }}">View profile <span aria-hidden="true">↗</span></a>
     </div>
 </article>

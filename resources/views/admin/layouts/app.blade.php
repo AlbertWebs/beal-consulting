@@ -13,6 +13,7 @@
             <a href="{{ route('admin.dashboard') }}" @if(request()->routeIs('admin.dashboard')) aria-current="page" @endif>◫ <span>Dashboard</span></a>
             @if(auth()->user()->canManageCms('pages'))
                 <div class="cms-nav-label">CONTENT</div>
+                <a href="{{ route('admin.banners.edit') }}" @if(request()->routeIs('admin.banners.*')) aria-current="page" @endif>▧ <span>Banners</span></a>
                 <a href="{{ route('admin.pages.index') }}" @if(request()->routeIs('admin.pages.*')) aria-current="page" @endif>▤ <span>Pages</span></a>
             @endif
             @if(auth()->user()->canManageCms('services'))<a href="{{ route('admin.services.index') }}" @if(request()->routeIs('admin.services.*')) aria-current="page" @endif>⌂ <span>Services</span></a>@endif

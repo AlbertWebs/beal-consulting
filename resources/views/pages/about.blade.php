@@ -95,7 +95,7 @@
         @php($leadership = $content['about_leadership'])
         @php($teamProfiles = collect($leadership['profiles'] ?? []))
         @if (filled(strip_tags($leadership['introduction'] ?? '')) || $teamProfiles->isNotEmpty())
-            <section class="secondary-leadership section-pad" style="order:{{ $sectionOrders['about_leadership'] ?? 40 }}">
+            <section id="leadership" class="secondary-leadership section-pad" style="order:{{ $sectionOrders['about_leadership'] ?? 40 }}">
                 <div class="secondary-index"><span>04</span><i></i><span>OUR TEAM</span></div>
                 @if (filled(strip_tags($leadership['introduction'] ?? '')))
                     <div class="secondary-intro-grid"><h2>People behind<br><em>the perspective.</em></h2><div>{!! $leadership['introduction'] !!}</div></div>

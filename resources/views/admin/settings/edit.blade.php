@@ -16,7 +16,7 @@
         @method('PUT')
         <div class="cms-settings-fields">
             @foreach($groups[$group] as $key => $default)
-                @php($label = $group === 'contact' ? ['email' => 'Public email', 'phone' => 'Public phone number', 'location' => 'Office location', 'maps_url' => 'Map link', 'business_hours' => 'Business hours'][$key] : ($group === 'footer' && $key === 'social_links' ? 'Social links' : str($key)->replace('_', ' ')->title()))
+                @php($label = $group === 'contact' ? ['email' => 'Public email', 'phone' => 'Public phone number', 'whatsapp' => 'WhatsApp number (international format)', 'location' => 'Office location', 'maps_url' => 'Map link', 'business_hours' => 'Business hours'][$key] : ($group === 'footer' && $key === 'social_links' ? 'Social links' : str($key)->replace('_', ' ')->title()))
                 <div class="cms-field">
                     <label class="cms-label" for="setting-{{ $key }}">{{ $label }}</label>
                     @if(is_array($default))
@@ -25,7 +25,7 @@
                     @else
                         <input class="cms-input" id="setting-{{ $key }}" name="settings[{{ $key }}]" value="{{ old('settings.'.$key, $values[$key] ?? $default) }}" @if(str_contains($key, 'email')) type="email" @elseif(str_contains($key, 'url')) type="url" @elseif(str_contains($key, 'color')) type="color" @else type="text" @endif>
                         @if($group === 'contact')
-                            <small class="cms-muted">{{ ['email' => 'Shown as a clickable email address.', 'phone' => 'Shown as a tap-to-call phone number.', 'location' => 'Shown as your office location.', 'maps_url' => 'Adds a link to your location.', 'business_hours' => 'Shown with your contact details.'][$key] }}</small>
+                            <small class="cms-muted">{{ ['email' => 'Shown as a clickable email address.', 'phone' => 'Shown as a tap-to-call phone number.', 'whatsapp' => 'Shown as a WhatsApp chat link. Enter the number with country code, for example 2547XXXXXXXX.', 'location' => 'Shown as your office location.', 'maps_url' => 'Adds a link to your location.', 'business_hours' => 'Shown with your contact details.'][$key] }}</small>
                         @endif
                     @endif
                 </div>

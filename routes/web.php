@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\AuthController as CmsAuthController;
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\ContactSubmissionController;
 use App\Http\Controllers\Admin\ContentEntryController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -36,13 +37,16 @@ Route::get('/', function () {
     $sectionOrders = $sections->mapWithKeys(fn (PageSection $section): array => [$section->section_key => $section->sort_order])->all();
     $sectionImages = [];
 
+    $homeBannerSlots = ['hero' => 'home_hero', 'about' => 'home_about', 'sectors' => 'home_sectors', 'insights' => 'home_insights', 'experience' => 'home_experience', 'contact' => 'home_contact'];
+
     foreach (config('cms.sections') as $key => $schema) {
         $section = $sections->get($key);
         $media = $isPreview ? ($section?->draftMedia ?? $section?->media) : $section?->media;
-        $sectionImages[$key] = $media?->url ?? asset($schema['image'] ?? 'assets/home-image/nairobi-skyline.jpg');
+        $banner = $settings['banners.'.($homeBannerSlots[$key] ?? '')] ?? null;
+        $sectionImages[$key] = filled($banner) ? $banner : ($media?->url ?? asset($schema['image'] ?? 'assets/home-image/nairobi-skyline.jpg'));
     }
     $services = WebsiteService::query()->with('media')->where('status', 'published')->orderBy('sort_order')->get();
-    $services = $services->map(fn (WebsiteService $service): array => [...$service->toArray(), 'image' => $service->media?->url ?? asset(ltrim((string) $service->image_path, '/')), 'image_alt' => $service->image_alt])->all();
+    $services = $services->map(fn (WebsiteService $service): array => [...$service->toArray(), 'image' => ($settings['banners.service_'.$service->id] ?? null) ?: ($service->media?->url ?? asset(ltrim((string) $service->image_path, '/'))), 'image_alt' => $service->image_alt])->all();
     $sectorEntries = ContentEntry::query()->where('type', 'sector')->where('status', 'published')->orderBy('sort_order')->get();
 
     return view('home-image', [
@@ -74,6 +78,9 @@ Route::get('/sectors', [PublicPageController::class, 'show'])->defaults('pageKey
 Route::get('/insights', [PublicPageController::class, 'show'])->defaults('pageKey', 'insights')->name('pages.insights');
 Route::get('/experience', [PublicPageController::class, 'show'])->defaults('pageKey', 'experience')->name('pages.experience');
 Route::get('/contact', [PublicPageController::class, 'show'])->defaults('pageKey', 'contact')->name('pages.contact');
+Route::get('/project-health-scorecard/request', [PublicPageController::class, 'scorecardAssessment'])->name('scorecard.assessment');
+Route::get('/project-health-scorecard/samples', [PublicPageController::class, 'scorecardSamples'])->name('scorecard.samples');
+Route::get('/team/{slug}', [PublicPageController::class, 'teamMember'])->name('team.show');
 Route::get('/sectors/{slug}', [PublicPageController::class, 'sector'])->name('sectors.show');
 Route::get('/insights/{slug}', [PublicPageController::class, 'insight'])->name('insights.show');
 Route::get('/experience/{slug}', [PublicPageController::class, 'project'])->name('experience.show');
@@ -90,12 +97,12 @@ Route::get('/services/{service}', function (string $service) {
     $settings = app(WebsiteSettings::class)->all();
 
     $siteUrl = rtrim((string) ($settings['general.site_url'] ?? config('beal.site_url')), '/');
-    $serviceArray = [...$serviceDetails->toArray(), 'image' => $serviceDetails->media?->url ?? asset(ltrim((string) $serviceDetails->image_path, '/')), 'image_alt' => $serviceDetails->image_alt];
+    $serviceArray = [...$serviceDetails->toArray(), 'image' => ($settings['banners.service_'.$serviceDetails->id] ?? null) ?: ($serviceDetails->media?->url ?? asset(ltrim((string) $serviceDetails->image_path, '/'))), 'image_alt' => $serviceDetails->image_alt];
 
     return view('service', [
         'service' => $serviceArray,
         'otherServices' => array_values(array_filter(
-            $services->map(fn (WebsiteService $other): array => [...$other->toArray(), 'image' => $other->media?->url ?? asset(ltrim((string) $other->image_path, '/'))])->all(),
+            $services->map(fn (WebsiteService $other): array => [...$other->toArray(), 'image' => ($settings['banners.service_'.$other->id] ?? null) ?: ($other->media?->url ?? asset(ltrim((string) $other->image_path, '/'))), 'image_alt' => $other->image_alt])->all(),
             fn (array $serviceItem): bool => $serviceItem['slug'] !== $serviceArray['slug'],
         )),
         'canonicalUrl' => $siteUrl.'/services/'.$service,
@@ -109,16 +116,38 @@ Route::get('/services/{service}', function (string $service) {
 
 Route::get('/sitemap.xml', function (WebsiteSettings $settings) {
     $url = rtrim((string) $settings->get('general.site_url', config('beal.site_url')), '/');
+    if (! config('beal.indexing_enabled')) {
+        return response()->view('sitemap', ['url' => $url, 'services' => collect(), 'pages' => collect(), 'entries' => collect(), 'teamProfiles' => collect(), 'indexingEnabled' => false])->header('Content-Type', 'application/xml; charset=UTF-8');
+    }
     $services = WebsiteService::query()->where('status', 'published')->orderBy('sort_order')->get();
-    $pages = WebsitePage::query()->where('status', 'published')->whereNotIn('page_key', ['home', 'legacy-home'])->get();
-    $entries = ContentEntry::query()->where('status', 'published')->get();
+    $pages = WebsitePage::query()->where('status', 'published')->where(fn ($query) => $query->whereNull('published_at')->orWhere('published_at', '<=', now()))->whereNotIn('page_key', ['home', 'legacy-home'])->get();
+    $entries = ContentEntry::query()->where('status', 'published')->where(fn ($query) => $query->whereNull('published_at')->orWhere('published_at', '<=', now()))->get();
+    $aboutPage = WebsitePage::query()->with('sections')->where('page_key', 'about')->first();
+    $leadership = $aboutPage?->sections->firstWhere('section_key', 'about_leadership');
+    $teamProfiles = $leadership?->is_enabled
+        ? collect($leadership->content['profiles'] ?? [])->filter(fn (mixed $profile): bool => is_array($profile) && filled($profile['name'] ?? ''))
+        : collect();
 
-    return response()->view('sitemap', ['url' => $url, 'services' => $services, 'pages' => $pages, 'entries' => $entries])->header('Content-Type', 'application/xml; charset=UTF-8');
+    return response()->view('sitemap', ['url' => $url, 'services' => $services, 'pages' => $pages, 'entries' => $entries, 'teamProfiles' => $teamProfiles, 'indexingEnabled' => true])->header('Content-Type', 'application/xml; charset=UTF-8');
 })->name('sitemap');
 
 Route::post('/enquiries', StoreEnquiryController::class)
     ->middleware('throttle:5,1')
     ->name('enquiries.store');
+
+Route::post('/project-health-scorecard/requests', [StoreEnquiryController::class, 'assessment'])
+    ->middleware('throttle:5,1')
+    ->name('scorecard.assessment.store');
+
+Route::get('/robots.txt', function (WebsiteSettings $settings) {
+    if (! config('beal.indexing_enabled')) {
+        return response("User-agent: *\nAllow: /\n", 200)->header('Content-Type', 'text/plain; charset=UTF-8');
+    }
+
+    $siteUrl = rtrim((string) $settings->get('general.site_url', config('beal.site_url')), '/');
+
+    return response("User-agent: *\nAllow: /\n\nSitemap: {$siteUrl}/sitemap.xml\n", 200)->header('Content-Type', 'text/plain; charset=UTF-8');
+})->name('robots');
 
 Route::prefix('admin')->as('admin.')->group(function (): void {
     Route::get('/login', [CmsAuthController::class, 'create'])->name('login');
@@ -132,6 +161,8 @@ Route::prefix('admin')->as('admin.')->group(function (): void {
         Route::get('/search', SearchController::class)->name('search');
 
         Route::middleware('cms.permission:pages')->group(function (): void {
+            Route::get('/banners', [BannerController::class, 'edit'])->name('banners.edit');
+            Route::put('/banners', [BannerController::class, 'update'])->name('banners.update');
             Route::get('/pages', [PageController::class, 'index'])->name('pages.index');
             Route::get('/pages/{websitePage}/revisions', [PageController::class, 'revisions'])->name('pages.revisions');
             Route::post('/pages/{websitePage}/revisions/{revision}/restore', [PageController::class, 'restoreRevision'])->name('pages.revisions.restore');

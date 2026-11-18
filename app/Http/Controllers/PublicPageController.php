@@ -8,10 +8,95 @@ use App\Models\WebsitePage;
 use App\Models\WebsiteService;
 use App\Services\WebsiteSettings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class PublicPageController extends Controller
 {
+    public function scorecardAssessment(WebsiteSettings $websiteSettings): View
+    {
+        $settings = $websiteSettings->all();
+        $siteUrl = rtrim((string) ($settings['general.site_url'] ?? config('beal.site_url')), '/');
+        $banner = $settings['banners.scorecard_assessment'] ?? null;
+
+        return view('pages.scorecard-assessment', [
+            'settings' => $settings,
+            'isPreview' => false,
+            'robots' => 'noindex,nofollow',
+            'canonicalUrl' => $siteUrl.'/project-health-scorecard/request',
+            'pageTitle' => 'Request a Project Health Assessment | BEAL Consulting',
+            'pageDescription' => 'Share a few details about your project and request a BEAL Project Health Scorecard assessment.',
+            'bannerImage' => filled($banner) ? $banner : asset('assets/home-image/project-analytics.jpg'),
+        ]);
+    }
+
+    public function scorecardSamples(WebsiteSettings $websiteSettings): View
+    {
+        $settings = $websiteSettings->all();
+        $siteUrl = rtrim((string) ($settings['general.site_url'] ?? config('beal.site_url')), '/');
+        $banner = $settings['banners.scorecard_samples'] ?? null;
+
+        return view('pages.scorecard-samples', [
+            'settings' => $settings,
+            'isPreview' => false,
+            'canonicalUrl' => $siteUrl.'/project-health-scorecard/samples',
+            'pageTitle' => 'Construction Project Health Scorecards | BEAL Consulting',
+            'pageDescription' => 'Explore interactive construction project health scorecards for cost, schedule, quality, safety, resources and risk. See how project performance monitoring supports better decisions.',
+            'bannerImage' => filled($banner) ? $banner : asset('assets/home-image/project-analytics.jpg'),
+        ]);
+    }
+
+    public function teamMember(string $slug, WebsiteSettings $websiteSettings): View
+    {
+        $aboutPage = WebsitePage::query()->with('sections.media')->where('page_key', 'about')->firstOrFail();
+        abort_unless($aboutPage->isPublished(), 404);
+        $leadership = $aboutPage->sections->firstWhere('section_key', 'about_leadership');
+        abort_unless($leadership?->is_enabled, 404);
+        $profiles = $leadership?->content['profiles'] ?? [];
+        $profile = collect($profiles)->first(function (array $candidate) use ($slug): bool {
+            $candidateSlug = filled($candidate['slug'] ?? null)
+                ? Str::slug($candidate['slug'])
+                : Str::slug((string) ($candidate['name'] ?? ''));
+
+            return $candidateSlug === $slug;
+        });
+        abort_unless(is_array($profile) && filled($profile['name'] ?? ''), 404);
+
+        $name = (string) $profile['name'];
+        $role = trim((string) ($profile['role'] ?? 'BEAL team member'));
+        $bio = is_array($profile['bio'] ?? null) ? array_values(array_filter($profile['bio'], 'is_string')) : [strip_tags((string) ($profile['bio'] ?? ''))];
+        $bio = array_values(array_filter($bio, fn (string $paragraph): bool => filled(trim($paragraph))));
+        $settings = $websiteSettings->all();
+        $siteUrl = rtrim((string) ($settings['general.site_url'] ?? config('beal.site_url')), '/');
+        $teamBanner = $settings['banners.team_profile'] ?? null;
+        $profileDescription = trim((string) ($profile['seo_description'] ?? ''));
+        $pageDescription = $profileDescription !== ''
+            ? $profileDescription
+            : $name.' is '.$role.' at BEAL Consulting, supporting project and built-environment advisory across Kenya and Africa.';
+
+        return view('pages.team-member', [
+            'profile' => $profile,
+            'profileBio' => $bio,
+            'profileSlug' => $slug,
+            'profileRole' => $role,
+            'settings' => $settings,
+            'isPreview' => false,
+            'canonicalUrl' => $siteUrl.'/team/'.$slug,
+            'pageTitle' => filled($profile['seo_title'] ?? '') ? $profile['seo_title'] : $name.' | '.$role.' | BEAL Consulting',
+            'pageDescription' => $pageDescription,
+            'personJsonLd' => json_encode([
+                '@context' => 'https://schema.org',
+                '@type' => 'Person',
+                'name' => $name,
+                'jobTitle' => $role,
+                'url' => $siteUrl.'/team/'.$slug,
+                'worksFor' => ['@type' => 'Organization', 'name' => $settings['general.legal_name'] ?? 'BEAL Consulting Ltd'],
+                ...(filled($profile['image'] ?? '') ? ['image' => url($profile['image'])] : []),
+            ], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT),
+            'bannerImage' => filled($teamBanner) ? $teamBanner : asset('assets/home-image/glass-architecture.jpg'),
+        ]);
+    }
+
     public function show(string $pageKey, Request $request, WebsiteSettings $websiteSettings): View
     {
         abort_unless(in_array($pageKey, ['about', 'services', 'sectors', 'insights', 'experience', 'contact'], true), 404);
@@ -23,13 +108,22 @@ class PublicPageController extends Controller
         $content = $sections->map(fn (PageSection $section): array => $isPreview ? ($section->draft_content ?? $section->content ?? []) : ($section->content ?? []))->all();
         $visible = $sections->mapWithKeys(fn (PageSection $section): array => [$section->section_key => $isPreview ? ($section->draft_enabled ?? $section->is_enabled) : $section->is_enabled])->all();
         $sectionOrders = $sections->mapWithKeys(fn (PageSection $section): array => [$section->section_key => $section->sort_order])->all();
+        $settings = $websiteSettings->all();
+        $pageBannerSlots = [
+            'about_overview' => 'page_about',
+            'services_intro' => 'page_services',
+            'sectors_intro' => 'page_sectors',
+            'insights_intro' => 'page_insights',
+            'experience_intro' => 'page_experience',
+            'contact_intro' => 'page_contact',
+        ];
         $sectionImages = [];
         foreach (config('cms.page_sections') as $key => $schema) {
             $section = $sections->get($key);
             $media = $isPreview ? ($section?->draftMedia ?? $section?->media) : $section?->media;
-            $sectionImages[$key] = $media?->url ?? asset($schema['image'] ?? 'assets/home-image/glass-architecture.jpg');
+            $banner = isset($pageBannerSlots[$key]) ? ($settings['banners.'.$pageBannerSlots[$key]] ?? null) : null;
+            $sectionImages[$key] = filled($banner) ? $banner : ($media?->url ?? asset($schema['image'] ?? 'assets/home-image/glass-architecture.jpg'));
         }
-        $settings = $websiteSettings->all();
         $siteUrl = rtrim((string) ($settings['general.site_url'] ?? config('beal.site_url')), '/');
         $contentType = match ($pageKey) {
             'sectors' => 'sector',
@@ -38,6 +132,9 @@ class PublicPageController extends Controller
             default => null,
         };
         $services = WebsiteService::query()->with('media')->where('status', 'published')->orderBy('sort_order')->get();
+        $services->each(function (WebsiteService $service) use ($settings): void {
+            $service->setAttribute('banner_url', $settings['banners.service_'.$service->id] ?? $service->media?->url ?? asset(ltrim((string) $service->image_path, '/')));
+        });
         $entryQuery = ContentEntry::query()->with('media')->where('type', $contentType)->where('status', 'published')->where(fn ($query) => $query->whereNull('published_at')->orWhere('published_at', '<=', now()));
         $search = trim((string) $request->query('q', ''));
         $category = trim((string) $request->query('category', ''));
@@ -50,6 +147,9 @@ class PublicPageController extends Controller
             }
         }
         $entries = $contentType === null ? collect() : $entryQuery->orderByDesc('is_featured')->orderBy('sort_order')->orderByDesc('published_at')->get();
+        $entries->each(function (ContentEntry $entry) use ($settings): void {
+            $entry->setAttribute('banner_url', $settings['banners.entry_'.$entry->id] ?? $entry->media?->url);
+        });
         $categories = $pageKey === 'insights' ? ContentEntry::query()->where('type', 'insight')->where('status', 'published')->where(fn ($query) => $query->whereNull('published_at')->orWhere('published_at', '<=', now()))->whereNotNull('category')->distinct()->orderBy('category')->pluck('category') : collect();
         $experienceProjectLinks = collect();
         if ($pageKey === 'about') {
@@ -103,6 +203,7 @@ class PublicPageController extends Controller
 
         $settings = $websiteSettings->all();
         $siteUrl = rtrim((string) ($settings['general.site_url'] ?? config('beal.site_url')), '/');
+        $entryBanner = $settings['banners.entry_'.$entry->id] ?? null;
         $routePath = match ($type) {
             'sector' => 'sectors',
             'insight' => 'insights',
@@ -127,6 +228,7 @@ class PublicPageController extends Controller
             'services' => WebsiteService::query()->where('status', 'published')->orderBy('sort_order')->get(),
             'relatedEntries' => $relatedEntries,
             'galleryMedia' => $galleryMedia,
+            'bannerImage' => filled($entryBanner) ? $entryBanner : ($entry->media?->url ?? asset('assets/home-image/'.($type === 'sector' ? 'urban-infrastructure.jpg' : ($type === 'insight' ? 'nairobi-skyline.jpg' : 'city-development.jpg')))),
         ]);
     }
 

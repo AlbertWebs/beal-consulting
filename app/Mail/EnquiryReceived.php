@@ -23,7 +23,9 @@ class EnquiryReceived extends Mailable
     {
         return new Envelope(
             replyTo: [new Address($this->enquiry['email'])],
-            subject: 'New BEAL website enquiry',
+            subject: str_starts_with($this->enquiry['message'], 'PROJECT HEALTH ASSESSMENT REQUEST')
+                ? 'New BEAL Project Health Assessment request'
+                : 'New BEAL website enquiry',
         );
     }
 

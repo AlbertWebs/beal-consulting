@@ -1,6 +1,23 @@
 <?php
 
 return [
+    'banners' => [
+        'home_hero' => ['label' => 'Homepage hero', 'description' => 'The main image behind the homepage introduction.', 'group' => 'Homepage', 'page' => 'home', 'section' => 'hero', 'image' => 'assets/home-image/nairobi-skyline.jpg'],
+        'home_about' => ['label' => 'Homepage · About', 'description' => 'The image beside the homepage introduction to BEAL.', 'group' => 'Homepage', 'page' => 'home', 'section' => 'about', 'image' => 'assets/home-image/glass-architecture.jpg'],
+        'home_sectors' => ['label' => 'Homepage · Sectors', 'description' => 'The image used in the homepage sector overview.', 'group' => 'Homepage', 'page' => 'home', 'section' => 'sectors', 'image' => 'assets/home-image/urban-infrastructure.jpg'],
+        'home_insights' => ['label' => 'Homepage · Insights', 'description' => 'The image beside the homepage insights section.', 'group' => 'Homepage', 'page' => 'home', 'section' => 'insights', 'image' => 'assets/home-image/nairobi-skyline.jpg'],
+        'home_experience' => ['label' => 'Homepage · Experience', 'description' => 'The image used in the homepage project experience section.', 'group' => 'Homepage', 'page' => 'home', 'section' => 'experience', 'image' => 'assets/home-image/city-development.jpg'],
+        'home_contact' => ['label' => 'Homepage · Contact', 'description' => 'The closing contact image on the homepage.', 'group' => 'Homepage', 'page' => 'home', 'section' => 'contact', 'image' => 'assets/home-image/urban-infrastructure.jpg'],
+        'page_about' => ['label' => 'About page', 'description' => 'The banner behind the About page introduction.', 'group' => 'Main pages', 'page' => 'about', 'section' => 'about_overview', 'image' => 'assets/home-image/glass-architecture.jpg'],
+        'page_services' => ['label' => 'Services page', 'description' => 'The banner behind the Services page introduction.', 'group' => 'Main pages', 'page' => 'services', 'section' => 'services_intro', 'image' => 'assets/home-image/glass-architecture.jpg'],
+        'page_sectors' => ['label' => 'Sectors page', 'description' => 'The banner behind the Sectors page introduction.', 'group' => 'Main pages', 'page' => 'sectors', 'section' => 'sectors_intro', 'image' => 'assets/home-image/urban-infrastructure.jpg'],
+        'page_insights' => ['label' => 'Insights page', 'description' => 'The banner behind the Insights page introduction.', 'group' => 'Main pages', 'page' => 'insights', 'section' => 'insights_intro', 'image' => 'assets/home-image/nairobi-skyline.jpg'],
+        'page_experience' => ['label' => 'Experience page', 'description' => 'The banner behind the Experience page introduction.', 'group' => 'Main pages', 'page' => 'experience', 'section' => 'experience_intro', 'image' => 'assets/home-image/city-development.jpg'],
+        'page_contact' => ['label' => 'Contact page', 'description' => 'The banner behind the Contact page introduction.', 'group' => 'Main pages', 'page' => 'contact', 'section' => 'contact_intro', 'image' => 'assets/home-image/urban-infrastructure.jpg'],
+        'team_profile' => ['label' => 'Team profile pages', 'description' => 'Shared banner behind individual team member profiles.', 'group' => 'Other pages', 'image' => 'assets/home-image/glass-architecture.jpg'],
+        'scorecard_assessment' => ['label' => 'Project Health Assessment', 'description' => 'Banner at the top of the assessment request page.', 'group' => 'Other pages', 'image' => 'assets/home-image/project-analytics.jpg'],
+        'scorecard_samples' => ['label' => 'Sample scorecards', 'description' => 'Banner at the top of the interactive scorecard showcase.', 'group' => 'Other pages', 'image' => 'assets/home-image/project-analytics.jpg'],
+    ],
     'sections' => [
         'hero' => [
             'label' => 'Hero',
@@ -245,6 +262,7 @@ return [
                 'team_explore_url' => '#professional-experience',
                 'profiles' => [[
                     'name' => 'Benson Mathia Ng’ang’a',
+                    'slug' => 'benson-mathia-nganga',
                     'role' => 'Founder & Director | PMP® | Construction & Project Management Professional',
                     'image' => '/assets/team/benson-mathia-nganga.jpeg',
                     'image_alt' => 'Portrait of Benson Mathia Ng’ang’a',
@@ -257,18 +275,21 @@ return [
                     ],
                 ], [
                     'name' => 'Mark Kang\'ethe',
+                    'slug' => 'mark-kangethe',
                     'role' => 'Business Development',
                     'image' => '/assets/team/mark-kangethe-avatar.jpg',
                     'image_alt' => 'Illustrated avatar for Mark Kang\'ethe',
                     'bio' => [],
                 ], [
                     'name' => 'Loise Manase',
+                    'slug' => 'loise-manase',
                     'role' => 'Structural Engineer',
                     'image' => '/assets/team/loise-manase-avatar.jpg',
                     'image_alt' => 'Illustrated avatar for Loise Manase',
                     'bio' => [],
                 ], [
                     'name' => 'Noel Kibet',
+                    'slug' => 'noel-kibet',
                     'role' => 'Quantity Surveyor (QS)',
                     'image' => '/assets/team/noel-kibet-avatar.jpg',
                     'image_alt' => 'Illustrated avatar for Noel Kibet',
@@ -306,7 +327,7 @@ return [
                     'Africa Area Office Development',
                     'British American Tobacco (BAT) Headquarters Refurbishment',
                 ],
-                'attribution_note' => '<p>These projects reflect the Founding Director’s professional experience gained through previous engagements. They are not presented as projects directly contracted by BEAL Consulting Ltd.</p>',
+                'attribution_note' => '<p>These projects reflect experience our team members gained in earlier roles. We bring that experience to our work at BEAL today.</p>',
             ],
         ],
         'sectors_intro' => [
@@ -400,6 +421,7 @@ return [
         'contact' => [
             'email' => '',
             'phone' => '',
+            'whatsapp' => '',
             'location' => '',
             'maps_url' => '',
             'business_hours' => '',

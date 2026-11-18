@@ -2,6 +2,7 @@
 
 return [
     'site_url' => env('BEAL_SITE_URL', 'https://www.bealconsulting.africa'),
+    'indexing_enabled' => (bool) env('BEAL_INDEXING_ENABLED', false),
     'contact_email' => env('BEAL_CONTACT_EMAIL'),
     'google_analytics_id' => env('BEAL_GOOGLE_ANALYTICS_ID'),
     'services' => [
