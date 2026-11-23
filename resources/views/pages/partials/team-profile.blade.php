@@ -20,8 +20,8 @@
         </div>
         @if ($founder && collect($bio)->contains(fn ($paragraph) => filled($paragraph)))
             <div class="secondary-team-bio">
-                @foreach ($bio as $paragraph)
-                    @if (filled($paragraph))<p>{{ $paragraph }}</p>@endif
+                @foreach (collect($bio)->filter(fn ($paragraph) => filled($paragraph))->take(3) as $paragraph)
+                    <p>{{ $paragraph }}</p>
                 @endforeach
             </div>
         @endif
