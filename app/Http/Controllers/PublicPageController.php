@@ -130,6 +130,8 @@ class PublicPageController extends Controller
             'canonicalUrl' => $siteUrl.'/team/'.$slug,
             'pageTitle' => filled($profile['seo_title'] ?? '') ? $profile['seo_title'] : $name.' | '.$role.' | BEAL Consulting',
             'pageDescription' => $pageDescription,
+            'socialPreviewImage' => filled($profile['image'] ?? '') ? url($profile['image']) : null,
+            'socialPreviewImageAlt' => $name.' — '.$role,
             'personJsonLd' => json_encode([
                 '@context' => 'https://schema.org',
                 '@type' => 'Person',
