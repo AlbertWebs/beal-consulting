@@ -93,7 +93,7 @@
 
     @if (($visible['about_leadership'] ?? true) && isset($content['about_leadership']))
         @php($leadership = $content['about_leadership'])
-        @php($teamProfiles = collect($leadership['profiles'] ?? []))
+        @php($teamProfiles = collect($leadership['profiles'] ?? [])->reject(fn (array $profile) => in_array(mb_strtolower(trim((string) ($profile['name'] ?? ''))), ["mark kang'ethe", 'loise manase', 'noel kibet'], true))->values())
         @if (filled(strip_tags($leadership['introduction'] ?? '')) || $teamProfiles->isNotEmpty())
             <section id="leadership" class="secondary-leadership section-pad" style="order:{{ $sectionOrders['about_leadership'] ?? 40 }}">
                 <div class="secondary-index"><span>04</span><i></i><span>OUR TEAM</span></div>
