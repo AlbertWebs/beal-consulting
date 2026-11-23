@@ -5,6 +5,10 @@
         <loc>{{ $url }}/</loc>
         <changefreq>monthly</changefreq>
     </url>
+    <url>
+        <loc>{{ $url }}/partnerships</loc>
+        <changefreq>monthly</changefreq>
+    </url>
     @foreach ($services as $service)
         <url>
             <loc>{{ $url }}/services/{{ $service['slug'] }}</loc>

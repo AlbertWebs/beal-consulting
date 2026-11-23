@@ -77,6 +77,7 @@ Route::get('/services', [PublicPageController::class, 'show'])->defaults('pageKe
 Route::get('/sectors', [PublicPageController::class, 'show'])->defaults('pageKey', 'sectors')->name('pages.sectors');
 Route::get('/insights', [PublicPageController::class, 'show'])->defaults('pageKey', 'insights')->name('pages.insights');
 Route::get('/experience', [PublicPageController::class, 'show'])->defaults('pageKey', 'experience')->name('pages.experience');
+Route::get('/partnerships', [PublicPageController::class, 'partnerships'])->name('pages.partnerships');
 Route::get('/contact', [PublicPageController::class, 'show'])->defaults('pageKey', 'contact')->name('pages.contact');
 Route::get('/project-health-scorecard/request', [PublicPageController::class, 'scorecardAssessment'])->name('scorecard.assessment');
 Route::get('/project-health-scorecard/samples', [PublicPageController::class, 'scorecardSamples'])->name('scorecard.samples');

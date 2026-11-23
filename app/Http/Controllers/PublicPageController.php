@@ -14,6 +14,21 @@ use Illuminate\View\View;
 
 class PublicPageController extends Controller
 {
+    public function partnerships(WebsiteSettings $websiteSettings): View
+    {
+        $settings = $websiteSettings->all();
+        $siteUrl = rtrim((string) ($settings['general.site_url'] ?? config('beal.site_url')), '/');
+
+        return view('pages.partnerships', [
+            'settings' => $settings,
+            'isPreview' => false,
+            'canonicalUrl' => $siteUrl.'/partnerships',
+            'pageTitle' => 'Partnerships | Project Delivery Across Africa | BEAL Consulting',
+            'pageDescription' => 'Explore ways to work with BEAL Consulting, from local delivery collaboration and specialist expertise to project and development partnerships across Africa.',
+            'bannerImage' => asset('assets/home-image/nairobi-skyline.jpg'),
+        ]);
+    }
+
     public function scorecardAssessment(WebsiteSettings $websiteSettings): View
     {
         $settings = $websiteSettings->all();

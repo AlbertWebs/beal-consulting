@@ -33,6 +33,74 @@
 .secondary-sector-main-label::after{width:42px;height:1px;background:#c6a365;content:""}
 .secondary-sector-main .secondary-rich-content p{margin:0;color:#566473;font-size:17px;line-height:1.78}
 .secondary-sector-main .secondary-rich-content p:first-child{max-width:850px;margin-bottom:25px;color:#14243a;font-size:clamp(23px,2.3vw,31px);font-weight:400;line-height:1.48;letter-spacing:-.025em}
+
+/* Partnership page */
+.partnership-hero{position:relative;min-height:625px;display:grid;grid-template-columns:minmax(0,1.03fr) minmax(390px,.97fr);overflow:hidden;background:#0b1b31;color:#fff}
+.partnership-hero-copy{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;padding:48px 5% 55px 10.5%}
+.partnership-hero-copy .secondary-breadcrumb{margin:0 0 38px}
+.partnership-hero-copy .eyebrow{margin-bottom:22px;color:#d8c18c}
+.partnership-hero h1{max-width:720px;margin:0 0 25px;color:#fff;font-size:clamp(49px,6.1vw,79px);font-weight:500;line-height:.98;letter-spacing:-.06em}
+.partnership-hero h1 em{color:#d5b574;font-family:Georgia,serif;font-weight:400}
+.partnership-hero-summary{max-width:610px;margin:0;color:#d1d9e2;font-size:18px;line-height:1.75}
+.partnership-hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:23px;margin-top:30px}
+.partnership-hero-actions .text-link{color:#f1f3f5}
+.partnership-hero-note{display:flex;align-items:center;gap:11px;margin-top:55px;color:#aeb9c7;font-size:14px;letter-spacing:.04em}
+.partnership-hero-note span{width:28px;height:1px;background:#c8a15d}
+.partnership-visual{position:relative;min-height:625px;overflow:hidden;background:radial-gradient(ellipse at 62% 42%,#23496c 0%,#122b48 43%,#0b1b31 78%)}
+.partnership-visual-grid{position:absolute;inset:0;opacity:.21;background-image:linear-gradient(rgba(190,208,223,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(190,208,223,.18) 1px,transparent 1px);background-size:46px 46px;mask-image:radial-gradient(ellipse at 54% 47%,#000 12%,transparent 73%)}
+.partnership-visual-orbit{position:absolute;left:48%;top:46%;width:490px;height:245px;border:1px solid rgba(218,197,154,.37);border-radius:50%;transform:translate(-50%,-50%) rotate(-32deg)}
+.partnership-orbit-two{width:610px;height:310px;transform:translate(-50%,-50%) rotate(29deg);border-color:rgba(195,213,231,.2)}
+.partnership-visual-map{position:absolute;left:48%;top:46%;width:205px;height:275px;transform:translate(-50%,-50%);clip-path:polygon(44% 0,62% 4%,70% 13%,84% 16%,82% 27%,94% 35%,83% 43%,80% 55%,70% 62%,67% 73%,57% 80%,52% 95%,42% 100%,37% 89%,32% 78%,28% 69%,22% 57%,18% 48%,9% 39%,13% 29%,7% 22%,20% 17%,25% 8%,35% 9%);background:linear-gradient(145deg,#d6b774,#9f783b 74%,#71552f);filter:drop-shadow(0 16px 35px #030a1480)}
+.partnership-visual-map:after{position:absolute;inset:0;content:"";opacity:.26;background-image:linear-gradient(135deg,transparent 48%,#fff 49%,transparent 50%),linear-gradient(45deg,transparent 48%,#fff 49%,transparent 50%);background-size:65px 65px}
+.partnership-visual-map span{position:absolute;left:50%;top:49%;z-index:1;transform:translate(-50%,-50%);color:#172b42;font-size:14px;font-weight:700;letter-spacing:.2em}
+.partnership-node{position:absolute;z-index:2;display:flex;align-items:center;gap:10px;color:#dbe3eb;font-size:12px;font-weight:600;letter-spacing:.15em}
+.partnership-node i{width:10px;height:10px;border:1px solid #ebc97d;border-radius:50%;background:#0b1b31;box-shadow:0 0 0 6px #dfc58f20,0 0 25px #dfc58f70}
+.partnership-node-one{left:9%;top:28%}.partnership-node-two{right:7%;top:39%}.partnership-node-three{left:19%;bottom:23%}
+.partnership-node:after{position:absolute;left:4px;top:5px;width:185px;height:1px;content:"";background:linear-gradient(90deg,#d9be83a8,transparent);transform:rotate(26deg);transform-origin:left}
+.partnership-node-two:after{left:auto;right:5px;width:175px;transform:rotate(153deg);transform-origin:right}
+.partnership-node-three:after{left:6px;top:-29px;width:158px;transform:rotate(-39deg)}
+.partnership-visual-caption{position:absolute;right:7%;bottom:8%;display:grid;gap:9px;text-align:right}
+.partnership-visual-caption span{color:#d5b574;font-size:12px;letter-spacing:.18em}
+.partnership-visual-caption b{color:#f2f4f6;font-size:20px;font-weight:400;line-height:1.35}
+.partnership-intro{padding-top:83px;padding-bottom:84px;background:#f8f7f3}
+.partnership-intro-grid{display:grid;grid-template-columns:1fr .84fr;gap:10%;align-items:start;margin-top:34px}
+.partnership-intro-grid h2,.partnership-section-heading h2,.partnership-principles h2,.partnership-contact h2{margin:0;color:var(--navy);font-size:clamp(36px,4.2vw,54px);font-weight:500;line-height:1.06;letter-spacing:-.047em}
+.partnership-intro-grid h2 em,.partnership-section-heading h2 em,.partnership-principles h2 em{color:#a77e36;font-family:Georgia,serif;font-weight:400}
+.partnership-intro-grid>div{padding-top:4px;color:#5f6a76;font-size:17px;line-height:1.8}
+.partnership-intro-grid>div p:last-child{margin-bottom:0}
+.partnership-pathways{padding-top:78px;padding-bottom:94px;background:#efeee9;scroll-margin-top:105px}
+.partnership-section-heading{display:flex;align-items:end;justify-content:space-between;gap:45px;margin:34px 0 40px}
+.partnership-kicker{margin:0 0 15px;color:#99743d;font-size:13px;font-weight:600;letter-spacing:.17em}
+.partnership-section-heading>p{max-width:390px;margin:0 2% 4px 0;color:#64717d;font-size:16px;line-height:1.75}
+.partnership-pathway-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid #ceccc5;border-left:1px solid #ceccc5}
+.partnership-pathway-card{position:relative;min-height:370px;padding:27px 28px 24px;border-right:1px solid #ceccc5;border-bottom:1px solid #ceccc5;background:rgba(250,249,246,.55);transition:transform .25s ease,background .25s ease,box-shadow .25s ease}
+.partnership-pathway-card:hover{z-index:1;transform:translateY(-5px);background:#fff;box-shadow:0 18px 34px #0b1b3110}
+.partnership-card-number{color:#a47e40;font-size:14px;letter-spacing:.16em}
+.partnership-card-symbol{position:absolute;top:21px;right:26px;display:grid;width:44px;height:44px;place-items:center;border:1px solid #d3c29e;border-radius:50%;color:#a47e40;font-size:23px}
+.partnership-card-label{margin:31px 0 13px;color:#8e7041;font-size:12px;font-weight:600;letter-spacing:.13em;line-height:1.5}
+.partnership-pathway-card h3{max-width:300px;margin:0 0 13px;color:var(--navy);font-size:26px;font-weight:500;line-height:1.17;letter-spacing:-.025em}
+.partnership-pathway-card>p:not(.partnership-card-label){min-height:108px;margin:0;color:#65717c;font-size:15px;line-height:1.72}
+.partnership-pathway-card>a{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:20px;padding-top:15px;border-top:1px solid #dedbd3;color:var(--navy);font-size:14px;font-weight:600}
+.partnership-pathway-card>a span{color:#a47e40;font-size:18px;font-weight:400;transition:transform .2s ease}
+.partnership-pathway-card>a:hover span{transform:translate(3px,-3px)}
+.partnership-principles{background:var(--navy-2);color:#fff}
+.partnership-principles-inner{display:grid;grid-template-columns:.9fr 1.1fr;gap:11%;padding-top:82px;padding-bottom:88px}
+.partnership-principles h2{max-width:500px;margin:34px 0 16px;color:#fff}
+.partnership-principles h2 em{color:#d5b574}
+.partnership-principles-inner>div>p{max-width:420px;color:#c1ccd7;font-size:16px;line-height:1.75}
+.partnership-principles ol{margin:0;padding:0;list-style:none}
+.partnership-principles li{display:grid;grid-template-columns:46px 1fr;gap:15px;padding:19px 0;border-top:1px solid #ffffff26}
+.partnership-principles li>span{color:#d7b975;font-size:14px;letter-spacing:.1em}
+.partnership-principles li b{color:#fff;font-size:18px;font-weight:500}
+.partnership-principles li p{max-width:520px;margin:6px 0 0;color:#bcc8d5;font-size:15px;line-height:1.65}
+.partnership-contact{padding-top:78px;padding-bottom:86px;background:#f8f7f3}
+.partnership-contact-layout{display:flex;align-items:center;justify-content:space-between;gap:40px;margin-top:33px}
+.partnership-contact-layout>div{max-width:680px}
+.partnership-contact h2{margin-bottom:14px}
+.partnership-contact-layout p{margin:0;color:#64717d;font-size:17px;line-height:1.7}
+.partnership-contact-layout .button{flex:none}
+@media(max-width:900px){.partnership-hero{grid-template-columns:1fr}.partnership-hero-copy{min-height:520px;padding:48px 8%}.partnership-visual{min-height:460px}.partnership-intro-grid{gap:7%}.partnership-pathway-grid{grid-template-columns:1fr 1fr}.partnership-principles-inner{gap:7%}}
+@media(max-width:600px){.partnership-hero-copy{min-height:unset;padding:30px 6% 43px}.partnership-hero-copy .secondary-breadcrumb{margin-bottom:29px}.partnership-hero h1{font-size:clamp(45px,13vw,64px)}.partnership-hero-summary{font-size:16px}.partnership-hero-actions{align-items:flex-start;flex-direction:column;gap:13px}.partnership-hero-note{margin-top:35px;font-size:12px}.partnership-visual{min-height:390px}.partnership-visual-orbit{width:340px;height:190px}.partnership-orbit-two{width:420px;height:235px}.partnership-visual-map{width:150px;height:215px}.partnership-node{font-size:9px;letter-spacing:.1em}.partnership-node-one{left:4%;top:25%}.partnership-node-two{right:2%;top:37%}.partnership-node-three{left:8%;bottom:22%}.partnership-node:after{width:120px}.partnership-node-two:after{width:115px}.partnership-node-three:after{width:100px}.partnership-visual-caption{right:5%;bottom:5%}.partnership-visual-caption b{font-size:16px}.partnership-intro{padding-top:59px;padding-bottom:62px}.partnership-intro-grid{grid-template-columns:1fr;gap:21px;margin-top:28px}.partnership-intro-grid h2,.partnership-section-heading h2,.partnership-principles h2,.partnership-contact h2{font-size:clamp(34px,10vw,46px)}.partnership-intro-grid>div{font-size:16px}.partnership-pathways{padding-top:59px;padding-bottom:66px}.partnership-section-heading{align-items:flex-start;flex-direction:column;gap:18px;margin:29px 0}.partnership-pathway-grid{grid-template-columns:1fr}.partnership-pathway-card{min-height:unset;padding:24px 21px}.partnership-pathway-card>p:not(.partnership-card-label){min-height:unset}.partnership-pathway-card h3{font-size:24px}.partnership-principles-inner{grid-template-columns:1fr;gap:27px;padding-top:61px;padding-bottom:65px}.partnership-contact{padding-top:59px;padding-bottom:65px}.partnership-contact-layout{align-items:flex-start;flex-direction:column;gap:24px;margin-top:28px}}
 .secondary-sector-main .secondary-rich-content p:last-child:not(:first-child){max-width:820px;margin-top:0;padding:20px 24px;border-left:2px solid #c49a54;background:#eeece6;color:#435366;font-size:16px;line-height:1.72}
 .secondary-footer{padding-top:42px}.secondary-footer .footer-nav a{font-size:15px}
 @media(max-width:900px){.secondary-hero-inner{padding-left:7%;padding-right:7%}.secondary-sector-grid,.secondary-insight-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.secondary-project-card{grid-template-columns:.9fr 1.1fr;gap:5%}.secondary-contact{gap:6%}}

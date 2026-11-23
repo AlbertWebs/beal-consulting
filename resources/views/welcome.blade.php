@@ -37,7 +37,7 @@
     <header class="site-header" data-header>
         <div class="header-inner">
             <a class="brand" href="#top" aria-label="BEAL Consulting home">
-                <img src="{{ asset('assets/beal-horizontal-logo.png') }}" alt="BEAL Consulting - Precision in Every Project" width="2167" height="726">
+                <img src="{{ asset('assets/beal-horizontal-logo.png') }}" alt="BEAL Consulting Ltd — Clarity in Projects. Confidence in Decisions." width="1600" height="600">
             </a>
             <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="primary-navigation" data-menu-toggle>
                 <span></span><span></span><span></span>
@@ -152,7 +152,7 @@
         </section>
     </main>
 
-    <footer class="site-footer"><div class="footer-main"><a class="footer-brand" href="#top"><img src="{{ asset('assets/beal-horizontal-logo.png') }}" alt="BEAL Consulting" width="2167" height="726"></a><div class="footer-statement">Independent thinking.<br><em>Informed decisions.</em></div><div class="footer-nav"><span>EXPLORE</span><a href="#about">About BEAL</a><a href="#services">Our Services</a><a href="#insights">Insights &amp; Intelligence</a></div><div class="footer-nav"><span>CONNECT</span><a href="#contact">Contact BEAL</a><span>Nairobi, Kenya</span></div></div><div class="footer-legal"><span>© {{ date('Y') }} BEAL Consulting Ltd</span><span>Precision in Every Project.</span><a href="#top">Back to top ↑</a></div></footer>
+    <footer class="site-footer"><div class="footer-main"><a class="footer-brand" href="#top"><img src="{{ asset('assets/beal-horizontal-logo.png') }}" alt="BEAL Consulting" width="1600" height="600"></a><div class="footer-statement">Independent thinking.<br><em>Informed decisions.</em></div><div class="footer-nav"><span>EXPLORE</span><a href="#about">About BEAL</a><a href="#services">Our Services</a><a href="#insights">Insights &amp; Intelligence</a></div><div class="footer-nav"><span>CONNECT</span><a href="#contact">Contact BEAL</a><span>Nairobi, Kenya</span></div></div><div class="footer-legal"><span>© {{ date('Y') }} BEAL Consulting Ltd</span><span>Precision in Every Project.</span><a href="#top">Back to top ↑</a></div></footer>
     <x-enquiry-dialog />
 </body>
 </html>

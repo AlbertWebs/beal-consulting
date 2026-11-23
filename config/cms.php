@@ -284,11 +284,12 @@ return [
                     'image' => '/assets/team/benson-mathia-nganga.jpeg',
                     'image_alt' => 'Portrait of Benson Mathia Ng’ang’a',
                     'bio' => [
-                        'Benson Mathia Ng’ang’a is the Founder and Director of BEAL Consulting Ltd, bringing over a decade of professional experience in construction and project management across commercial, residential, hospitality, industrial and infrastructure developments.',
-                        'He is a Project Management Professional (PMP®) with extensive contractor-side project delivery experience, covering the full project lifecycle from planning and mobilisation through construction, multidisciplinary coordination, testing, commissioning and handover.',
-                        'His expertise includes project planning, programme and cost management, contract administration, procurement coordination, risk management, quality assurance, subcontractor management and stakeholder engagement.',
-                        'Benson holds a Master of Science in Construction Engineering Management from the University of East London and a Bachelor of Science in Construction Management from the University of Nairobi. He combines technical construction knowledge with practical project leadership and a strong appreciation of governance, commercial performance and strategic project delivery.',
-                        'Through BEAL, he brings together experienced professionals and specialist expertise to support well-planned, efficiently managed and successfully delivered projects across Africa.',
+                        'Benson Mathia Ng’ang’a is a PMP®-certified construction and infrastructure project management professional with over 10 years of experience in the planning, coordination and delivery of complex building, infrastructure and development projects.',
+                        'He holds a Bachelor of Science degree in Construction Management from the University of Nairobi and a Master’s degree in Construction Engineering Management from the University of London. His professional credentials also include Certified Construction Manager, complemented by extensive project management experience.',
+                        'Throughout his career, Benson has contributed to the delivery of major commercial, institutional, hospitality, mixed-use and infrastructure developments. His expertise spans project planning, programme controls, contract administration, construction management, risk management, procurement coordination, quality assurance and project governance.',
+                        'His experience covers the entire project lifecycle, from inception and pre-construction planning through execution, monitoring, testing, commissioning and handover. He has collaborated with developers, consultants, contractors, specialist subcontractors and other stakeholders to strengthen accountability, manage delivery risks and achieve successful project outcomes.',
+                        'As Founder and Managing Director of BEAL Consulting Ltd, Benson provides the strategic leadership and professional direction behind the firm’s ambition to deliver integrated advisory, project management, infrastructure and development consultancy services.',
+                        'His vision is to build a respected African consultancy that combines technical expertise, independent thinking, analytical intelligence and disciplined project governance to support better investment decisions and deliver sustainable development outcomes.',
                     ],
                 ], [
                     'name' => 'Mark Kang\'ethe',
@@ -311,6 +312,67 @@ return [
                     'image' => '/assets/team/noel-kibet-avatar.jpg',
                     'image_alt' => 'Illustrated avatar for Noel Kibet',
                     'bio' => [],
+                ], [
+                    'name' => 'Lydiah Kanyiri',
+                    'slug' => 'lydiah-kanyiri',
+                    'role' => 'Construction Project Manager',
+                    'image' => '/assets/team/lydiah-kanyiri.jpeg',
+                    'image_alt' => 'Portrait of Lydiah Kanyiri, Construction Project Manager',
+                    'introduction' => 'A construction project manager with a track record of taking on complex, delayed and high-pressure developments and driving them through to completion.',
+                    'bio' => [
+                        'Lydiah Kanyiri is a Construction Project Manager with more than 10 years of experience delivering projects across Kenya. She has worked on stalled, distressed and high-pressure developments in the residential, commercial, industrial and institutional sectors, with project values ranging from hundreds of millions to tens of billions of shillings.',
+                        'Her strength is running projects: setting the programme, planning the work and keeping project teams aligned and moving. She is equally comfortable building a delivery plan from the ground up or stepping into a project that has gone off track. Lydiah holds a Bachelor of Science in Construction Management from the University of Nairobi and a postgraduate certificate in Construction Engineering Management from the University of East London.',
+                    ],
+                    'specialisms' => [
+                        'Construction project and programme management',
+                        'Recovery of stalled and distressed projects',
+                        'Project planning and programme development',
+                        'Team coordination and delivery oversight',
+                        'Residential, commercial, industrial and institutional developments',
+                    ],
+                    'sections' => [[
+                        'heading' => 'Getting complex projects moving',
+                        'paragraphs' => [
+                            'Lydiah has managed projects in demanding conditions, including developments that were delayed, under pressure or in need of a clearer route to completion. She brings structure to the work by establishing practical programmes, clarifying priorities and keeping project teams focused on delivery.',
+                            'Her experience spans projects valued from hundreds of millions to tens of billions of shillings across Kenya, covering residential, commercial, industrial and institutional developments.',
+                        ],
+                    ], [
+                        'heading' => 'Education',
+                        'body' => 'Lydiah holds a BSc in Construction Management from the University of Nairobi and a postgraduate certificate in Construction Engineering Management from the University of East London.',
+                    ]],
+                    'seo_title' => 'Lydiah Kanyiri | Construction Project Manager | BEAL Consulting',
+                    'seo_description' => 'Meet Lydiah Kanyiri, a construction project manager with 10+ years delivering complex and distressed developments across Kenya.',
+                ], [
+                    'name' => 'Douglas Murithi Kathuri',
+                    'slug' => 'douglas-murithi-kathuri',
+                    'role' => 'Regional EHSS & Sustainability Professional',
+                    'image' => '/assets/team/douglas-murithi-kathuri.jpeg',
+                    'image_alt' => 'Portrait of Douglas Murithi Kathuri, Regional EHSS and Sustainability Professional',
+                    'introduction' => 'A regional environment, health, safety and sustainability professional supporting complex projects and operations across Africa.',
+                    'bio' => [
+                        'Douglas Murithi Kathuri is an Environment, Health, Safety and Sustainability professional with more than nine years of multidisciplinary experience across infrastructure, engineering and construction, energy, oil and gas, industrial operations, and testing, inspection and certification (TIC) assignments in Africa.',
+                        'His background combines regional EHSS leadership with environmental and social safeguards, construction safety management, environmental consultancy, industrial hygiene, technical inspection and monitoring, and regulatory compliance. He helps teams integrate environmental protection, worker health and safety, social safeguards and sustainability from development and construction through commissioning and operations.',
+                    ],
+                    'specialisms' => [
+                        'Environmental and social impact assessment and safeguards',
+                        'Environmental permitting, monitoring and compliance',
+                        'Construction HSE and contractor management',
+                        'Risk assessment and technical inspection',
+                        'Industrial hygiene, emissions testing and occupational health',
+                        'ESG and sustainability performance',
+                    ],
+                    'sections' => [[
+                        'heading' => 'Project and regional experience',
+                        'paragraphs' => [
+                            'Douglas has supported assignments involving road infrastructure, buildings and civil works, industrial facilities, power and energy installations, oil and gas operations, and other regulated development activities. His work has involved leading industry organisations including Bureau Veritas, SGS, TotalEnergies, Eni Natural Energies, Oryx Energies, Contour Global KivuWatt, KeNHA and China Wu Yi.',
+                            'His geographical experience covers Kenya, Uganda, Ethiopia, Somalia, Rwanda and Angola. This includes environmental and social consultancy for road infrastructure projects in Puntland, Somalia, and environmental and industrial hygiene assignments in the energy sector in Angola and Rwanda.',
+                        ],
+                    ], [
+                        'heading' => 'Supporting safe and sustainable delivery',
+                        'body' => 'Douglas brings together technical delivery, regional management, stakeholder engagement and strategic consultancy. He works to integrate environmental protection, worker health and safety, social safeguards and sustainability throughout project development, construction, commissioning and operations, supporting contractors, developers, engineering consultants, TIC organisations and energy operators across Africa.',
+                    ]],
+                    'seo_title' => 'Douglas Murithi Kathuri | EHSS & Sustainability | BEAL Consulting',
+                    'seo_description' => 'Douglas Murithi Kathuri is a regional EHSS and sustainability professional with 9+ years across infrastructure, construction, energy, oil and gas, and industry in Africa.',
                 ]],
             ],
         ],
@@ -463,6 +525,7 @@ return [
                 ['label' => 'Sectors', 'url' => '#sectors', 'enabled' => true],
                 ['label' => 'Insights', 'url' => '#insights', 'enabled' => true],
                 ['label' => 'Experience', 'url' => '#experience', 'enabled' => true],
+                ['label' => 'Partnerships', 'url' => '/partnerships', 'enabled' => true],
             ],
         ],
         'footer' => [
