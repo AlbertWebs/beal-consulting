@@ -23,7 +23,7 @@
         <div class="team-profile-layout">
             <aside class="team-profile-sidebar">
                 @if (filled($profile['image'] ?? ''))
-                    <div class="team-profile-portrait"><img src="{{ $profile['image'] }}" alt="{{ $profile['image_alt'] ?? 'Portrait of '.$profile['name'] }}" width="720" height="900"></div>
+                    <div @class(['team-profile-portrait', 'team-profile-portrait-douglas' => $profileSlug === 'douglas-murithi-kathuri'])><img src="{{ $profile['image'] }}" alt="{{ $profile['image_alt'] ?? 'Portrait of '.$profile['name'] }}" width="720" height="900"></div>
                 @else
                     <div class="team-profile-portrait team-profile-portrait-placeholder" aria-hidden="true"><span>{{ collect(preg_split('/\s+/', trim((string) $profile['name'])))->map(fn (string $part): string => mb_substr($part, 0, 1))->take(2)->implode('') }}</span></div>
                 @endif

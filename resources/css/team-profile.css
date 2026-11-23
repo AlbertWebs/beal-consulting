@@ -37,6 +37,10 @@
     object-position: center 35%;
 }
 
+.team-profile-portrait-douglas img {
+    object-position: center top;
+}
+
 .team-profile-portrait-placeholder {
     display: grid;
     place-items: center;
