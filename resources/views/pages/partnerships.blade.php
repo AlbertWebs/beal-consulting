@@ -21,7 +21,7 @@
         <div class="partnership-visual-grid"></div>
         <div class="partnership-visual-orbit partnership-orbit-one"></div>
         <div class="partnership-visual-orbit partnership-orbit-two"></div>
-        <div class="partnership-visual-map" aria-hidden="true"><span>AFRICA</span></div>
+        <div class="partnership-visual-map" aria-hidden="true"><img src="{{ asset('assets/africa-continent.svg') }}" alt=""><span>AFRICA</span></div>
         <div class="partnership-node partnership-node-one"><i></i><span>LOCAL INSIGHT</span></div>
         <div class="partnership-node partnership-node-two"><i></i><span>SHARED STANDARDS</span></div>
         <div class="partnership-node partnership-node-three"><i></i><span>PROJECT DELIVERY</span></div>
