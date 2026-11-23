@@ -110,6 +110,8 @@ class PublicPageController extends Controller
 
         $name = (string) $profile['name'];
         $role = trim((string) ($profile['role'] ?? 'BEAL team member'));
+        $designation = trim((string) ($profile['designation'] ?? ''));
+        $profileDisplayRole = $designation !== '' ? $designation.' | '.$role : $role;
         $bio = is_array($profile['bio'] ?? null) ? array_values(array_filter($profile['bio'], 'is_string')) : [strip_tags((string) ($profile['bio'] ?? ''))];
         $bio = array_values(array_filter($bio, fn (string $paragraph): bool => filled(trim($paragraph))));
         $settings = $websiteSettings->all();
@@ -118,13 +120,16 @@ class PublicPageController extends Controller
         $profileDescription = trim((string) ($profile['seo_description'] ?? ''));
         $pageDescription = $profileDescription !== ''
             ? $profileDescription
-            : $name.' is '.$role.' at BEAL Consulting, supporting project and built-environment advisory across Kenya and Africa.';
+            : ($designation !== ''
+                ? $name.' is '.$designation.' at BEAL Consulting, bringing '.$role.' expertise across Kenya and Africa.'
+                : $name.' is '.$role.' at BEAL Consulting, supporting project and built-environment advisory across Kenya and Africa.');
 
         return view('pages.team-member', [
             'profile' => $profile,
             'profileBio' => $bio,
             'profileSlug' => $slug,
             'profileRole' => $role,
+            'profileDesignation' => $designation,
             'settings' => $settings,
             'isPreview' => false,
             'canonicalUrl' => $siteUrl.'/team/'.$slug,
@@ -136,7 +141,7 @@ class PublicPageController extends Controller
                 '@context' => 'https://schema.org',
                 '@type' => 'Person',
                 'name' => $name,
-                'jobTitle' => $role,
+                'jobTitle' => $profileDisplayRole,
                 'url' => $siteUrl.'/team/'.$slug,
                 'worksFor' => ['@type' => 'Organization', 'name' => $settings['general.legal_name'] ?? 'BEAL Consulting Ltd'],
                 ...(filled($profile['image'] ?? '') ? ['image' => url($profile['image'])] : []),

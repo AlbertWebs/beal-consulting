@@ -11,7 +11,7 @@
             <x-breadcrumb :items="[['label' => 'About BEAL', 'url' => route('pages.about')], ['label' => 'Team', 'url' => route('pages.about').'#leadership'], ['label' => $profile['name']]]" />
             <p class="eyebrow eyebrow-light"><span class="eyebrow-rule"></span>BEAL TEAM</p>
             <h1>{{ $profile['name'] }}</h1>
-            <p class="secondary-hero-subtitle">{{ $profileRole }}</p>
+            <p class="secondary-hero-subtitle">@if (filled($profileDesignation))<strong>{{ $profileDesignation }}</strong><span aria-hidden="true"> · </span>@endif{{ $profileRole }}</p>
         </div>
         <span class="secondary-hero-index">BEAL / TEAM</span>
     </section>
@@ -30,7 +30,7 @@
                 <div class="team-profile-sidebar-copy">
                     <span class="team-profile-kicker">BEAL CONSULTING</span>
                     <h2>{{ $profile['name'] }}</h2>
-                    <p>{{ $profileRole }}</p>
+                    <p>@if (filled($profileDesignation))<strong>{{ $profileDesignation }}</strong><span aria-hidden="true"> · </span>@endif{{ $profileRole }}</p>
                     @if ($profileCredentials->isNotEmpty())
                         <div class="team-profile-facts"><h3>Qualifications</h3><ul>@foreach ($profileCredentials as $credential)<li>{{ $credential }}</li>@endforeach</ul></div>
                     @endif

@@ -115,7 +115,7 @@
                         </div>
                         <div class="secondary-wider-team-grid">
                             @foreach ($teamProfiles->skip(1) as $profile)
-                                @include('pages.partials.team-profile', ['profile' => $profile, 'label' => 'Team member', 'founder' => false])
+                                @include('pages.partials.team-profile', ['profile' => $profile, 'label' => $profile['designation'] ?? 'Team member', 'founder' => false])
                             @endforeach
                         </div>
                     </div>
