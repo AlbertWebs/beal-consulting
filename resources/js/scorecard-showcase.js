@@ -83,7 +83,7 @@ if (root) {
             risks: `${scenario.actions + 4} active`, highrisks: `${Math.ceil(scenario.actions / 2)} high`, issues: `${Math.max(1, Math.round(scenario.actions / 4))} critical`, mitigation: `${clamp(scores[5] + 18)}% complete`, resolution: `${Math.max(3, 14 - Math.round(scores[5] / 10))} days`, trend: state.scenario === 'critical' ? 'Increasing' : 'Stable', overdueactions: `${Math.ceil(scenario.actions / 3)} overdue`,
             projects: '5 projects', ontrack: `${state.scenario === 'healthy' ? 4 : 2} projects`, atrisk: `${state.scenario === 'critical' ? 1 : 2} projects`, critical: `${state.scenario === 'critical' ? 2 : 1} project`, portbudget: 'KES 4.2bn', avgprogress: `${Math.round((scores[0] + scores[1] + scores[2]) / 3)}%`, score: `${score} / 100`,
         };
-        return values[key] ?? '—';
+        return values[key] ?? 'Not available';
     };
     const trendSeries = (score) => {
         const current = state.card === 'executive' || state.card === 'schedule' ? actualProgress() : state.card === 'quality' ? currentScores()[2] : state.card === 'safety' ? currentScores()[3] : state.card === 'risk' ? 100 - currentScores()[5] : state.card === 'cost' ? Math.round(scenarios[state.scenario].cost * 100) : score;

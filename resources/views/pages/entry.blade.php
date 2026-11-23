@@ -82,12 +82,12 @@
                                     <figure class="project-gallery-image-card">
                                         <div class="project-gallery-image-frame">
                                             @if(str_starts_with($galleryImage->mime_type, 'video/'))
-                                                <video class="project-gallery-video" controls playsinline preload="metadata" aria-label="{{ $galleryImage->alt_text ?: $entry->title.' — '.$stageLabel }}">
+                                                <video class="project-gallery-video" controls playsinline preload="metadata" aria-label="{{ $galleryImage->alt_text ?: $entry->title.', '.$stageLabel }}">
                                                     <source src="{{ $galleryImage->url }}" type="{{ $galleryImage->mime_type }}">
                                                     Your browser does not support this video.
                                                 </video>
                                             @else
-                                                <img src="{{ $galleryImage->url }}" alt="{{ $galleryImage->alt_text ?: $entry->title.' — '.$stageLabel }}" loading="lazy">
+                                                <img src="{{ $galleryImage->url }}" alt="{{ $galleryImage->alt_text ?: $entry->title.', '.$stageLabel }}" loading="lazy">
                                             @endif
                                             <span>{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                                         </div>

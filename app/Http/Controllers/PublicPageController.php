@@ -136,7 +136,7 @@ class PublicPageController extends Controller
             'pageTitle' => filled($profile['seo_title'] ?? '') ? $profile['seo_title'] : $name.' | '.$role.' | BEAL Consulting',
             'pageDescription' => $pageDescription,
             'socialPreviewImage' => filled($profile['image'] ?? '') ? url($profile['image']) : null,
-            'socialPreviewImageAlt' => $name.' — '.$role,
+            'socialPreviewImageAlt' => $name.', '.$role,
             'personJsonLd' => json_encode([
                 '@context' => 'https://schema.org',
                 '@type' => 'Person',

@@ -37,7 +37,7 @@
     <header class="site-header" data-header>
         <div class="header-inner">
             <a class="brand" href="#top" aria-label="BEAL Consulting home">
-                <img src="{{ asset('assets/beal-horizontal-logo-transparent.svg') }}" alt="BEAL Consulting Ltd — Clarity in Projects. Confidence in Decisions." width="1600" height="600">
+                <img src="{{ asset('assets/beal-horizontal-logo-transparent.svg') }}" alt="BEAL Consulting Ltd, Clarity in Projects. Confidence in Decisions." width="1600" height="600">
             </a>
             <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="primary-navigation" data-menu-toggle>
                 <span></span><span></span><span></span>
