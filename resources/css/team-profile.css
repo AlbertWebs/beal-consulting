@@ -38,7 +38,11 @@
 }
 
 .team-profile-portrait-douglas img {
-    object-position: center top;
+    object-position: center 20%;
+}
+
+.team-profile-portrait-douglas {
+    aspect-ratio: 1 / 1;
 }
 
 .team-profile-portrait-placeholder {
@@ -221,6 +225,12 @@
         aspect-ratio: auto;
     }
 
+    .team-profile-portrait-douglas {
+        height: auto;
+        min-height: 0;
+        aspect-ratio: 1 / 1;
+    }
+
     .team-profile-sidebar-copy {
         align-self: center;
         padding: 24px;
@@ -240,6 +250,10 @@
         height: auto;
         min-height: 0;
         aspect-ratio: 4 / 3;
+    }
+
+    .team-profile-portrait-douglas {
+        aspect-ratio: 1 / 1;
     }
 
     .team-profile-sidebar-copy {
