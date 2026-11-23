@@ -12,7 +12,7 @@
         <h1>Good projects need <em>good partners.</em></h1>
         <p class="partnership-hero-summary">The right expertise, in the right place, at the right time can change how a project moves. BEAL works with firms and professionals who want to deliver thoughtful, well-managed projects across Kenya and Africa.</p>
         <div class="partnership-hero-actions">
-            <a class="button button-gold" href="{{ route('pages.contact', ['enquiry' => 'partnership']) }}">Discuss a partnership <span aria-hidden="true">↗</span></a>
+            <a class="button button-gold" href="{{ route('pages.contact', ['enquiry' => 'professional-partner']) }}">Discuss a partnership <span aria-hidden="true">↗</span></a>
             <a class="text-link text-link-light" href="#ways-to-work">Explore ways to work together <span aria-hidden="true">↓</span></a>
         </div>
         <div class="partnership-hero-note"><span></span>Independent expertise. Shared commitment to delivery.</div>
@@ -45,7 +45,7 @@
             <span class="partnership-card-number">01</span><span class="partnership-card-symbol" aria-hidden="true">↗</span>
             <p class="partnership-card-label">FOR CONSULTANCIES &amp; DELIVERY FIRMS</p><h3>Extend your delivery reach.</h3>
             <p>Work with a Kenya-based consultancy that understands local project conditions and can contribute planning, coordination, monitoring and delivery oversight to a wider team.</p>
-            <a href="{{ route('pages.contact', ['enquiry' => 'partnership']) }}">Discuss a delivery collaboration <span aria-hidden="true">↗</span></a>
+            <a href="{{ route('pages.contact', ['enquiry' => 'professional-partner']) }}">Discuss a delivery collaboration <span aria-hidden="true">↗</span></a>
         </article>
         <article class="partnership-pathway-card">
             <span class="partnership-card-number">02</span><span class="partnership-card-symbol" aria-hidden="true">＋</span>
@@ -75,6 +75,6 @@
 
 <section class="partnership-contact section-pad">
     <div class="secondary-index"><span>04</span><i></i><span>START A CONVERSATION</span></div>
-    <div class="partnership-contact-layout"><div><h2>Have a project or capability in mind?</h2><p>Tell us what you are working on and how you think we could contribute. We’ll take it from there.</p></div><a class="button button-dark" href="{{ route('pages.contact', ['enquiry' => 'partnership']) }}">Talk with BEAL <span aria-hidden="true">↗</span></a></div>
+    <div class="partnership-contact-layout"><div><h2>Have a project or capability in mind?</h2><p>Tell us what you are working on and how you think we could contribute. We’ll take it from there.</p></div><a class="button button-dark" href="{{ route('pages.contact', ['enquiry' => 'professional-partner']) }}">Talk with BEAL <span aria-hidden="true">↗</span></a></div>
 </section>
 @endsection

@@ -78,7 +78,10 @@ Route::get('/sectors', [PublicPageController::class, 'show'])->defaults('pageKey
 Route::get('/insights', [PublicPageController::class, 'show'])->defaults('pageKey', 'insights')->name('pages.insights');
 Route::get('/experience', [PublicPageController::class, 'show'])->defaults('pageKey', 'experience')->name('pages.experience');
 Route::get('/partnerships', [PublicPageController::class, 'partnerships'])->name('pages.partnerships');
-Route::get('/contact', [PublicPageController::class, 'show'])->defaults('pageKey', 'contact')->name('pages.contact');
+Route::get('/contact', [PublicPageController::class, 'contact'])->name('pages.contact');
+Route::post('/partnership-enquiries', [StoreEnquiryController::class, 'partnership'])
+    ->middleware('throttle:3,1')
+    ->name('partnership.enquiry.store');
 Route::get('/project-health-scorecard/request', [PublicPageController::class, 'scorecardAssessment'])->name('scorecard.assessment');
 Route::get('/project-health-scorecard/samples', [PublicPageController::class, 'scorecardSamples'])->name('scorecard.samples');
 Route::get('/team/{slug}', [PublicPageController::class, 'teamMember'])->name('team.show');

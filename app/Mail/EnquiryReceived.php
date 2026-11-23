@@ -25,7 +25,9 @@ class EnquiryReceived extends Mailable
             replyTo: [new Address($this->enquiry['email'])],
             subject: str_starts_with($this->enquiry['message'], 'PROJECT HEALTH ASSESSMENT REQUEST')
                 ? 'New BEAL Project Health Assessment request'
-                : 'New BEAL website enquiry',
+                : (str_starts_with($this->enquiry['message'], 'PROFESSIONAL PARTNERSHIP ENQUIRY')
+                    ? 'New BEAL professional partnership enquiry'
+                    : 'New BEAL website enquiry'),
         );
     }
 

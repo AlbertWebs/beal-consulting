@@ -14,6 +14,36 @@ use Illuminate\View\View;
 
 class PublicPageController extends Controller
 {
+    public function contact(Request $request, WebsiteSettings $websiteSettings): View
+    {
+        if ($request->query('enquiry') !== 'professional-partner') {
+            return $this->show('contact', $request, $websiteSettings);
+        }
+
+        $settings = $websiteSettings->all();
+        $siteUrl = rtrim((string) ($settings['general.site_url'] ?? config('beal.site_url')), '/');
+        $challengeToken = Str::random(40);
+        $challengeLeft = random_int(3, 12);
+        $challengeRight = random_int(2, 9);
+
+        $request->session()->put('partner_math', [
+            'token' => $challengeToken,
+            'answer' => $challengeLeft + $challengeRight,
+        ]);
+
+        return view('pages.partnership-enquiry', [
+            'settings' => $settings,
+            'isPreview' => false,
+            'canonicalUrl' => $siteUrl.'/contact?enquiry=professional-partner',
+            'pageTitle' => 'Professional Partnership Enquiry | BEAL Consulting',
+            'pageDescription' => 'Tell BEAL Consulting about your organisation, capabilities and partnership interests across Kenya and Africa.',
+            'bannerImage' => asset('assets/home-image/nairobi-skyline.jpg'),
+            'challengeToken' => $challengeToken,
+            'challengeLeft' => $challengeLeft,
+            'challengeRight' => $challengeRight,
+        ]);
+    }
+
     public function partnerships(WebsiteSettings $websiteSettings): View
     {
         $settings = $websiteSettings->all();
