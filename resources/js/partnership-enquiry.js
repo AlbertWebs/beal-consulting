@@ -11,7 +11,7 @@ if (partnerForm instanceof HTMLFormElement) {
     const mathDialog = document.querySelector('[data-partner-math-dialog]');
     const mathAnswer = document.querySelector('[data-partner-math-answer]');
     const confirmButton = document.querySelector('[data-partner-confirm]');
-    let currentStep = steps.findIndex((step) => step.querySelector('.partner-field small'));
+    let currentStep = steps.findIndex((step) => step.querySelector('.partner-field small:not([hidden])'));
     let verified = false;
 
     if (currentStep < 0) {
