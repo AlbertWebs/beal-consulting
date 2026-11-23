@@ -7,7 +7,7 @@
 </head>
 <body class="cms-shell">
     <aside class="cms-sidebar" data-cms-sidebar>
-        <a class="cms-brand" href="{{ route('admin.dashboard') }}"><img src="{{ asset('assets/beal-horizontal-logo.svg') }}" alt="BEAL Consulting CMS"></a>
+        <a class="cms-brand" href="{{ route('admin.dashboard') }}"><img src="{{ asset('assets/beal-horizontal-logo-transparent.svg') }}" alt="BEAL Consulting CMS"></a>
         <nav class="cms-nav" aria-label="CMS navigation">
             <div class="cms-nav-label">OVERVIEW</div>
             <a href="{{ route('admin.dashboard') }}" @if(request()->routeIs('admin.dashboard')) aria-current="page" @endif>◫ <span>Dashboard</span></a>
