@@ -52,7 +52,7 @@
 .partnership-orbit-two{width:610px;height:310px;transform:translate(-50%,-50%) rotate(29deg);border-color:rgba(195,213,231,.2)}
 .partnership-visual-map{position:absolute;z-index:3;left:48%;top:46%;width:250px;height:290px;transform:translate(-50%,-50%);filter:drop-shadow(0 16px 35px #030a1480)}
 .partnership-visual-map img{display:block;width:100%;height:100%;object-fit:contain}
-.partnership-visual-map span{position:absolute;left:50%;top:47%;z-index:4;transform:translate(-50%,-50%);color:#172b42;font-size:14px;font-weight:700;letter-spacing:.2em}
+.partnership-visual-map span{position:absolute;left:56%;top:47%;z-index:4;transform:translate(-50%,-50%);color:#172b42;font-size:14px;font-weight:700;letter-spacing:.2em}
 .partnership-node{position:absolute;z-index:2;display:flex;align-items:center;gap:10px;color:#dbe3eb;font-size:12px;font-weight:600;letter-spacing:.15em}
 .partnership-node i{width:10px;height:10px;border:1px solid #ebc97d;border-radius:50%;background:#0b1b31;box-shadow:0 0 0 6px #dfc58f20,0 0 25px #dfc58f70}
 .partnership-node-one{left:9%;top:28%}.partnership-node-two{right:7%;top:39%}.partnership-node-three{left:19%;bottom:23%}
