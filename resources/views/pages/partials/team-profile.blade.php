@@ -20,7 +20,7 @@
             <h3>{{ $profileName }}</h3>
             <p>{{ $profile['role'] ?? '' }}</p>
         </div>
-        @if (filled($cardBio))
+        @if ($founder && filled($cardBio))
             <div class="secondary-team-bio">
                 <p>{{ $cardBio }}</p>
             </div>
