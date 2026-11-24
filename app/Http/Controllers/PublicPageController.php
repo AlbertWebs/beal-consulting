@@ -111,7 +111,9 @@ class PublicPageController extends Controller
         $name = (string) $profile['name'];
         $role = trim((string) ($profile['role'] ?? 'BEAL team member'));
         $designation = trim((string) ($profile['designation'] ?? ''));
-        $profileDisplayRole = $designation !== '' ? $designation.' | '.$role : $role;
+        $profileDisplayRole = $designation !== '' && $designation !== $role
+            ? $designation.' | '.$role
+            : ($designation !== '' ? $designation : $role);
         $bio = is_array($profile['bio'] ?? null) ? array_values(array_filter($profile['bio'], 'is_string')) : [strip_tags((string) ($profile['bio'] ?? ''))];
         $bio = array_values(array_filter($bio, fn (string $paragraph): bool => filled(trim($paragraph))));
         $settings = $websiteSettings->all();

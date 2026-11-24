@@ -16,7 +16,9 @@
         <div class="secondary-team-card-heading">
             <span class="secondary-team-label">{{ $label }}</span>
             <h3>{{ $profileName }}</h3>
-            <p>{{ $profile['role'] ?? '' }}</p>
+            @if (filled($profile['role'] ?? '') && ($profile['role'] ?? '') !== ($profile['designation'] ?? null))
+                <p>{{ $profile['role'] }}</p>
+            @endif
         </div>
         @if ($founder && collect($bio)->contains(fn ($paragraph) => filled($paragraph)))
             <div class="secondary-team-bio">

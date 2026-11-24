@@ -101,7 +101,7 @@
                     <div class="secondary-intro-grid"><h2>People behind<br><em>the perspective.</em></h2><div>{!! $leadership['introduction'] !!}</div></div>
                 @endif
                 @if ($teamProfiles->isNotEmpty())
-                    @include('pages.partials.team-profile', ['profile' => $teamProfiles->first(), 'label' => 'Founder', 'founder' => true])
+                    @include('pages.partials.team-profile', ['profile' => $teamProfiles->first(), 'label' => $teamProfiles->first()['designation'] ?? 'Founder', 'founder' => true])
                 @endif
                 @if ($teamProfiles->count() > 1)
                     <div class="secondary-team-network">
