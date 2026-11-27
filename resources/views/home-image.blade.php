@@ -80,7 +80,7 @@
                     @endif
                     <div class="lead-copy">{!! $content['about']['lead'] ?? '<p>We are an intelligence-led strategic advisory and infrastructure consultancy. We bring analytical insight and technical perspective to the decisions that shape projects.</p>' !!}</div>
                     <div>{!! $content['about']['body'] ?? '<p>We look beyond the immediate task to understand context, connect information and help decision-makers move forward with confidence.</p>' !!}</div>
-                    <a class="text-link text-link-navy" href="#services">How we work <span aria-hidden="true">↗</span></a>
+                    <a class="text-link text-link-navy" href="#our-people">Meet Our People <span aria-hidden="true">↗</span></a>
                     <a class="text-link text-link-navy" href="{{ route('pages.about') }}">More about BEAL <span aria-hidden="true">↗</span></a>
                 </div>
                 <figure class="image-intro-photo">
