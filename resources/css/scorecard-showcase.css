@@ -7,10 +7,6 @@
 .health-gallery-actions{display:grid;justify-items:start;gap:15px}
 .health-gallery-actions>p{max-width:500px;margin:0;color:#5d6875;font-size:16px;line-height:1.75}
 .health-gallery-actions .button{min-height:46px}
-.health-rag-legend{display:flex;flex-wrap:wrap;gap:15px;color:#697583;font-size:11px}
-.health-rag-legend span{display:inline-flex;align-items:center;gap:6px}
-.health-rag-legend i{width:8px;height:8px;border-radius:50%}
-.rag-success{background:#27814f}.rag-warning{background:#d99a22}.rag-danger{background:#c7473b}
 .health-gauge{background:conic-gradient(var(--gauge-status-color,#c8a15d) var(--gauge-score),#e9eceb 0)}
 .health-gauge-small{background:conic-gradient(var(--gauge-status-color,#d1ae70) var(--gauge-score),#ffffff25 0)}
 .health-gauge[data-health=healthy]{--gauge-status-color:#27814f}
