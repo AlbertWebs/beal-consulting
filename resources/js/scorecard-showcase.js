@@ -56,6 +56,7 @@ if (root) {
     const healthClass = (score) => score >= 85 ? 'healthy' : score >= 70 ? 'amber' : 'critical';
     const setGauge = (element, score, label = 'Project health score') => {
         element.style.setProperty('--gauge-score', `${clamp(score) * 3.6}deg`);
+        element.dataset.health = healthClass(score);
         element.setAttribute('role', 'img');
         element.setAttribute('aria-label', `${label}: ${Math.round(score)} out of 100`);
     };
@@ -181,6 +182,7 @@ if (root) {
         setGauge(heroGauge, score, 'Illustrative project health score');
         $('[data-hero-score]').textContent = score;
         $('[data-hero-status]').textContent = classification;
+        $('[data-hero-status]').className = `status-${healthClass(score)}`;
         $('[data-hero-project]').textContent = project.name;
         const scenarioIndex = { healthy: 0, atrisk: 1, critical: 2 }[state.scenario];
         $$('.health-scenarios button').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.scenario === state.scenario)));
@@ -194,6 +196,7 @@ if (root) {
         $('[data-calculator-score]').textContent = calculatorScore;
         $('[data-calculator-status]').textContent = state.safeOverride ? 'CRITICAL SAFETY OVERRIDE' : healthLabel(calculatorScore);
         $('[data-calculator-status]').className = state.safeOverride ? 'status-critical' : `status-${healthClass(calculatorScore)}`;
+        $('[data-calculator-gauge]').dataset.health = state.safeOverride ? 'critical' : healthClass(calculatorScore);
         const weakestIndex = scenarioScores.indexOf(Math.min(...scenarioScores));
         $('[data-calculator-action]').textContent = state.safeOverride ? 'Escalate the safety condition before relying on the weighted average.' : `Focus first on the weakest dimension: ${dimensions[weakestIndex].label}.`;
         $('[data-safety-override]').hidden = !state.safeOverride;
