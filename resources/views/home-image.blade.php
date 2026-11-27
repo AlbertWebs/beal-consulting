@@ -94,6 +94,37 @@
             </div>
         </section>@endif
 
+        @if ($peopleProfiles->isNotEmpty())
+            <section class="image-people section-pad" id="our-people" aria-labelledby="people-title">
+                <div class="section-index"><span>OUR PEOPLE</span><span class="index-rule"></span><span>THE TEAM BEHIND BEAL</span></div>
+                <div class="image-people-heading">
+                    <div>
+                        <h2 id="people-title">Meet the people behind <em>BEAL.</em></h2>
+                        <p>Our leadership and specialist team bring strategic, technical and delivery experience to complex projects across Africa.</p>
+                    </div>
+                    <a class="button button-dark" href="{{ route('pages.about') }}#leadership">Meet our people <span aria-hidden="true">↗</span></a>
+                </div>
+                <div class="image-people-grid">
+                    @foreach ($peopleProfiles as $profile)
+                        <article class="image-people-card">
+                            <a class="image-people-photo @if (($profile['slug'] ?? '') === 'douglas-murithi-kathuri') image-people-photo-douglas @endif" href="{{ route('team.show', ['slug' => $profile['slug']]) }}" aria-label="View {{ $profile['name'] }}’s profile">
+                                <img src="{{ $profile['image'] }}" alt="{{ $profile['image_alt'] ?? 'Portrait of '.$profile['name'] }}" loading="lazy" decoding="async">
+                                <span aria-hidden="true">↗</span>
+                            </a>
+                            <div class="image-people-card-copy">
+                                <p class="image-people-designation">{{ $profile['designation'] ?? 'BEAL team member' }}</p>
+                                <h3><a href="{{ route('team.show', ['slug' => $profile['slug']]) }}">{{ $profile['name'] }}</a></h3>
+                                @if (filled($profile['role'] ?? '') && ($profile['role'] ?? '') !== ($profile['designation'] ?? null))
+                                    <p class="image-people-role">{{ $profile['role'] }}</p>
+                                @endif
+                                <a class="image-people-profile-link" href="{{ route('team.show', ['slug' => $profile['slug']]) }}">View profile <span aria-hidden="true">↗</span></a>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+            </section>
+        @endif
+
         @if($visible['services'] ?? true)<section class="image-services section-pad" id="services" style="order:{{ $sectionOrders['services'] ?? 30 }}" aria-labelledby="services-title">
             <div class="section-index"><span>02</span><span class="index-rule"></span><span>OUR SERVICES</span></div>
             <div class="image-section-heading">

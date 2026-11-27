@@ -48,6 +48,14 @@ Route::get('/', function () {
     $services = WebsiteService::query()->with('media')->where('status', 'published')->orderBy('sort_order')->get();
     $services = $services->map(fn (WebsiteService $service): array => [...$service->toArray(), 'image' => ($settings['banners.service_'.$service->id] ?? null) ?: ($service->media?->url ?? asset(ltrim((string) $service->image_path, '/'))), 'image_alt' => $service->image_alt])->all();
     $sectorEntries = ContentEntry::query()->where('type', 'sector')->where('status', 'published')->orderBy('sort_order')->get();
+    $aboutPage = WebsitePage::query()->with('sections')->where('page_key', 'about')->first();
+    $leadershipSection = $aboutPage?->sections->firstWhere('section_key', 'about_leadership');
+    $leadershipContent = $isPreview ? ($leadershipSection?->draft_content ?? $leadershipSection?->content ?? []) : ($leadershipSection?->content ?? []);
+    $peopleProfiles = collect($leadershipContent['profiles'] ?? [])
+        ->filter(fn (mixed $profile): bool => is_array($profile) && filled($profile['name'] ?? null) && filled($profile['slug'] ?? null) && filled($profile['image'] ?? null))
+        ->reject(fn (array $profile): bool => in_array(mb_strtolower(trim((string) $profile['name'])), ["mark kang'ethe", 'loise manase', 'noel kibet'], true))
+        ->take(4)
+        ->values();
 
     return view('home-image', [
         'siteUrl' => $siteUrl,
@@ -58,6 +66,7 @@ Route::get('/', function () {
         'services' => $services,
         'serviceOptions' => $services,
         'sectorEntries' => $sectorEntries,
+        'peopleProfiles' => $peopleProfiles,
         'settings' => $settings,
         'isPreview' => $isPreview,
         'canonicalUrl' => $siteUrl,
