@@ -19,7 +19,7 @@ return [
         ['path' => 'project-gallery/africa-area-office-completed-detail.png', 'stage' => 'completed', 'alt_text' => 'AI-generated concept view of a completed regional office; not a photograph of the actual project.'],
     ],
     'banners' => [
-        'home_hero' => ['label' => 'Homepage hero', 'description' => 'The main image behind the homepage introduction.', 'group' => 'Homepage', 'page' => 'home', 'section' => 'hero', 'image' => 'assets/home-image/nairobi-skyline.jpg'],
+        'home_hero' => ['label' => 'Homepage hero', 'description' => 'The main image behind the homepage introduction.', 'group' => 'Homepage', 'page' => 'home', 'section' => 'hero', 'image' => 'assets/home-image/engineering-leadership-africa.webp'],
         'home_about' => ['label' => 'Homepage · About', 'description' => 'The image beside the homepage introduction to BEAL.', 'group' => 'Homepage', 'page' => 'home', 'section' => 'about', 'image' => 'assets/home-image/glass-architecture.jpg'],
         'home_sectors' => ['label' => 'Homepage · Sectors', 'description' => 'The image used in the homepage sector overview.', 'group' => 'Homepage', 'page' => 'home', 'section' => 'sectors', 'image' => 'assets/home-image/urban-infrastructure.jpg'],
         'home_insights' => ['label' => 'Homepage · Insights', 'description' => 'The image beside the homepage insights section.', 'group' => 'Homepage', 'page' => 'home', 'section' => 'insights', 'image' => 'assets/home-image/nairobi-skyline.jpg'],
@@ -39,7 +39,7 @@ return [
         'hero' => [
             'label' => 'Hero',
             'position' => 10,
-            'image' => 'assets/home-image/nairobi-skyline.jpg',
+            'image' => 'assets/home-image/engineering-leadership-africa.webp',
             'fields' => [
                 'eyebrow' => ['label' => 'Company label', 'type' => 'text'],
                 'location' => ['label' => 'Location label', 'type' => 'text'],
@@ -68,7 +68,7 @@ return [
                 'note_number' => '01 / 05',
                 'note' => 'Strategic perspective for a changing Africa',
                 'caption' => 'Independent thinking. Informed decisions.',
-                'image_alt' => "Nairobi skyline rising above the city's green canopy",
+                'image_alt' => 'Illustrative scene of construction professionals reviewing project information against a city infrastructure landscape.',
             ],
         ],
         'about' => [
