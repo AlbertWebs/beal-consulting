@@ -95,7 +95,7 @@
         </section>@endif
 
         @if ($peopleProfiles->isNotEmpty())
-            <section class="image-people section-pad" id="our-people" style="order:25" aria-labelledby="people-title">
+            <section class="image-people section-pad" id="our-people" style="order:36" aria-labelledby="people-title">
                 <div class="section-index"><span>OUR PEOPLE</span><span class="index-rule"></span><span>THE TEAM BEHIND BEAL</span></div>
                 <div class="image-people-heading">
                     <div>
